@@ -787,20 +787,14 @@
     }
 
     function applyPlatforms(platforms) {
-      var linux   = platforms['linux-x86_64']   && platforms['linux-x86_64'].url   || null;
-      var windows = platforms['windows-x86_64'] && platforms['windows-x86_64'].url || null;
-      var mac     = platforms['darwin-aarch64'] && platforms['darwin-aarch64'].url  || null;
-      // Filtra los updater bundles (.tar.gz/.zip) — queremos el instalador directo
-      function installer(url) {
-        if (!url) return null;
-        if (/\.AppImage\.tar\.gz$/i.test(url)) return null;
-        if (/\.nsis\.zip$/i.test(url))         return null;
-        if (/\.app\.tar\.gz$/i.test(url))      return null;
-        return url;
+      function getUrl(p) {
+        if (!p) return null;
+        // installer_url es el enlace directo (.AppImage, .exe, .dmg)
+        return p.installer_url || p.url || null;
       }
-      linux   = installer(linux);
-      windows = installer(windows);
-      mac     = installer(mac);
+      var linux   = getUrl(platforms['linux-x86_64']);
+      var windows = getUrl(platforms['windows-x86_64']);
+      var mac     = getUrl(platforms['darwin-aarch64']);
       if (linux)   document.getElementById('btn-linux').href   = linux;
       if (windows) document.getElementById('btn-windows').href = windows;
       if (mac)     document.getElementById('btn-mac').href     = mac;
@@ -810,7 +804,7 @@
     var detectedOS = detectOS();
     setMainButton(detectedOS, null);
 
-    fetch('https://api.tdownloader.org/version/latest')
+    fetch('https://dl.tdownloader.org/latest.json')
       .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
       .then(function (data) {
         if (data.version)   showVersion(data.version);
