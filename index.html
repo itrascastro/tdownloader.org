@@ -440,7 +440,7 @@
           </svg>
           <div>
             <div class="font-semibold text-gray-900 dark:text-white mb-0.5">Linux</div>
-            <div class="text-xs text-gray-400">.AppImage</div>
+            <div class="text-xs text-gray-400">.deb / .AppImage</div>
           </div>
           <a id="btn-linux"
              href="#download"
@@ -449,9 +449,13 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
             </svg>
-            <span data-i18n="download.btn">Descargar</span>
+            <span data-i18n="download.btn">Descargar</span>&nbsp;.deb
           </a>
-          <p class="text-xs text-gray-400 dark:text-gray-500 text-center" data-i18n="download.linux_hint">Tras descargar, dale permisos: <code class="font-mono bg-gray-100 dark:bg-gray-700 px-1 rounded">chmod +x TDownloader_*.AppImage</code></p>
+          <a id="btn-linux-appimage"
+             href="#download"
+             target="_blank" rel="noopener"
+             class="text-xs text-brand-600 dark:text-brand-400 hover:underline">.AppImage (portable)</a>
+          <p class="text-xs text-gray-400 dark:text-gray-500 text-center" data-i18n="download.linux_hint">Debian/Ubuntu/Mint: <code class="font-mono bg-gray-100 dark:bg-gray-700 px-1 rounded">sudo dpkg -i TDownloader_*.deb</code></p>
         </div>
 
         <!-- Windows -->
@@ -792,13 +796,21 @@
         // installer_url es el enlace directo (.AppImage, .exe, .dmg)
         return p.installer_url || p.url || null;
       }
-      var linux   = getUrl(platforms['linux-x86_64']);
-      var windows = getUrl(platforms['windows-x86_64']);
-      var mac     = getUrl(platforms['darwin-aarch64']);
-      if (linux)   document.getElementById('btn-linux').href   = linux;
+      var lp            = platforms['linux-x86_64'];
+      var linuxAppImage = getUrl(lp);
+      var linuxDeb      = lp ? (lp.installer_url_deb || null) : null;
+      // Linux: el .deb es el principal (integra icono y menu en el sistema);
+      // el AppImage queda como alternativa portable. Si no hay .deb, el boton
+      // principal cae al AppImage.
+      var linuxMain     = linuxDeb || linuxAppImage;
+      var windows       = getUrl(platforms['windows-x86_64']);
+      var mac           = getUrl(platforms['darwin-aarch64']);
+      if (linuxMain) document.getElementById('btn-linux').href = linuxMain;
+      var appimgEl = document.getElementById('btn-linux-appimage');
+      if (appimgEl && linuxAppImage) appimgEl.href = linuxAppImage;
       if (windows) document.getElementById('btn-windows').href = windows;
       if (mac)     document.getElementById('btn-mac').href     = mac;
-      return { linux: linux, windows: windows, mac: mac };
+      return { linux: linuxMain, windows: windows, mac: mac };
     }
 
     var detectedOS = detectOS();

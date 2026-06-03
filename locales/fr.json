@@ -79,5 +79,5 @@
   "changelog.v010.1": "Premiere version publique",
   "changelog.v010.2": "Gestion des canaux, catalogue et file de telechargement",
   "changelog.v010.3": "Filtres par type de fichier et recherche dans le catalogue",
-  "download.linux_hint": "Apres le telechargement, rendez-le executable :"
+  "download.linux_hint": "Debian/Ubuntu/Mint: sudo dpkg -i TDownloader_*.deb"
 }

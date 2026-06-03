@@ -79,5 +79,5 @@
   "changelog.v010.1": "First public release",
   "changelog.v010.2": "Channel management, catalog and download queue",
   "changelog.v010.3": "File type filters and catalog search",
-  "download.linux_hint": "After downloading, make it executable:"
+  "download.linux_hint": "Debian/Ubuntu/Mint: sudo dpkg -i TDownloader_*.deb"
 }

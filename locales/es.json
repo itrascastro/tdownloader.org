@@ -79,5 +79,5 @@
   "changelog.v010.1": "Primera version publica",
   "changelog.v010.2": "Gestion de canales, catalogo y cola de descargas",
   "changelog.v010.3": "Filtros por tipo de archivo y busqueda en catalogo",
-  "download.linux_hint": "Tras descargar, dale permisos de ejecucion:"
+  "download.linux_hint": "Debian/Ubuntu/Mint: sudo dpkg -i TDownloader_*.deb"
 }
