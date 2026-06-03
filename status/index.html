@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Estado del servicio — tdownloader.org</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+         background: #0f172a; color: #e2e8f0; min-height: 100vh; padding: 2rem 1rem; }
+  .wrap { max-width: 640px; margin: 0 auto; }
+  header { display: flex; align-items: center; gap: .75rem; margin-bottom: 2.5rem; }
+  header svg { width: 2rem; height: 2rem; color: #3b82f6; }
+  header h1 { font-size: 1.4rem; font-weight: 700; }
+  header span { font-size: .85rem; color: #94a3b8; margin-left: auto; }
+  .banner { border-radius: .75rem; padding: 1rem 1.25rem; margin-bottom: 2rem;
+            display: flex; align-items: center; gap: .75rem; font-weight: 600; }
+  .banner.ok      { background: #052e16; border: 1px solid #16a34a; color: #4ade80; }
+  .banner.incident{ background: #431407; border: 1px solid #ea580c; color: #fb923c; }
+  .banner.checking{ background: #1e293b; border: 1px solid #334155; color: #94a3b8; }
+  .card { background: #1e293b; border: 1px solid #334155; border-radius: .75rem;
+          margin-bottom: .75rem; overflow: hidden; }
+  .card-header { display: flex; justify-content: space-between; align-items: center;
+                 padding: .85rem 1.25rem; }
+  .card-header .name { font-size: .95rem; font-weight: 500; }
+  .pill { font-size: .72rem; font-weight: 700; padding: .2rem .65rem;
+          border-radius: 999px; display: inline-flex; align-items: center; gap: .3rem; }
+  .pill.checking { background: #1e3a5f; color: #93c5fd; }
+  .pill.up        { background: #052e16; color: #4ade80; }
+  .pill.down      { background: #4c0519; color: #f87171; }
+  .pill.slow      { background: #422006; color: #fb923c; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+  .card-bar { height: 3px; }
+  .card-bar.up       { background: #16a34a; }
+  .card-bar.down     { background: #dc2626; }
+  .card-bar.slow     { background: #ea580c; }
+  .card-bar.checking { background: #334155; }
+  footer { margin-top: 2.5rem; text-align: center; color: #475569; font-size: .8rem; }
+  footer a { color: #64748b; text-decoration: none; }
+  footer a:hover { color: #94a3b8; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <svg viewBox="0 0 28 28" fill="none" aria-hidden="true">
+      <rect width="28" height="28" rx="7" fill="#2563eb"/>
+      <path d="M7 14l7 7 7-7M14 21V7" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <h1>tdownloader.org</h1>
+    <span id="ts">Comprobando...</span>
+  </header>
+
+  <div class="banner checking" id="banner">
+    <span>Comprobando servicios...</span>
+  </div>
+
+  <div id="services"></div>
+
+  <footer>
+    <p>Actualizado automaticamente cada 60 s</p>
+    <p style="margin-top:.5rem">
+      <a href="https://tdownloader.org">tdownloader.org</a> &nbsp;&middot;&nbsp;
+      <a href="mailto:support@tdownloader.org">support@tdownloader.org</a>
+    </p>
+  </footer>
+</div>
+
+<script>
+const SERVICES = [
+  { name: "Servicios",            url: "https://api.tdownloader.org/health",         expect: 200 },
+  { name: "Configuracion",        url: "https://api.tdownloader.org/config",         expect: 200 },
+  { name: "Interfaz",             url: "https://api.tdownloader.org/ui/zones",       expect: 200 },
+  { name: "Actualizaciones",      url: "https://api.tdownloader.org/version/latest", expect: 200 },
+  { name: "Web",                  url: "https://tdownloader.org",                    expect: 200 },
+];
+
+const SLOW_MS = 1500;
+
+async function checkService(svc) {
+  const t0 = Date.now();
+  try {
+    const r = await fetch(svc.url, { method: "GET", signal: AbortSignal.timeout(8000) });
+    const ms = Date.now() - t0;
+    if (r.status !== svc.expect) return { state: "down", ms };
+    if (ms > SLOW_MS)            return { state: "slow", ms };
+    return                              { state: "up",   ms };
+  } catch {
+    return { state: "down", ms: null };
+  }
+}
+
+function pill(state, ms) {
+  const labels = { up: "Operativo", down: "Caido", slow: "Lento", checking: "Comprobando" };
+  const msStr  = ms != null ? " &nbsp;" + ms + " ms" : "";
+  return '<span class="pill ' + state + '"><span class="dot"></span>' + labels[state] + msStr + '</span>';
+}
+
+function render(results) {
+  var el = document.getElementById("services");
+  el.innerHTML = SERVICES.map(function(s, i) {
+    var r = results[i] || { state: "checking", ms: null };
+    return '<div class="card"><div class="card-header"><span class="name">' + s.name + '</span>' +
+           pill(r.state, r.ms) + '</div><div class="card-bar ' + r.state + '"></div></div>';
+  }).join("");
+
+  var anyDown = results.some(function(r) { return r.state === "down"; });
+  var banner  = document.getElementById("banner");
+  if (results.length < SERVICES.length) {
+    banner.className = "banner checking";
+    banner.innerHTML = "<span>Comprobando servicios...</span>";
+  } else if (anyDown) {
+    banner.className = "banner incident";
+    banner.innerHTML = "<span>Incidencia detectada en uno o mas servicios</span>";
+  } else {
+    banner.className = "banner ok";
+    banner.innerHTML = "<span>Todos los sistemas operativos</span>";
+  }
+
+  document.getElementById("ts").textContent =
+    "Actualizado: " + new Date().toLocaleTimeString("es-ES");
+}
+
+async function check() {
+  render([]);
+  var results = await Promise.all(SERVICES.map(checkService));
+  render(results);
+}
+
+check();
+setInterval(check, 60000);
+</script>
+</body>
+</html>
