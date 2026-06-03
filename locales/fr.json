@@ -11,7 +11,7 @@
   "hero.btn_detecting": "Détection du système...",
   "hero.btn_choose": "Choisissez votre système",
   "hero.other_os": "Autres systèmes d'exploitation",
-  "hero.badge_linux": ".AppImage - gratuit",
+  "hero.badge_linux": ".deb - gratuit",
   "hero.badge_windows": ".exe - gratuit",
   "hero.badge_mac": ".dmg - gratuit",
   "features.title": "Pourquoi TDownloader ?",
