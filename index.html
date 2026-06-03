@@ -799,9 +799,13 @@
       var lp            = platforms['linux-x86_64'];
       var linuxAppImage = getUrl(lp);
       var linuxDeb      = lp ? (lp.installer_url_deb || null) : null;
+      // Fallback: si latest.json aun no trae installer_url_deb, derivar la URL
+      // del .deb a partir del AppImage (mismo nombre, distinta extension).
+      if (!linuxDeb && linuxAppImage && /\.AppImage$/.test(linuxAppImage)) {
+        linuxDeb = linuxAppImage.replace(/\.AppImage$/, '.deb');
+      }
       // Linux: el .deb es el principal (integra icono y menu en el sistema);
-      // el AppImage queda como alternativa portable. Si no hay .deb, el boton
-      // principal cae al AppImage.
+      // el AppImage queda como alternativa portable.
       var linuxMain     = linuxDeb || linuxAppImage;
       var windows       = getUrl(platforms['windows-x86_64']);
       var mac           = getUrl(platforms['darwin-aarch64']);
