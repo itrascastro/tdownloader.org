@@ -820,7 +820,11 @@
     var detectedOS = detectOS();
     setMainButton(detectedOS, null);
 
-    fetch('https://dl.tdownloader.org/latest.json')
+    // Cache-buster: el navegador NUNCA debe servir un latest.json viejo.
+    // Si lo cachea, mostraria una version que R2 ya borro (el publish borra la
+    // anterior) y el boton de descarga daria 404. Las URLs de binarios si se
+    // cachean (versionadas, inmutables); solo este manifiesto debe ser fresco.
+    fetch('https://dl.tdownloader.org/latest.json?t=' + Date.now(), { cache: 'no-store' })
       .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
       .then(function (data) {
         if (data.version)   showVersion(data.version);
