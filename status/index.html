@@ -43,11 +43,12 @@
 <body>
 <div class="wrap">
   <header>
-    <svg viewBox="0 0 28 28" fill="none" aria-hidden="true">
-      <rect width="28" height="28" rx="7" fill="#2563eb"/>
-      <path d="M7 14l7 7 7-7M14 21V7" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-    <h1>tdownloader.org</h1>
+    <a href="/" style="display:flex;align-items:center;gap:.5rem;text-decoration:none;color:inherit" aria-label="tdownloader - inicio">
+      <svg viewBox="0 0 16 16" fill="#2563eb" aria-hidden="true">
+        <path d="M2.5 3.5a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1zm2-2a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1zM0 13a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 16 13V6a1.5 1.5 0 0 0-1.5-1.5h-13A1.5 1.5 0 0 0 0 6zm6.258-6.437a.5.5 0 0 1 .507.013l4 2.5a.5.5 0 0 1 0 .848l-4 2.5A.5.5 0 0 1 6 11.5v-5a.5.5 0 0 1 .258-.437"/>
+      </svg>
+      <h1>tdownloader</h1>
+    </a>
     <span id="ts">Comprobando...</span>
   </header>
 
@@ -60,19 +61,16 @@
   <footer>
     <p>Actualizado automaticamente cada 60 s</p>
     <p style="margin-top:.5rem">
-      <a href="https://tdownloader.org">tdownloader.org</a> &nbsp;&middot;&nbsp;
-      <a href="mailto:support@tdownloader.org">support@tdownloader.org</a>
+      <a href="/">Volver a tdownloader.org</a>
     </p>
   </footer>
 </div>
 
 <script>
 const SERVICES = [
-  { name: "Servicios",            url: "https://api.tdownloader.org/health",         expect: 200 },
-  { name: "Configuracion",        url: "https://api.tdownloader.org/config",         expect: 200 },
-  { name: "Interfaz",             url: "https://api.tdownloader.org/ui/zones",       expect: 200 },
-  { name: "Actualizaciones",      url: "https://api.tdownloader.org/version/latest", expect: 200 },
-  { name: "Web",                  url: "https://tdownloader.org",                    expect: 200 },
+  { name: "Servidor",        url: "https://api.tdownloader.org/health",         expect: 200 },
+  { name: "Actualizaciones", url: "https://api.tdownloader.org/version/latest", expect: 200 },
+  { name: "Web",             url: "https://tdownloader.org",                    expect: 200 },
 ];
 
 const SLOW_MS = 1500;
