@@ -3,188 +3,393 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ayuda e instalacion - tdownloader</title>
-  <meta name="description" content="Guia paso a paso para instalar tdownloader en Windows, Mac y Linux, y para crear tu API ID y API Hash de Telegram." />
+
+  <title>Centro de ayuda - tdownloader</title>
+  <meta name="description" content="Guia paso a paso para instalar tdownloader en Windows, macOS y Linux, y para crear tu API ID y API Hash de Telegram. Con capturas." />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
   <link rel="canonical" href="https://tdownloader.org/ayuda.html" />
+
+  <meta property="og:type"        content="article" />
+  <meta property="og:url"         content="https://tdownloader.org/ayuda.html" />
+  <meta property="og:site_name"   content="tdownloader" />
+  <meta property="og:title"       content="Centro de ayuda - tdownloader" />
+  <meta property="og:description" content="Instala tdownloader en Windows, macOS y Linux y crea tu API ID y API Hash de Telegram. Guia paso a paso con capturas." />
+  <meta property="og:image"       content="https://tdownloader.org/og-image.png" />
+
+  <link rel="icon"             type="image/x-icon"   href="/favicon.ico" />
+  <link rel="icon"             type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="icon"             type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180"        href="/apple-touch-icon.png" />
+  <meta name="theme-color" content="#2563eb" />
+
+  <!-- Datos estructurados: HowTo + Breadcrumb -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Centro de ayuda de tdownloader",
+    "description": "Como instalar tdownloader en Windows, macOS y Linux y crear las credenciales de Telegram.",
+    "author": { "@type": "Organization", "name": "tdownloader" },
+    "publisher": { "@type": "Organization", "name": "tdownloader" }
+  }
+  </script>
+
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       darkMode: 'class',
-      theme: { extend: { fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] } } }
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50:'#eff6ff',100:'#dbeafe',400:'#60a5fa',500:'#3b82f6',
+              600:'#2563eb',700:'#1d4ed8',900:'#1e3a8a'
+            }
+          },
+          fontFamily: { sans: ['Inter','system-ui','sans-serif'] }
+        }
+      }
     };
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <style>html { font-family: 'Inter', system-ui, sans-serif; }</style>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    html { font-family:'Inter',system-ui,sans-serif; scroll-padding-top:5.5rem; }
+
+    .help-hero {
+      background: linear-gradient(135deg,#1e3a8a 0%,#1d4ed8 45%,#2563eb 75%,#3b82f6 100%);
+    }
+    .dark .help-hero {
+      background: linear-gradient(135deg,#0b1220 0%,#13205c 45%,#1d4ed8 80%,#2563eb 100%);
+    }
+
+    /* Indice lateral */
+    .toc a { transition: color .15s, border-color .15s; border-left:2px solid transparent; }
+    .toc a.active { color:#2563eb; border-left-color:#2563eb; font-weight:600; }
+    .dark .toc a.active { color:#60a5fa; border-left-color:#60a5fa; }
+
+    /* Anchor en titulos */
+    .anchor-h { scroll-margin-top:5.5rem; }
+    .anchor-h .anchor-link { opacity:0; transition:opacity .15s; }
+    .anchor-h:hover .anchor-link { opacity:1; }
+
+    /* Pasos */
+    .step { counter-increment:step; position:relative; padding-left:3.25rem; }
+    .step::before {
+      content:counter(step);
+      position:absolute; left:0; top:0;
+      width:2.25rem; height:2.25rem; border-radius:9999px;
+      display:flex; align-items:center; justify-content:center;
+      font-weight:700; font-size:.95rem; color:#fff;
+      background:linear-gradient(135deg,#2563eb,#1d4ed8);
+      box-shadow:0 4px 12px rgba(37,99,235,.35);
+    }
+    .steps { counter-reset:step; }
+
+    /* Bloque de codigo + copiar */
+    .codeblock { position:relative; }
+    .codeblock pre {
+      background:#0f172a; color:#e2e8f0; border-radius:.6rem;
+      padding:1rem 1rem; overflow-x:auto; font-size:.82rem; line-height:1.6;
+      font-family:'SF Mono',ui-monospace,Menlo,Consolas,monospace;
+      border:1px solid #1e293b;
+    }
+    .copy-btn {
+      position:absolute; top:.5rem; right:.5rem;
+      background:#1e293b; color:#94a3b8; border:1px solid #334155;
+      border-radius:.4rem; padding:.25rem .55rem; font-size:.72rem; cursor:pointer;
+      display:inline-flex; align-items:center; gap:.3rem; transition:color .15s,background .15s;
+    }
+    .copy-btn:hover { background:#334155; color:#e2e8f0; }
+
+    /* Callouts */
+    .callout { border-radius:.7rem; padding:1rem 1.15rem; display:flex; gap:.8rem; font-size:.9rem; line-height:1.6; }
+    .callout svg { flex-shrink:0; width:1.25rem; height:1.25rem; margin-top:.1rem; }
+    .callout.info { background:#eff6ff; border:1px solid #bfdbfe; color:#1e40af; }
+    .dark .callout.info { background:rgba(37,99,235,.12); border-color:rgba(59,130,246,.35); color:#bfdbfe; }
+    .callout.warn { background:#fffbeb; border:1px solid #fde68a; color:#92400e; }
+    .dark .callout.warn { background:rgba(217,119,6,.12); border-color:rgba(245,158,11,.35); color:#fcd34d; }
+
+    /* Marco de captura (placeholder hasta poner la imagen real) */
+    .shot { border-radius:.7rem; overflow:hidden; border:1px solid #e5e7eb; }
+    .dark .shot { border-color:#1f2937; }
+    .shot img { display:block; width:100%; }
+    .shot-ph {
+      aspect-ratio:16/9; display:flex; flex-direction:column; align-items:center; justify-content:center;
+      gap:.5rem; text-align:center; padding:1.5rem;
+      background:
+        repeating-linear-gradient(45deg,rgba(37,99,235,.04) 0 12px,transparent 12px 24px),
+        #f8fafc;
+      border:2px dashed #cbd5e1; border-radius:.7rem; color:#94a3b8; font-size:.8rem;
+    }
+    .dark .shot-ph { background:repeating-linear-gradient(45deg,rgba(96,165,250,.06) 0 12px,transparent 12px 24px),#0b1220; border-color:#334155; color:#64748b; }
+
+    .lead { font-size:1.05rem; line-height:1.7; }
+    kbd { background:#f1f5f9; border:1px solid #cbd5e1; border-bottom-width:2px; border-radius:.35rem; padding:.05rem .4rem; font-size:.8rem; font-family:inherit; color:#334155; }
+    .dark kbd { background:#1e293b; border-color:#475569; color:#e2e8f0; }
+  </style>
 </head>
 <body class="bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 antialiased">
 
-  <!-- Navbar minima -->
+  <!-- ── Navbar (idéntica a la landing) ──────────────────────────────────── -->
   <nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-white/80 dark:bg-gray-950/80 border-b border-gray-200/60 dark:border-gray-800/60">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-14">
-      <a href="/" class="flex items-center gap-2">
-        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
-          <rect width="28" height="28" rx="7" fill="#2563eb"/>
-          <path d="M7 14l7 7 7-7M14 21V7" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      <a href="/" class="flex items-center gap-2.5 hover:opacity-80 transition-opacity" aria-label="tdownloader - inicio">
+        <svg width="36" height="36" viewBox="0 0 16 16" fill="currentColor" class="text-brand-600" aria-hidden="true">
+          <path d="M2.5 3.5a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1zm2-2a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1zM0 13a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 16 13V6a1.5 1.5 0 0 0-1.5-1.5h-13A1.5 1.5 0 0 0 0 6zm6.258-6.437a.5.5 0 0 1 .507.013l4 2.5a.5.5 0 0 1 0 .848l-4 2.5A.5.5 0 0 1 6 11.5v-5a.5.5 0 0 1 .258-.437"/>
         </svg>
-        <span class="font-bold text-base tracking-tight text-gray-900 dark:text-white">tdownloader</span>
+        <span class="font-bold text-xl tracking-tight text-gray-900 dark:text-white">tdownloader</span>
       </a>
-      <button id="theme-toggle" class="p-1.5 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" aria-label="Cambiar tema">
-        <svg id="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
-        </svg>
-        <svg id="icon-sun" class="hidden" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="5"/>
-          <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
-          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-          <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
-          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-        </svg>
-      </button>
+      <div class="flex items-center gap-3 sm:gap-4">
+        <a href="/" class="hidden sm:inline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">Inicio</a>
+        <a href="/#download" class="text-sm font-medium text-white px-3.5 py-1.5 rounded-lg" style="background:linear-gradient(135deg,#2563eb,#1d4ed8)">Descargar</a>
+        <button id="theme-toggle" class="p-1.5 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" aria-label="Cambiar tema">
+          <svg id="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+          <svg id="icon-sun" class="hidden" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+      </div>
     </div>
   </nav>
 
-  <main class="pt-24 pb-20 px-4">
-    <div class="max-w-2xl mx-auto">
-
-      <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">Ayuda e instalacion</h1>
-      <p class="text-sm text-gray-400 dark:text-gray-500 mb-8">Como instalar tdownloader y crear tus credenciales de Telegram.</p>
-
-      <!-- Indice -->
-      <nav class="mb-12 rounded-xl border border-gray-200 dark:border-gray-800 p-5 text-sm">
-        <p class="font-semibold text-gray-900 dark:text-white mb-3">En esta pagina</p>
-        <ul class="space-y-2 text-blue-600 dark:text-blue-400">
-          <li><a href="#windows" class="hover:underline">Instalar en Windows</a></li>
-          <li><a href="#mac" class="hover:underline">Instalar en macOS</a></li>
-          <li><a href="#linux" class="hover:underline">Instalar en Linux</a></li>
-          <li><a href="#api" class="hover:underline">Crear tu API ID y API Hash</a></li>
-        </ul>
+  <!-- ── Hero ────────────────────────────────────────────────────────────── -->
+  <header class="help-hero text-white pt-28 pb-16 px-4">
+    <div class="max-w-5xl mx-auto">
+      <nav class="text-sm text-white/70 mb-4" aria-label="Migas de pan">
+        <a href="/" class="hover:text-white transition-colors">Inicio</a>
+        <span class="mx-2">/</span>
+        <span class="text-white/90">Ayuda</span>
       </nav>
+      <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight mb-3">Centro de ayuda</h1>
+      <p class="text-white/80 text-lg max-w-2xl">Instala tdownloader en tu sistema y crea tus credenciales de Telegram. Paso a paso, en un par de minutos.</p>
+    </div>
+  </header>
 
-      <div class="space-y-14 text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
+  <!-- ── Contenido + indice ──────────────────────────────────────────────── -->
+  <main class="max-w-5xl mx-auto px-4 py-12">
+    <div class="lg:grid lg:grid-cols-[200px_1fr] lg:gap-12">
+
+      <!-- Indice lateral fijo -->
+      <aside class="hidden lg:block">
+        <nav class="toc sticky top-24 text-sm space-y-1" aria-label="En esta pagina">
+          <p class="text-xs font-semibold uppercase tracking-wide text-gray-400 dark:text-gray-500 mb-3 pl-3">En esta pagina</p>
+          <a href="#windows"  class="block py-1.5 pl-3 text-gray-600 dark:text-gray-400 hover:text-brand-600 dark:hover:text-brand-400">Windows</a>
+          <a href="#mac"      class="block py-1.5 pl-3 text-gray-600 dark:text-gray-400 hover:text-brand-600 dark:hover:text-brand-400">macOS</a>
+          <a href="#linux"    class="block py-1.5 pl-3 text-gray-600 dark:text-gray-400 hover:text-brand-600 dark:hover:text-brand-400">Linux</a>
+          <a href="#api"      class="block py-1.5 pl-3 text-gray-600 dark:text-gray-400 hover:text-brand-600 dark:hover:text-brand-400">API ID y API Hash</a>
+          <a href="#ayuda-extra" class="block py-1.5 pl-3 text-gray-600 dark:text-gray-400 hover:text-brand-600 dark:hover:text-brand-400">Mas ayuda</a>
+        </nav>
+      </aside>
+
+      <div class="min-w-0 space-y-16">
 
         <!-- WINDOWS -->
-        <section id="windows" class="scroll-mt-20">
-          <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Instalar en Windows</h2>
-          <p>Al abrir el instalador, Windows puede mostrar un aviso azul de <strong class="text-gray-800 dark:text-gray-200">SmartScreen</strong> que dice <em>"Windows protegio tu PC"</em>. Esto es normal: aparece con cualquier aplicacion nueva que todavia no tiene un certificado de firma de pago. La app es segura.</p>
-          <ol class="list-decimal pl-5 mt-4 space-y-3">
-            <li>Ejecuta el archivo <code class="px-1 rounded bg-gray-100 dark:bg-gray-800">tdownloader-setup.exe</code> que has descargado.</li>
-            <li>Si aparece el aviso azul, pulsa en <strong class="text-gray-800 dark:text-gray-200">Mas informacion</strong>.
-              <figure class="my-3">
-                <!-- Sustituir por: <img src="img/ayuda-win-1.png" alt="Aviso de SmartScreen con el enlace Mas informacion" class="rounded-lg border border-gray-200 dark:border-gray-800 w-full" /> -->
-                <div class="rounded-lg border-2 border-dashed border-gray-300 dark:border-gray-700 p-8 text-center text-gray-400 text-xs">Captura pendiente: aviso azul de SmartScreen, resaltando el enlace "Mas informacion"</div>
+        <section id="windows" class="anchor-h">
+          <div class="flex items-center gap-3 mb-5">
+            <span class="flex items-center justify-center w-11 h-11 rounded-xl bg-brand-50 dark:bg-brand-600/15 text-brand-600 dark:text-brand-400">
+              <svg width="22" height="22" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M6.555 1.375 0 2.237v5.45h6.555zM0 13.795l6.555.933V8.313H0zm7.278-5.4.026 6.378L16 16V8.395zM16 0 7.33 1.244v6.414H16z"/></svg>
+            </span>
+            <h2 class="text-2xl font-bold tracking-tight">Instalar en Windows <a href="#windows" class="anchor-link text-brand-600 ml-1" aria-label="Enlace a esta seccion">#</a></h2>
+          </div>
+          <p class="lead text-gray-600 dark:text-gray-300 mb-6">
+            Al abrir el instalador, Windows puede mostrar un aviso azul de <strong class="text-gray-900 dark:text-white">SmartScreen</strong>
+            ("Windows protegio tu PC"). Es normal con cualquier aplicacion nueva que aun no tiene un certificado de firma de pago. La app es segura.
+          </p>
+
+          <ol class="steps space-y-7 text-gray-600 dark:text-gray-300">
+            <li class="step">
+              <p>Ejecuta el archivo <code class="px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-800 text-sm">tdownloader-setup.exe</code> que descargaste.</p>
+            </li>
+            <li class="step">
+              <p class="mb-3">Si aparece el aviso azul, pulsa en <strong class="text-gray-900 dark:text-white">Mas informacion</strong>.</p>
+              <figure class="shot">
+                <!-- Sustituir el div por: <img src="img/ayuda-win-1.png" alt="Aviso de SmartScreen con el enlace Mas informacion" /> -->
+                <div class="shot-ph">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3"/></svg>
+                  Captura: aviso de SmartScreen con el enlace "Mas informacion"
+                </div>
               </figure>
             </li>
-            <li>Aparecera un boton <strong class="text-gray-800 dark:text-gray-200">Ejecutar de todos modos</strong>. Pulsalo.
-              <figure class="my-3">
-                <!-- Sustituir por: <img src="img/ayuda-win-2.png" alt="Boton Ejecutar de todos modos" class="rounded-lg border border-gray-200 dark:border-gray-800 w-full" /> -->
-                <div class="rounded-lg border-2 border-dashed border-gray-300 dark:border-gray-700 p-8 text-center text-gray-400 text-xs">Captura pendiente: mismo aviso ya expandido, resaltando el boton "Ejecutar de todos modos"</div>
+            <li class="step">
+              <p class="mb-3">Pulsa el boton <strong class="text-gray-900 dark:text-white">Ejecutar de todos modos</strong>.</p>
+              <figure class="shot">
+                <!-- Sustituir el div por: <img src="img/ayuda-win-2.png" alt="Boton Ejecutar de todos modos" /> -->
+                <div class="shot-ph">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3"/></svg>
+                  Captura: aviso expandido con el boton "Ejecutar de todos modos"
+                </div>
               </figure>
             </li>
-            <li>Sigue el instalador con normalidad y abre tdownloader.</li>
+            <li class="step">
+              <p>Sigue el instalador con normalidad y abre tdownloader.</p>
+            </li>
           </ol>
-          <div class="mt-4 rounded-lg bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-900 p-4 text-blue-800 dark:text-blue-300">
-            <strong>La primera vez que abras la app</strong> puede tardar unos segundos en mostrar tus canales (Windows analiza la aplicacion la primera vez). Si el panel lateral aparece vacio, espera un momento: se completa solo en cuanto el programa termina de arrancar.
+
+          <div class="callout info mt-6">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <div><strong>La primera vez que abras la app</strong> puede tardar unos segundos en mostrar tus canales mientras Windows la analiza. Si el panel lateral aparece vacio, espera un momento: se completa solo en cuanto el programa termina de arrancar.</div>
           </div>
         </section>
 
         <!-- MAC -->
-        <section id="mac" class="scroll-mt-20">
-          <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Instalar en macOS</h2>
-          <p>macOS puede decir que la app es de un <strong class="text-gray-800 dark:text-gray-200">desarrollador no identificado</strong> o incluso que <em>"esta danada y no se puede abrir"</em>. No esta danada: es la proteccion Gatekeeper bloqueando apps que aun no tienen la firma de pago de Apple.</p>
-          <ol class="list-decimal pl-5 mt-4 space-y-3">
-            <li>Arrastra <strong class="text-gray-800 dark:text-gray-200">tdownloader</strong> a tu carpeta de Aplicaciones.</li>
-            <li>Haz <strong class="text-gray-800 dark:text-gray-200">clic derecho</strong> (o Control + clic) sobre la app y elige <strong class="text-gray-800 dark:text-gray-200">Abrir</strong>.
-              <figure class="my-3">
-                <!-- Sustituir por: <img src="img/ayuda-mac-1.png" alt="Menu contextual con la opcion Abrir" class="rounded-lg border border-gray-200 dark:border-gray-800 w-full" /> -->
-                <div class="rounded-lg border-2 border-dashed border-gray-300 dark:border-gray-700 p-8 text-center text-gray-400 text-xs">Captura pendiente: menu de clic derecho sobre la app, resaltando "Abrir"</div>
+        <section id="mac" class="anchor-h">
+          <div class="flex items-center gap-3 mb-5">
+            <span class="flex items-center justify-center w-11 h-11 rounded-xl bg-brand-50 dark:bg-brand-600/15 text-brand-600 dark:text-brand-400">
+              <svg width="22" height="22" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M11.182.008C11.148-.03 9.923.023 8.857 1.18c-1.066 1.156-.902 2.482-.878 2.516.024.034 1.52.087 2.475-1.258.955-1.345.762-2.391.728-2.43Zm3.314 11.733c-.048-.096-2.325-1.234-2.113-3.422.212-2.189 1.675-2.789 1.698-2.854.023-.065-.597-.79-1.254-1.157a3.692 3.692 0 0 0-1.563-.434c-.108-.003-.483-.095-1.254.116-.508.139-1.653.589-1.968.607-.316.018-1.256-.522-2.267-.665-.647-.125-1.333.131-1.824.328-.49.196-1.422.754-2.074 2.237-.652 1.482-.311 3.83-.067 4.56.244.729.625 1.924 1.273 2.796.576.984 1.34 1.667 1.659 1.899.319.232 1.219.386 1.843.067.502-.308 1.408-.485 1.766-.472.357.013 1.061.154 1.782.539.571.197 1.111.115 1.652-.105.541-.221 1.324-1.059 2.238-2.758.347-.79.505-1.217.473-1.282Z"/></svg>
+            </span>
+            <h2 class="text-2xl font-bold tracking-tight">Instalar en macOS <a href="#mac" class="anchor-link text-brand-600 ml-1" aria-label="Enlace a esta seccion">#</a></h2>
+          </div>
+          <p class="lead text-gray-600 dark:text-gray-300 mb-6">
+            macOS puede decir que la app es de un <strong class="text-gray-900 dark:text-white">desarrollador no identificado</strong>, o incluso que "esta danada y no se puede abrir".
+            No esta danada: es la proteccion Gatekeeper bloqueando apps que aun no tienen la firma de pago de Apple.
+          </p>
+
+          <ol class="steps space-y-7 text-gray-600 dark:text-gray-300">
+            <li class="step"><p>Arrastra <strong class="text-gray-900 dark:text-white">tdownloader</strong> a tu carpeta de Aplicaciones.</p></li>
+            <li class="step">
+              <p class="mb-3">Haz <strong class="text-gray-900 dark:text-white">clic derecho</strong> (o <kbd>Control</kbd> + clic) sobre la app y elige <strong class="text-gray-900 dark:text-white">Abrir</strong>.</p>
+              <figure class="shot">
+                <!-- Sustituir el div por: <img src="img/ayuda-mac-1.png" alt="Menu contextual con la opcion Abrir" /> -->
+                <div class="shot-ph">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3"/></svg>
+                  Captura: menu de clic derecho sobre la app, resaltando "Abrir"
+                </div>
               </figure>
             </li>
-            <li>En el dialogo que aparece, pulsa de nuevo <strong class="text-gray-800 dark:text-gray-200">Abrir</strong>. Solo hay que hacerlo la primera vez.</li>
+            <li class="step"><p>En el dialogo que aparece, pulsa de nuevo <strong class="text-gray-900 dark:text-white">Abrir</strong>. Solo hay que hacerlo la primera vez.</p></li>
           </ol>
-          <div class="mt-4 rounded-lg bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900 p-4 text-amber-800 dark:text-amber-300">
-            <p class="font-semibold mb-1">Si sigue diciendo que esta "danada"</p>
-            <p>Abre la app <strong>Terminal</strong> y pega este comando (ajusta la ruta si instalaste en otro sitio):</p>
-            <pre class="mt-2 p-3 rounded bg-gray-900 text-gray-100 text-xs overflow-x-auto"><code>xattr -dr com.apple.quarantine /Applications/tdownloader.app</code></pre>
-            <p class="mt-2">Despues abre la app con normalidad.</p>
+
+          <div class="callout warn mt-6">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            <div>
+              <p class="font-semibold mb-1">Si sigue diciendo que esta "danada"</p>
+              <p class="mb-2">Abre la app <strong>Terminal</strong> y ejecuta este comando (ajusta la ruta si la instalaste en otro sitio):</p>
+              <div class="codeblock"><pre><code>xattr -dr com.apple.quarantine /Applications/tdownloader.app</code></pre></div>
+              <p class="mt-2">Despues abre la app con normalidad.</p>
+            </div>
           </div>
         </section>
 
         <!-- LINUX -->
-        <section id="linux" class="scroll-mt-20">
-          <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Instalar en Linux</h2>
-          <p>Hay dos formatos. Usa el que prefieras:</p>
-          <h3 class="font-semibold text-gray-900 dark:text-white mt-5 mb-2">Paquete .deb (Ubuntu, Debian, Mint...)</h3>
-          <p>Haz doble clic en el archivo <code class="px-1 rounded bg-gray-100 dark:bg-gray-800">.deb</code> para instalarlo desde el Centro de Software, o desde una terminal:</p>
-          <pre class="mt-2 p-3 rounded bg-gray-900 text-gray-100 text-xs overflow-x-auto"><code>sudo apt install ./tdownloader_*.deb</code></pre>
-          <h3 class="font-semibold text-gray-900 dark:text-white mt-5 mb-2">AppImage (cualquier distribucion)</h3>
-          <p>El AppImage no necesita instalacion. Solo dale permiso de ejecucion y abrelo:</p>
-          <ol class="list-decimal pl-5 mt-3 space-y-2">
-            <li>Clic derecho sobre el archivo &rarr; <strong class="text-gray-800 dark:text-gray-200">Propiedades</strong> &rarr; <strong class="text-gray-800 dark:text-gray-200">Permisos</strong> &rarr; marca <strong class="text-gray-800 dark:text-gray-200">Permitir ejecutar el archivo como un programa</strong>. O por terminal:
-              <pre class="mt-2 p-3 rounded bg-gray-900 text-gray-100 text-xs overflow-x-auto"><code>chmod +x tdownloader-*.AppImage</code></pre>
+        <section id="linux" class="anchor-h">
+          <div class="flex items-center gap-3 mb-5">
+            <span class="flex items-center justify-center w-11 h-11 rounded-xl bg-brand-50 dark:bg-brand-600/15 text-brand-600 dark:text-brand-400">
+              <svg width="22" height="22" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M6 9a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3A.5.5 0 0 1 6 9M3.854 4.146a.5.5 0 1 0-.708.708L4.793 6.5 3.146 8.146a.5.5 0 1 0 .708.708l2-2a.5.5 0 0 0 0-.708z"/><path d="M2 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zm12 1a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/></svg>
+            </span>
+            <h2 class="text-2xl font-bold tracking-tight">Instalar en Linux <a href="#linux" class="anchor-link text-brand-600 ml-1" aria-label="Enlace a esta seccion">#</a></h2>
+          </div>
+          <p class="lead text-gray-600 dark:text-gray-300 mb-6">Hay dos formatos. Usa el que prefieras.</p>
+
+          <h3 class="font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">Paquete <code class="px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-800 text-sm">.deb</code> <span class="text-sm font-normal text-gray-500">Ubuntu, Debian, Mint...</span></h3>
+          <p class="text-gray-600 dark:text-gray-300 mb-3">Haz doble clic en el archivo para instalarlo desde el Centro de Software, o desde una terminal:</p>
+          <div class="codeblock mb-8"><pre><code>sudo apt install ./tdownloader_*.deb</code></pre></div>
+
+          <h3 class="font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">AppImage <span class="text-sm font-normal text-gray-500">cualquier distribucion</span></h3>
+          <p class="text-gray-600 dark:text-gray-300 mb-4">El AppImage no necesita instalacion: solo dale permiso de ejecucion y abrelo.</p>
+          <ol class="steps space-y-7 text-gray-600 dark:text-gray-300">
+            <li class="step">
+              <p class="mb-3">Clic derecho sobre el archivo &rarr; <strong class="text-gray-900 dark:text-white">Propiedades</strong> &rarr; <strong class="text-gray-900 dark:text-white">Permisos</strong> &rarr; marca <strong class="text-gray-900 dark:text-white">Permitir ejecutar como un programa</strong>. O por terminal:</p>
+              <div class="codeblock"><pre><code>chmod +x tdownloader-*.AppImage</code></pre></div>
             </li>
-            <li>Haz doble clic para abrirlo.</li>
+            <li class="step"><p>Haz doble clic para abrirlo.</p></li>
           </ol>
         </section>
 
         <!-- API -->
-        <section id="api" class="scroll-mt-20">
-          <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Crear tu API ID y API Hash</h2>
-          <p>Telegram exige unas credenciales personales (un <strong class="text-gray-800 dark:text-gray-200">API ID</strong> y un <strong class="text-gray-800 dark:text-gray-200">API Hash</strong>) para que las aplicaciones accedan a tu cuenta. Se crean una sola vez, son gratis y tardan un minuto.</p>
-          <ol class="list-decimal pl-5 mt-4 space-y-3">
-            <li>Entra en <a href="https://my.telegram.org" target="_blank" rel="noopener" class="text-blue-600 dark:text-blue-400 hover:underline">my.telegram.org</a>.</li>
-            <li>Inicia sesion con tu <strong class="text-gray-800 dark:text-gray-200">numero de telefono</strong> (el mismo de tu cuenta de Telegram, con prefijo internacional). Telegram te enviara un codigo dentro de la app de Telegram; introducelo.
-              <figure class="my-3">
-                <!-- Sustituir por: <img src="img/ayuda-api-1.png" alt="Inicio de sesion en my.telegram.org" class="rounded-lg border border-gray-200 dark:border-gray-800 w-full" /> -->
-                <div class="rounded-lg border-2 border-dashed border-gray-300 dark:border-gray-700 p-8 text-center text-gray-400 text-xs">Captura pendiente: pantalla de inicio de sesion de my.telegram.org</div>
+        <section id="api" class="anchor-h">
+          <div class="flex items-center gap-3 mb-5">
+            <span class="flex items-center justify-center w-11 h-11 rounded-xl bg-brand-50 dark:bg-brand-600/15 text-brand-600 dark:text-brand-400">
+              <svg width="22" height="22" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.354.146H7.465A4 4 0 0 1 0 8m4-3a3 3 0 1 0 0 6 3 3 0 0 0 0-6"/><path d="M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/></svg>
+            </span>
+            <h2 class="text-2xl font-bold tracking-tight">Crear tu API ID y API Hash <a href="#api" class="anchor-link text-brand-600 ml-1" aria-label="Enlace a esta seccion">#</a></h2>
+          </div>
+          <p class="lead text-gray-600 dark:text-gray-300 mb-6">
+            Telegram exige unas credenciales personales (un <strong class="text-gray-900 dark:text-white">API ID</strong> y un <strong class="text-gray-900 dark:text-white">API Hash</strong>)
+            para que las aplicaciones accedan a tu cuenta. Se crean una sola vez, son gratis y tardan un minuto.
+          </p>
+
+          <ol class="steps space-y-7 text-gray-600 dark:text-gray-300">
+            <li class="step"><p>Entra en <a href="https://my.telegram.org" target="_blank" rel="noopener" class="text-brand-600 dark:text-brand-400 font-medium hover:underline">my.telegram.org</a>.</p></li>
+            <li class="step">
+              <p class="mb-3">Inicia sesion con tu <strong class="text-gray-900 dark:text-white">numero de telefono</strong> (el mismo de tu cuenta de Telegram, con prefijo internacional). Telegram te enviara un codigo dentro de la app de Telegram; introducelo.</p>
+              <figure class="shot">
+                <!-- Sustituir el div por: <img src="img/ayuda-api-1.png" alt="Inicio de sesion en my.telegram.org" /> -->
+                <div class="shot-ph">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3"/></svg>
+                  Captura: pantalla de inicio de sesion de my.telegram.org
+                </div>
               </figure>
             </li>
-            <li>Pulsa en <strong class="text-gray-800 dark:text-gray-200">API development tools</strong>.</li>
-            <li>Rellena el formulario <strong class="text-gray-800 dark:text-gray-200">Create new application</strong>:
-              <ul class="list-disc pl-5 mt-2 space-y-1">
-                <li><strong class="text-gray-800 dark:text-gray-200">App title:</strong> un nombre cualquiera, por ejemplo <code class="px-1 rounded bg-gray-100 dark:bg-gray-800">tdownloader</code>.</li>
-                <li><strong class="text-gray-800 dark:text-gray-200">Short name:</strong> por ejemplo <code class="px-1 rounded bg-gray-100 dark:bg-gray-800">tdownloader</code> (entre 5 y 32 letras o numeros).</li>
-                <li><strong class="text-gray-800 dark:text-gray-200">URL:</strong> dejalo en blanco.</li>
-                <li><strong class="text-gray-800 dark:text-gray-200">Platform:</strong> elige <strong>Desktop</strong>.</li>
-                <li><strong class="text-gray-800 dark:text-gray-200">Description:</strong> opcional, dejalo en blanco.</li>
-              </ul>
-              <figure class="my-3">
-                <!-- Sustituir por: <img src="img/ayuda-api-2.png" alt="Formulario Create new application rellenado" class="rounded-lg border border-gray-200 dark:border-gray-800 w-full" /> -->
-                <div class="rounded-lg border-2 border-dashed border-gray-300 dark:border-gray-700 p-8 text-center text-gray-400 text-xs">Captura pendiente: formulario "Create new application" relleno (App title, Short name, Platform=Desktop)</div>
+            <li class="step"><p>Pulsa en <strong class="text-gray-900 dark:text-white">API development tools</strong>.</p></li>
+            <li class="step">
+              <p class="mb-3">Rellena el formulario <strong class="text-gray-900 dark:text-white">Create new application</strong>:</p>
+              <div class="rounded-lg border border-gray-200 dark:border-gray-800 overflow-hidden mb-3 text-sm">
+                <dl class="divide-y divide-gray-200 dark:divide-gray-800">
+                  <div class="flex gap-4 px-4 py-2.5"><dt class="w-28 shrink-0 font-semibold text-gray-900 dark:text-white">App title</dt><dd>Un nombre cualquiera, por ejemplo <code class="px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-800">tdownloader</code>.</dd></div>
+                  <div class="flex gap-4 px-4 py-2.5"><dt class="w-28 shrink-0 font-semibold text-gray-900 dark:text-white">Short name</dt><dd>Por ejemplo <code class="px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-800">tdownloader</code> (entre 5 y 32 letras o numeros).</dd></div>
+                  <div class="flex gap-4 px-4 py-2.5"><dt class="w-28 shrink-0 font-semibold text-gray-900 dark:text-white">URL</dt><dd>Dejalo en blanco.</dd></div>
+                  <div class="flex gap-4 px-4 py-2.5"><dt class="w-28 shrink-0 font-semibold text-gray-900 dark:text-white">Platform</dt><dd>Elige <strong class="text-gray-900 dark:text-white">Desktop</strong>.</dd></div>
+                  <div class="flex gap-4 px-4 py-2.5"><dt class="w-28 shrink-0 font-semibold text-gray-900 dark:text-white">Description</dt><dd>Opcional, dejalo en blanco.</dd></div>
+                </dl>
+              </div>
+              <figure class="shot">
+                <!-- Sustituir el div por: <img src="img/ayuda-api-2.png" alt="Formulario Create new application relleno" /> -->
+                <div class="shot-ph">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3"/></svg>
+                  Captura: formulario "Create new application" relleno
+                </div>
               </figure>
             </li>
-            <li>Pulsa <strong class="text-gray-800 dark:text-gray-200">Create application</strong>.</li>
-            <li>Veras dos valores: <strong class="text-gray-800 dark:text-gray-200">App api_id</strong> (un numero) y <strong class="text-gray-800 dark:text-gray-200">App api_hash</strong> (una cadena larga de letras y numeros). Copialos.
-              <figure class="my-3">
-                <!-- Sustituir por: <img src="img/ayuda-api-3.png" alt="Pantalla con api_id y api_hash" class="rounded-lg border border-gray-200 dark:border-gray-800 w-full" /> -->
-                <div class="rounded-lg border-2 border-dashed border-gray-300 dark:border-gray-700 p-8 text-center text-gray-400 text-xs">Captura pendiente: pantalla final con "App api_id" y "App api_hash" (puedes tapar los valores reales)</div>
+            <li class="step"><p>Pulsa <strong class="text-gray-900 dark:text-white">Create application</strong>.</p></li>
+            <li class="step">
+              <p class="mb-3">Veras dos valores: <strong class="text-gray-900 dark:text-white">App api_id</strong> (un numero) y <strong class="text-gray-900 dark:text-white">App api_hash</strong> (una cadena larga). Copialos.</p>
+              <figure class="shot">
+                <!-- Sustituir el div por: <img src="img/ayuda-api-3.png" alt="Pantalla con api_id y api_hash" /> -->
+                <div class="shot-ph">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3"/></svg>
+                  Captura: pantalla final con "App api_id" y "App api_hash" (puedes tapar los valores reales)
+                </div>
               </figure>
             </li>
-            <li>Vuelve a tdownloader y pega el <strong class="text-gray-800 dark:text-gray-200">api_id</strong> en el campo <strong>API ID</strong> y el <strong class="text-gray-800 dark:text-gray-200">api_hash</strong> en el campo <strong>API Hash</strong>. Anade tu telefono y pulsa <strong>Enviar codigo</strong>.</li>
+            <li class="step"><p>Vuelve a tdownloader, pega el <strong class="text-gray-900 dark:text-white">api_id</strong> en <strong>API ID</strong> y el <strong class="text-gray-900 dark:text-white">api_hash</strong> en <strong>API Hash</strong>, anade tu telefono y pulsa <strong>Enviar codigo</strong>.</p></li>
           </ol>
-          <div class="mt-4 rounded-lg bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-900 p-4 text-blue-800 dark:text-blue-300">
-            Estas credenciales son tuyas y se quedan en tu ordenador. tdownloader nunca las envia a nuestros servidores: se usan solo para conectar tu equipo directamente con Telegram, igual que la app oficial.
+
+          <div class="callout info mt-6">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <div>Estas credenciales son tuyas y se quedan en tu ordenador. tdownloader nunca las envia a nuestros servidores: solo conectan tu equipo directamente con Telegram, igual que la app oficial.</div>
+          </div>
+        </section>
+
+        <!-- MAS AYUDA -->
+        <section id="ayuda-extra" class="anchor-h">
+          <div class="rounded-2xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/40 p-6 sm:p-8 text-center">
+            <h2 class="text-xl font-bold mb-2">¿Sigues con dudas?</h2>
+            <p class="text-gray-600 dark:text-gray-300 mb-5 max-w-lg mx-auto">Si algo no funciona como esperabas, cuentanoslo y te ayudamos.</p>
+            <div class="flex flex-wrap gap-3 justify-center">
+              <a href="https://github.com/itrascastro/tdownloader-releases/issues" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-sm font-medium text-white px-4 py-2.5 rounded-lg" style="background:linear-gradient(135deg,#2563eb,#1d4ed8)">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"/></svg>
+                Reportar un problema
+              </a>
+              <a href="/" class="inline-flex items-center gap-2 text-sm font-medium px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">Volver al inicio</a>
+            </div>
           </div>
         </section>
 
       </div>
-
-      <div class="mt-14">
-        <a href="/" class="inline-flex items-center gap-2 text-sm text-blue-600 dark:text-blue-400 hover:underline">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
-          Volver al inicio
-        </a>
-      </div>
-
     </div>
   </main>
 
-  <footer class="py-8 px-4 border-t border-gray-200 dark:border-gray-800">
-    <div class="max-w-2xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-gray-400 dark:text-gray-500">
-      <span>tdownloader</span>
-      <div class="flex gap-5">
-        <a href="ayuda.html" class="text-blue-600 dark:text-blue-400">Ayuda</a>
+  <!-- ── Footer ──────────────────────────────────────────────────────────── -->
+  <footer class="py-10 px-4 border-t border-gray-200 dark:border-gray-800">
+    <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-500 dark:text-gray-400">
+      <a href="/" class="flex items-center gap-2 hover:opacity-80 transition-opacity">
+        <svg width="22" height="22" viewBox="0 0 16 16" fill="currentColor" class="text-brand-600" aria-hidden="true"><path d="M2.5 3.5a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1zm2-2a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1zM0 13a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 16 13V6a1.5 1.5 0 0 0-1.5-1.5h-13A1.5 1.5 0 0 0 0 6zm6.258-6.437a.5.5 0 0 1 .507.013l4 2.5a.5.5 0 0 1 0 .848l-4 2.5A.5.5 0 0 1 6 11.5v-5a.5.5 0 0 1 .258-.437"/></svg>
+        <span class="font-bold text-gray-700 dark:text-gray-200">tdownloader</span>
+      </a>
+      <div class="flex flex-wrap gap-5 justify-center">
+        <a href="ayuda.html" class="text-brand-600 dark:text-brand-400">Ayuda</a>
+        <a href="/status/" class="hover:text-gray-700 dark:hover:text-gray-300 transition-colors">Estado</a>
         <a href="privacy.html" class="hover:text-gray-700 dark:hover:text-gray-300 transition-colors">Privacidad</a>
         <a href="terms.html" class="hover:text-gray-700 dark:hover:text-gray-300 transition-colors">Terminos</a>
       </div>
@@ -192,6 +397,7 @@
   </footer>
 
   <script>
+    // Tema (igual que el resto del sitio)
     (function () {
       var stored = localStorage.getItem('theme');
       var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -211,6 +417,35 @@
       localStorage.setItem('theme', dark ? 'dark' : 'light');
       applyTheme();
     });
+
+    // Botones de copiar en bloques de codigo
+    document.querySelectorAll('.codeblock').forEach(function (block) {
+      var btn = document.createElement('button');
+      btn.className = 'copy-btn';
+      btn.type = 'button';
+      btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copiar</span>';
+      btn.addEventListener('click', function () {
+        var code = block.querySelector('code');
+        navigator.clipboard.writeText(code.innerText.trim()).then(function () {
+          btn.querySelector('span').textContent = 'Copiado';
+          setTimeout(function () { btn.querySelector('span').textContent = 'Copiar'; }, 1500);
+        });
+      });
+      block.appendChild(btn);
+    });
+
+    // Indice: resaltar la seccion visible
+    var tocLinks = Array.prototype.slice.call(document.querySelectorAll('.toc a'));
+    var sections = tocLinks.map(function (a) { return document.querySelector(a.getAttribute('href')); });
+    var obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          var id = '#' + e.target.id;
+          tocLinks.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === id); });
+        }
+      });
+    }, { rootMargin: '-30% 0px -60% 0px' });
+    sections.forEach(function (s) { if (s) obs.observe(s); });
   </script>
 </body>
 </html>
