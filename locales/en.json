@@ -79,5 +79,7 @@
   "changelog.v010.1": "First public release",
   "changelog.v010.2": "Channel management, catalog and download queue",
   "changelog.v010.3": "File type filters and catalog search",
-  "download.linux_hint": "Debian/Ubuntu/Mint: sudo dpkg -i TDownloader_*.deb"
+  "download.linux_hint": "Debian/Ubuntu/Mint: sudo dpkg -i TDownloader_*.deb",
+  "download.windows_hint": "If Windows shows a warning, click \"More info\" then \"Run anyway\".",
+  "download.mac_hint": "If it says it is \"damaged\": open Terminal and run xattr -cr /Applications/TDownloader.app"
 }

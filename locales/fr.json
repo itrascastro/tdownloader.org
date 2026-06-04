@@ -79,5 +79,7 @@
   "changelog.v010.1": "Premiere version publique",
   "changelog.v010.2": "Gestion des canaux, catalogue et file de telechargement",
   "changelog.v010.3": "Filtres par type de fichier et recherche dans le catalogue",
-  "download.linux_hint": "Debian/Ubuntu/Mint: sudo dpkg -i TDownloader_*.deb"
+  "download.linux_hint": "Debian/Ubuntu/Mint: sudo dpkg -i TDownloader_*.deb",
+  "download.windows_hint": "Si Windows affiche un avertissement, cliquez sur \"Informations complémentaires\" puis \"Exécuter quand même\".",
+  "download.mac_hint": "S'il indique \"endommagé\" : ouvrez le Terminal et exécutez xattr -cr /Applications/TDownloader.app"
 }
