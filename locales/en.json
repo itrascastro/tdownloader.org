@@ -103,5 +103,7 @@
   "support.send": "Send",
   "support.empty": "Please write a description.",
   "support.sent": "Thanks! Your message has been sent.",
-  "support.error": "Could not send. Please try again later."
+  "support.error": "Could not send. Please try again later.",
+  "nav.help": "Help",
+  "footer.help": "Help"
 }

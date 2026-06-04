@@ -103,5 +103,7 @@
   "support.send": "Senden",
   "support.empty": "Bitte schreibe eine Beschreibung.",
   "support.sent": "Danke! Deine Nachricht wurde gesendet.",
-  "support.error": "Senden fehlgeschlagen. Versuche es später erneut."
+  "support.error": "Senden fehlgeschlagen. Versuche es später erneut.",
+  "nav.help": "Hilfe",
+  "footer.help": "Hilfe"
 }
