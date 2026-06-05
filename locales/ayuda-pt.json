@@ -4,7 +4,7 @@
   "nav.download": "Descarregar",
   "hero.crumb": "Ajuda",
   "hero.title": "Centro de ajuda",
-  "hero.subtitle": "Instala o tdownloader no teu sistema e cria as tuas credenciais do Telegram. Cada passo, com a sua captura, para que não haja dúvidas.",
+  "hero.subtitle": "Descarrega o tdownloader, instala-o no teu sistema e cria as tuas credenciais do Telegram. Cada passo, com a sua captura, para que não haja dúvidas.",
   "toc.title": "Nesta página",
   "toc.windows": "Windows",
   "toc.mac": "macOS",
@@ -76,5 +76,10 @@
   "footer.help": "Ajuda",
   "footer.status": "Estado",
   "footer.privacy": "Privacidade",
-  "footer.terms": "Termos"
+  "footer.terms": "Termos",
+  "toc.download": "Descarregar",
+  "dl.title": "Descarregar o tdownloader",
+  "dl.btn": "Descarregar",
+  "dl.intro": "Primeiro passo: descarrega a app para o teu sistema. É grátis e sem registo. Depois, desce até à secção do teu sistema para a instalares.",
+  "dl.next": "Quando a descarga terminar, vai à <strong>secção do teu sistema</strong> (Windows, macOS ou Linux) para a instalar, e depois cria o teu <strong>API ID e API Hash</strong>."
 }

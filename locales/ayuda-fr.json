@@ -4,7 +4,7 @@
   "nav.download": "Télécharger",
   "hero.crumb": "Aide",
   "hero.title": "Centre d’aide",
-  "hero.subtitle": "Installe tdownloader sur ton système et crée tes identifiants Telegram. Chaque étape, avec sa capture, pour qu’il n’y ait aucun doute.",
+  "hero.subtitle": "Télécharge tdownloader, installe-le sur ton système et crée tes identifiants Telegram. Chaque étape, avec sa capture, pour qu'il n'y ait aucun doute.",
   "toc.title": "Sur cette page",
   "toc.windows": "Windows",
   "toc.mac": "macOS",
@@ -76,5 +76,10 @@
   "footer.help": "Aide",
   "footer.status": "État",
   "footer.privacy": "Confidentialité",
-  "footer.terms": "Conditions"
+  "footer.terms": "Conditions",
+  "toc.download": "Télécharger",
+  "dl.title": "Télécharger tdownloader",
+  "dl.btn": "Télécharger",
+  "dl.intro": "Première étape : télécharge l'app pour ton système. C'est gratuit et sans inscription. Ensuite, descends à la section de ton système pour l'installer.",
+  "dl.next": "Une fois le téléchargement terminé, va à <strong>la section de ton système</strong> (Windows, macOS ou Linux) pour l'installer, puis crée ton <strong>API ID et ton API Hash</strong>."
 }
