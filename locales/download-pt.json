@@ -81,5 +81,7 @@
   "dl.title": "Descarregar o tdownloader",
   "dl.btn": "Descarregar",
   "dl.intro": "Primeiro passo: descarrega a app para o teu sistema. É grátis e sem registo. Depois, desce até à secção do teu sistema para a instalares.",
-  "dl.next": "Quando a descarga terminar, vai à <strong>secção do teu sistema</strong> (Windows, macOS ou Linux) para a instalar, e depois cria o teu <strong>API ID e API Hash</strong>."
+  "dl.next": "Quando a descarga terminar, vai à <strong>secção do teu sistema</strong> (Windows, macOS ou Linux) para a instalar, e depois cria o teu <strong>API ID e API Hash</strong>.",
+  "win.update": "<strong>Para atualizar, não descarregue o instalador novamente.</strong> Abre o tdownloader e, se houver uma versão nova, atualiza-se sozinho ao arrancar: avisa-te e reinicia já com a versão mais recente. Reinstalar por cima manualmente não é necessário.",
+  "mac.update": "<strong>Para atualizar, abre a app: atualiza-se sozinha ao arrancar</strong> e reinicia com a versão mais recente. Não copies o novo <code>.dmg</code> por cima manualmente, porque voltarias a passar pela quarentena do Gatekeeper e terias de repetir o passo do comando <code>xattr</code> acima."
 }
