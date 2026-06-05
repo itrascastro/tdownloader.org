@@ -152,8 +152,7 @@
       <div class="flex items-center gap-4">
         <a href="#features" class="hidden sm:inline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors" data-i18n="nav.features">Características</a>
         <a href="#showcase" class="hidden sm:inline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors" data-i18n="nav.screenshots">Capturas</a>
-        <a href="#download" class="hidden sm:inline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors" data-i18n="nav.download">Descargar</a>
-        <a href="ayuda.html" class="hidden sm:inline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors" data-i18n="nav.help">Ayuda</a>
+        <a href="download.html" class="hidden sm:inline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors" data-i18n="nav.download">Descargar</a>
         <!-- language selector -->
         <div class="relative" id="lang-selector">
           <button id="lang-btn" onclick="toggleLangMenu()" class="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors px-2 py-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" aria-label="Idioma">
@@ -216,7 +215,7 @@
       </p>
       <div class="flex flex-col sm:flex-row gap-3 justify-center items-center">
         <!-- boton descarga principal (OS detectado) -->
-        <a id="btn-main-download" href="ayuda.html"
+        <a id="btn-main-download" href="download.html"
            class="btn-primary inline-flex items-center gap-3 px-7 py-3.5 rounded-xl text-white font-semibold text-base w-full sm:w-auto justify-center">
           <svg id="icon-os" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
             <path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 2h14v2H5v-2z"/>
@@ -443,7 +442,7 @@
             <div class="text-xs text-gray-400">.deb / .AppImage</div>
           </div>
           <a id="btn-linux"
-             href="ayuda.html"
+             href="download.html"
              class="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-sm font-medium transition-colors">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
@@ -451,7 +450,7 @@
             <span data-i18n="download.btn">Descargar</span>&nbsp;.deb
           </a>
           <a id="btn-linux-appimage"
-             href="ayuda.html"
+             href="download.html"
              class="text-xs text-brand-600 dark:text-brand-400 hover:underline">.AppImage (portable)</a>
           <p class="text-xs text-gray-400 dark:text-gray-500 text-center" data-i18n="download.linux_hint">Debian/Ubuntu/Mint: <code class="font-mono bg-gray-100 dark:bg-gray-700 px-1 rounded">sudo dpkg -i tdownloader_*.deb</code></p>
         </div>
@@ -466,7 +465,7 @@
             <div class="text-xs text-gray-400">.exe</div>
           </div>
           <a id="btn-windows"
-             href="ayuda.html"
+             href="download.html"
              class="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-sm font-medium transition-colors">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
@@ -486,7 +485,7 @@
             <div class="text-xs text-gray-400">.dmg</div>
           </div>
           <a id="btn-mac"
-             href="ayuda.html"
+             href="download.html"
              class="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-sm font-medium transition-colors">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
@@ -602,7 +601,7 @@
       </div>
       <div class="flex flex-wrap gap-5 justify-center">
         <a href="#changelog" class="hover:text-gray-700 dark:hover:text-gray-300 transition-colors" data-i18n="footer.changelog">Novedades</a>
-        <a href="ayuda.html" class="hover:text-gray-700 dark:hover:text-gray-300 transition-colors" data-i18n="footer.help">Ayuda</a>
+        <a href="download.html" class="hover:text-gray-700 dark:hover:text-gray-300 transition-colors" data-i18n="nav.download">Descargar</a>
         <a href="/status/" class="hover:text-gray-700 dark:hover:text-gray-300 transition-colors" data-i18n="footer.status">Estado</a>
         <button type="button" onclick="openSupport()" class="hover:text-gray-700 dark:hover:text-gray-300 transition-colors" data-i18n="footer.support">Soporte</button>
         <a href="privacy.html" class="hover:text-gray-700 dark:hover:text-gray-300 transition-colors" data-i18n="footer.privacy">Privacidad</a>
@@ -757,25 +756,25 @@
         icon.setAttribute('viewBox', '0 0 24 24');
         icon.setAttribute('fill', 'currentColor');
         icon.innerHTML = ICON_LINUX;
-        btn.href = 'ayuda.html';
+        btn.href = 'download.html';
       } else if (os === 'windows') {
         label.textContent = t('hero.btn_windows',   'Descargar para Windows');
         name.textContent  = t('hero.badge_windows', '.exe - gratis');
         icon.setAttribute('viewBox', '0 0 88 88');
         icon.innerHTML = ICON_WINDOWS;
-        btn.href = 'ayuda.html';
+        btn.href = 'download.html';
       } else if (os === 'mac') {
         label.textContent = t('hero.btn_mac',   'Descargar para macOS');
         name.textContent  = t('hero.badge_mac', '.dmg - gratis');
         icon.setAttribute('viewBox', '0 0 814 1000');
         icon.innerHTML = ICON_MAC;
-        btn.href = 'ayuda.html';
+        btn.href = 'download.html';
       } else {
         label.textContent = t('hero.btn_default', 'Descargar gratis');
         name.textContent  = t('hero.btn_choose',  'Elige tu sistema');
         icon.setAttribute('viewBox', '0 0 24 24');
         icon.innerHTML = ICON_DEFAULT;
-        btn.href = 'ayuda.html';
+        btn.href = 'download.html';
       }
     }
 
@@ -810,11 +809,11 @@
       var linuxMain     = linuxDeb || linuxAppImage;
       var windows       = getUrl(platforms['windows-x86_64']);
       var mac           = getUrl(platforms['darwin-aarch64']);
-      // Los botones de descarga llevan a la GUIA (ayuda.html), donde la descarga
+      // Los botones de descarga llevan a la GUIA (download.html), donde la descarga
       // es el paso 1 y estan las instrucciones de instalacion. Asi nadie descarga
       // sin pasar por la ayuda. La descarga real (latest.json) ocurre alli.
       ['btn-linux', 'btn-linux-appimage', 'btn-windows', 'btn-mac'].forEach(function (id) {
-        var el = document.getElementById(id); if (el) el.href = 'ayuda.html';
+        var el = document.getElementById(id); if (el) el.href = 'download.html';
       });
       return { linux: linuxMain, windows: windows, mac: mac };
     }
