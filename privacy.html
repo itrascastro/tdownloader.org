@@ -22,11 +22,11 @@
   <!-- Navbar minima -->
   <nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-white/80 dark:bg-gray-950/80 border-b border-gray-200/60 dark:border-gray-800/60">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-14">
-      <a href="/" class="flex items-center gap-2">
-        <svg width="28" height="28" viewBox="0 0 16 16" fill="#2563eb" aria-hidden="true">
+      <a href="/" class="flex items-center gap-2.5 hover:opacity-80 transition-opacity">
+        <svg width="40" height="40" viewBox="0 0 16 16" fill="#2563eb" aria-hidden="true">
           <path d="M2.5 3.5a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1zm2-2a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1zM0 13a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 16 13V6a1.5 1.5 0 0 0-1.5-1.5h-13A1.5 1.5 0 0 0 0 6zm6.258-6.437a.5.5 0 0 1 .507.013l4 2.5a.5.5 0 0 1 0 .848l-4 2.5A.5.5 0 0 1 6 11.5v-5a.5.5 0 0 1 .258-.437"/>
         </svg>
-        <span class="font-bold text-base tracking-tight text-gray-900 dark:text-white">tdownloader</span>
+        <span class="font-bold text-2xl tracking-tight text-gray-900 dark:text-white" style="font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif">tdownloader</span>
       </a>
       <button id="theme-toggle" class="p-1.5 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" aria-label="Cambiar tema">
         <svg id="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -98,7 +98,7 @@
 
         <section>
           <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">7. Contacto</h2>
-          <p>Para cualquier consulta sobre privacidad puedes abrir un issue en <a href="https://github.com/itrascastro/tdownloader-releases/issues" target="_blank" rel="noopener" class="text-blue-600 dark:text-blue-400 hover:underline">GitHub</a>.</p>
+          <p>Para cualquier consulta sobre privacidad puedes <a href="#" onclick="openSupport();return false" class="text-blue-600 dark:text-blue-400 hover:underline">escribirnos desde aquí</a>.</p>
         </section>
 
       </div>
@@ -143,6 +143,27 @@
       localStorage.setItem('theme', dark ? 'dark' : 'light');
       applyTheme();
     });
+  </script>
+  <!-- Modal: Soporte / Reportar problema (envia al VPS via API) -->
+  <div id="support-modal" class="hidden fixed inset-0 z-[60] flex items-center justify-center p-4">
+    <div class="absolute inset-0 bg-black/50" onclick="closeSupport()"></div>
+    <div class="relative w-full max-w-md bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-6">
+      <button type="button" onclick="closeSupport()" aria-label="Cerrar" class="absolute top-3 right-3 text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 text-xl leading-none">&times;</button>
+      <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-1">Soporte</h3>
+      <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">¿Algún problema o sugerencia? Cuéntanoslo y lo revisamos.</p>
+      <textarea id="support-message" rows="5" class="w-full rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Describe el problema o tu sugerencia..."></textarea>
+      <input id="support-contact" type="email" class="w-full mt-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Email de contacto (opcional)">
+      <p id="support-feedback" class="hidden text-sm mt-2"></p>
+      <div class="flex justify-end gap-2 mt-4">
+        <button type="button" onclick="closeSupport()" class="px-4 py-2 rounded-lg text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800">Cancelar</button>
+        <button type="button" id="support-send" onclick="sendSupport()" class="px-4 py-2 rounded-lg text-sm font-medium bg-blue-600 hover:bg-blue-700 text-white">Enviar</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    function openSupport(){var m=document.getElementById('support-message'),c=document.getElementById('support-contact'),fb=document.getElementById('support-feedback');m.value='';c.value='';fb.className='hidden text-sm mt-2';fb.textContent='';document.getElementById('support-modal').classList.remove('hidden');}
+    function closeSupport(){document.getElementById('support-modal').classList.add('hidden');}
+    function sendSupport(){var msg=document.getElementById('support-message').value.trim(),contact=document.getElementById('support-contact').value.trim(),fb=document.getElementById('support-feedback'),btn=document.getElementById('support-send');if(!msg){fb.className='text-sm mt-2 text-red-500';fb.textContent='Escribe una descripción.';return;}btn.disabled=true;fetch('https://api.tdownloader.org/report',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:msg,contact:contact,platform:'web',lang:'es'})}).then(function(r){if(r.ok){fb.className='text-sm mt-2 text-green-600 dark:text-green-400';fb.textContent='¡Gracias! Tu mensaje se ha enviado.';setTimeout(closeSupport,1800);}else{throw new Error();}}).catch(function(){fb.className='text-sm mt-2 text-red-500';fb.textContent='No se pudo enviar. Inténtalo más tarde.';}).finally(function(){btn.disabled=false;});}
   </script>
 </body>
 </html>

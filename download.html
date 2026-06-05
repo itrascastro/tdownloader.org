@@ -399,10 +399,10 @@
             <h2 class="text-xl font-bold mb-2" data-i18n="extra.title">¿Sigues con dudas?</h2>
             <p class="text-gray-600 dark:text-gray-300 mb-5 max-w-lg mx-auto" data-i18n="extra.text">Si algo no funciona como esperabas, cuéntanoslo y te ayudamos.</p>
             <div class="flex flex-wrap gap-3 justify-center">
-              <a href="https://github.com/itrascastro/tdownloader-releases/issues" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-sm font-medium text-white px-4 py-2.5 rounded-lg" style="background:linear-gradient(135deg,#2563eb,#1d4ed8)">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"/></svg>
+              <button type="button" onclick="openSupport()" class="inline-flex items-center gap-2 text-sm font-medium text-white px-4 py-2.5 rounded-lg" style="background:linear-gradient(135deg,#2563eb,#1d4ed8)">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                 <span data-i18n="extra.report">Reportar un problema</span>
-              </a>
+              </button>
               <a href="/" class="inline-flex items-center gap-2 text-sm font-medium px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" data-i18n="extra.back">Volver al inicio</a>
             </div>
           </div>
@@ -427,6 +427,23 @@
       </div>
     </div>
   </footer>
+
+  <!-- ── Modal: Soporte / Reportar problema (envia al VPS via API) ── -->
+  <div id="support-modal" class="hidden fixed inset-0 z-[60] flex items-center justify-center p-4">
+    <div class="absolute inset-0 bg-black/50" onclick="closeSupport()"></div>
+    <div class="relative w-full max-w-md bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-6">
+      <button type="button" onclick="closeSupport()" aria-label="Cerrar" class="absolute top-3 right-3 text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 text-xl leading-none">&times;</button>
+      <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-1" data-i18n="support.title">Soporte</h3>
+      <p class="text-sm text-gray-500 dark:text-gray-400 mb-4" data-i18n="support.desc">¿Algún problema o sugerencia? Cuéntanoslo y lo revisamos.</p>
+      <textarea id="support-message" rows="5" class="w-full rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500" data-i18n-placeholder="support.message_ph" placeholder="Describe el problema o tu sugerencia..."></textarea>
+      <input id="support-contact" type="email" class="w-full mt-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500" data-i18n-placeholder="support.contact_ph" placeholder="Email de contacto (opcional)">
+      <p id="support-feedback" class="hidden text-sm mt-2"></p>
+      <div class="flex justify-end gap-2 mt-4">
+        <button type="button" onclick="closeSupport()" class="px-4 py-2 rounded-lg text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800" data-i18n="support.cancel">Cancelar</button>
+        <button type="button" id="support-send" onclick="sendSupport()" class="px-4 py-2 rounded-lg text-sm font-medium bg-brand-600 hover:bg-brand-700 text-white" data-i18n="support.send">Enviar</button>
+      </div>
+    </div>
+  </div>
 
   <script>
     // ── Tema ──
@@ -551,6 +568,37 @@
       var sel = document.getElementById('lang-selector');
       if (sel && !sel.contains(e.target)) closeLangMenu();
     });
+
+    // ── Soporte: formulario que envia el mensaje al VPS via API ──
+    window.openSupport = function () {
+      document.getElementById('support-message').value = '';
+      document.getElementById('support-contact').value = '';
+      var fb = document.getElementById('support-feedback');
+      fb.className = 'hidden text-sm mt-2'; fb.textContent = '';
+      document.getElementById('support-modal').classList.remove('hidden');
+    };
+    window.closeSupport = function () { document.getElementById('support-modal').classList.add('hidden'); };
+    window.sendSupport = function () {
+      var msg = document.getElementById('support-message').value.trim();
+      var contact = document.getElementById('support-contact').value.trim();
+      var fb = document.getElementById('support-feedback');
+      var btn = document.getElementById('support-send');
+      if (!msg) { fb.className = 'text-sm mt-2 text-red-500'; fb.textContent = (_i18n['support.empty'] || 'Escribe una descripción.'); return; }
+      btn.disabled = true;
+      fetch('https://api.tdownloader.org/report', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: msg, contact: contact, platform: 'web', lang: (document.documentElement.lang || 'es') })
+      }).then(function (r) {
+        if (r.ok) {
+          fb.className = 'text-sm mt-2 text-green-600 dark:text-green-400';
+          fb.textContent = (_i18n['support.sent'] || '¡Gracias! Tu mensaje se ha enviado.');
+          setTimeout(window.closeSupport, 1800);
+        } else { throw new Error(); }
+      }).catch(function () {
+        fb.className = 'text-sm mt-2 text-red-500';
+        fb.textContent = (_i18n['support.error'] || 'No se pudo enviar. Inténtalo más tarde.');
+      }).finally(function () { btn.disabled = false; });
+    };
 
     loadLang(detectLang());
   </script>
