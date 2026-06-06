@@ -484,7 +484,7 @@
         var el = document.getElementById(id);
         if (el && url) { el.href = url; el.setAttribute('target', '_blank'); el.setAttribute('rel', 'noopener'); }
       }
-      fetch('https://api.tdownloader.org/version/latest?t=' + Date.now(), { cache: 'no-store' })
+      fetch('https://dl.tdownloader.org/latest.json?t=' + Date.now(), { cache: 'no-store' })
         .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
         .then(function (d) {
           var p = d.platforms || {};
