@@ -70,6 +70,10 @@
 const SERVICES = [
   { name: "Servidor",        url: "https://api.tdownloader.org/health",         expect: 200 },
   { name: "Actualizaciones", url: "https://api.tdownloader.org/version/latest", expect: 200 },
+  // Descargas: estan en Cloudflare R2. Por CORS no se puede leer su status, asi
+  // que se sondea con no-cors (solo sabemos si se ALCANZA). Si no se alcanza,
+  // suele ser el bloqueo de operadores en Espana los dias de futbol (LaLiga).
+  { name: "Descargas (CDN)", url: "https://dl.tdownloader.org/latest.json",     probe: true },
   { name: "Web",             url: "https://tdownloader.org",                    expect: 200 },
 ];
 
@@ -78,6 +82,13 @@ const SLOW_MS = 1500;
 async function checkService(svc) {
   const t0 = Date.now();
   try {
+    if (svc.probe) {
+      // Cloudflare: no-cors -> resuelve (opaco) si se alcanza, rechaza si no.
+      await fetch(svc.url + "?t=" + Date.now(),
+                  { mode: "no-cors", cache: "no-store", signal: AbortSignal.timeout(8000) });
+      const ms = Date.now() - t0;
+      return ms > SLOW_MS ? { state: "slow", ms } : { state: "up", ms };
+    }
     const r = await fetch(svc.url, { method: "GET", signal: AbortSignal.timeout(8000) });
     const ms = Date.now() - t0;
     if (r.status !== svc.expect) return { state: "down", ms };
@@ -102,11 +113,17 @@ function render(results) {
            pill(r.state, r.ms) + '</div><div class="card-bar ' + r.state + '"></div></div>';
   }).join("");
 
-  var anyDown = results.some(function(r) { return r.state === "down"; });
+  var downIdx = results.map(function(r, i) { return r.state === "down" ? i : -1; })
+                       .filter(function(i) { return i >= 0; });
+  var anyDown = downIdx.length > 0;
+  var onlyCdnDown = anyDown && downIdx.every(function(i) { return SERVICES[i].probe; });
   var banner  = document.getElementById("banner");
   if (results.length < SERVICES.length) {
     banner.className = "banner checking";
     banner.innerHTML = "<span>Comprobando servicios...</span>";
+  } else if (onlyCdnDown) {
+    banner.className = "banner incident";
+    banner.innerHTML = "<span>No se alcanzan las descargas desde tu conexion. En Espana, los operadores bloquean Cloudflare los dias de futbol por una orden judicial de LaLiga; no es un fallo de tdownloader. <a href=\"https://hayahora.futbol\" target=\"_blank\" rel=\"noopener\" style=\"color:inherit;text-decoration:underline\">Mas info</a></span>";
   } else if (anyDown) {
     banner.className = "banner incident";
     banner.innerHTML = "<span>Incidencia detectada en uno o mas servicios</span>";
