@@ -198,25 +198,25 @@
                muestra la sonda del script si no se alcanza Cloudflare. -->
           <div id="cf-block-warn" class="callout warn mb-6 hidden">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-            <div data-i18n-html="cfblock.msg"><strong>Es posible que la descarga no funcione ahora mismo.</strong> En España, varios operadores (Movistar, Vodafone, DIGI) bloquean Cloudflare los días de partido de fútbol por una orden judicial de LaLiga, y nuestras descargas se alojan ahí. No es un problema de tdownloader. Vuelve a intentarlo cuando no haya partido o desde otro operador (Orange, Masmovil). <a href="https://hayahora.futbol" target="_blank" rel="noopener" class="underline font-medium">Más información</a>.</div>
+            <div data-i18n-html="cfblock.msg"><strong>Es posible que la descarga no funcione ahora mismo.</strong> En España, una orden judicial de LaLiga obliga a los operadores a bloquear Cloudflare los días de partido de fútbol, y nuestras descargas se alojan ahí. No es un problema de tdownloader. Vuelve a intentarlo cuando no haya partido. <a href="https://hayahora.futbol" target="_blank" rel="noopener" class="underline font-medium">Más información</a>.</div>
           </div>
 
-          <div class="grid sm:grid-cols-3 gap-4">
+          <div id="dl-cards" class="grid sm:grid-cols-3 gap-4">
             <!-- Linux -->
             <div class="rounded-2xl border border-gray-200 dark:border-gray-800 p-5 flex flex-col items-center gap-2 text-center">
               <svg width="34" height="34" viewBox="0 0 16 16" fill="currentColor" class="text-gray-700 dark:text-gray-300" aria-hidden="true"><path d="M6 9a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3A.5.5 0 0 1 6 9M3.854 4.146a.5.5 0 1 0-.708.708L4.793 6.5 3.146 8.146a.5.5 0 1 0 .708.708l2-2a.5.5 0 0 0 0-.708z"/><path d="M2 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zm12 1a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/></svg>
               <div class="font-semibold text-gray-900 dark:text-white">Linux</div>
-              <a id="ayuda-btn-linux" href="https://tdownloader.org/#download" class="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-white text-sm font-medium" style="background:linear-gradient(135deg,#2563eb,#1d4ed8)">
+              <a id="ayuda-btn-linux" href="#descargar" class="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-white text-sm font-medium" style="background:linear-gradient(135deg,#2563eb,#1d4ed8)">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                 <span data-i18n="dl.btn">Descargar</span>&nbsp;.deb
               </a>
-              <a id="ayuda-btn-linux-appimage" href="https://tdownloader.org/#download" class="text-xs text-brand-600 dark:text-brand-400 hover:underline">.AppImage</a>
+              <a id="ayuda-btn-linux-appimage" href="#descargar" class="text-xs text-brand-600 dark:text-brand-400 hover:underline">.AppImage</a>
             </div>
             <!-- Windows -->
             <div class="rounded-2xl border border-gray-200 dark:border-gray-800 p-5 flex flex-col items-center gap-2 text-center">
               <svg width="32" height="32" viewBox="0 0 16 16" fill="currentColor" class="text-gray-700 dark:text-gray-300" aria-hidden="true"><path d="M6.555 1.375 0 2.237v5.45h6.555zM0 13.795l6.555.933V8.313H0zm7.278-5.4.026 6.378L16 16V8.395zM16 0 7.33 1.244v6.414H16z"/></svg>
               <div class="font-semibold text-gray-900 dark:text-white">Windows</div>
-              <a id="ayuda-btn-windows" href="https://tdownloader.org/#download" class="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-white text-sm font-medium" style="background:linear-gradient(135deg,#2563eb,#1d4ed8)">
+              <a id="ayuda-btn-windows" href="#descargar" class="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-white text-sm font-medium" style="background:linear-gradient(135deg,#2563eb,#1d4ed8)">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                 <span data-i18n="dl.btn">Descargar</span>&nbsp;.exe
               </a>
@@ -225,7 +225,7 @@
             <div class="rounded-2xl border border-gray-200 dark:border-gray-800 p-5 flex flex-col items-center gap-2 text-center">
               <svg width="32" height="32" viewBox="0 0 16 16" fill="currentColor" class="text-gray-700 dark:text-gray-300" aria-hidden="true"><path d="M11.182.008C11.148-.03 9.923.023 8.857 1.18c-1.066 1.156-.902 2.482-.878 2.516.024.034 1.52.087 2.475-1.258.955-1.345.762-2.391.728-2.43Zm3.314 11.733c-.048-.096-2.325-1.234-2.113-3.422.212-2.189 1.675-2.789 1.698-2.854.023-.065-.597-.79-1.254-1.157a3.692 3.692 0 0 0-1.563-.434c-.108-.003-.483-.095-1.254.116-.508.139-1.653.589-1.968.607-.316.018-1.256-.522-2.267-.665-.647-.125-1.333.131-1.824.328-.49.196-1.422.754-2.074 2.237-.652 1.482-.311 3.83-.067 4.56.244.729.625 1.924 1.273 2.796.576.984 1.34 1.667 1.659 1.899.319.232 1.219.386 1.843.067.502-.308 1.408-.485 1.766-.472.357.013 1.061.154 1.782.539.571.197 1.111.115 1.652-.105.541-.221 1.324-1.059 2.238-2.758.347-.79.505-1.217.473-1.282Z"/></svg>
               <div class="font-semibold text-gray-900 dark:text-white">macOS</div>
-              <a id="ayuda-btn-mac" href="https://tdownloader.org/#download" class="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-white text-sm font-medium" style="background:linear-gradient(135deg,#2563eb,#1d4ed8)">
+              <a id="ayuda-btn-mac" href="#descargar" class="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-white text-sm font-medium" style="background:linear-gradient(135deg,#2563eb,#1d4ed8)">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                 <span data-i18n="dl.btn">Descargar</span>&nbsp;.dmg
               </a>
@@ -516,13 +516,18 @@
     // (opaco) si llega, y rechaza si la conexion falla.
     (function () {
       var warn = document.getElementById('cf-block-warn');
+      var cards = document.getElementById('dl-cards');
       if (!warn) return;
       var ctrl = new AbortController();
       var tid = setTimeout(function () { ctrl.abort(); }, 8000);
       fetch('https://dl.tdownloader.org/latest.json?t=' + Date.now(),
             { mode: 'no-cors', cache: 'no-store', signal: ctrl.signal })
         .then(function () { clearTimeout(tid); })
-        .catch(function () { clearTimeout(tid); warn.classList.remove('hidden'); });
+        .catch(function () {
+          clearTimeout(tid);
+          warn.classList.remove('hidden');          // mostrar el aviso
+          if (cards) cards.classList.add('hidden');  // ocultar los botones (que harian bucle)
+        });
     })();
 
     // ── Idioma (i18n) ──
