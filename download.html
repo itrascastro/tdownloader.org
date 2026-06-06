@@ -194,6 +194,13 @@
             Primer paso: descarga la app para tu sistema. Es gratis y sin registro. Después, baja a la sección de tu sistema para instalarla.
           </p>
 
+          <!-- Aviso de bloqueo de Cloudflare (LaLiga/futbol en ES). Oculto; lo
+               muestra la sonda del script si no se alcanza Cloudflare. -->
+          <div id="cf-block-warn" class="callout warn mb-6 hidden">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            <div data-i18n-html="cfblock.msg"><strong>Es posible que la descarga no funcione ahora mismo.</strong> En España, varios operadores (Movistar, Vodafone, DIGI) bloquean Cloudflare los días de partido de fútbol por una orden judicial de LaLiga, y nuestras descargas se alojan ahí. No es un problema de tdownloader. Vuelve a intentarlo cuando no haya partido o desde otro operador (Orange, Masmovil). <a href="https://hayahora.futbol" target="_blank" rel="noopener" class="underline font-medium">Más información</a>.</div>
+          </div>
+
           <div class="grid sm:grid-cols-3 gap-4">
             <!-- Linux -->
             <div class="rounded-2xl border border-gray-200 dark:border-gray-800 p-5 flex flex-col items-center gap-2 text-center">
@@ -501,6 +508,21 @@
           if (v && d.version) v.textContent = ' v' + String(d.version).replace(/^v/, '');
         })
         .catch(function () { /* sin manifiesto: los botones llevan a la web de descarga */ });
+    })();
+
+    // ── Aviso de bloqueo de Cloudflare (LaLiga/futbol en ES) ──
+    // Sonda silenciosa a Cloudflare. Si NO se alcanza (bloqueo del operador),
+    // se muestra el banner. no-cors para no depender de cabeceras CORS: resuelve
+    // (opaco) si llega, y rechaza si la conexion falla.
+    (function () {
+      var warn = document.getElementById('cf-block-warn');
+      if (!warn) return;
+      var ctrl = new AbortController();
+      var tid = setTimeout(function () { ctrl.abort(); }, 8000);
+      fetch('https://dl.tdownloader.org/latest.json?t=' + Date.now(),
+            { mode: 'no-cors', cache: 'no-store', signal: ctrl.signal })
+        .then(function () { clearTimeout(tid); })
+        .catch(function () { clearTimeout(tid); warn.classList.remove('hidden'); });
     })();
 
     // ── Idioma (i18n) ──
