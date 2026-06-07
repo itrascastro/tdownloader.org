@@ -198,7 +198,19 @@
                muestra la sonda del script si no se alcanza Cloudflare. -->
           <div id="cf-block-warn" class="callout warn mb-6 hidden">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-            <div data-i18n-html="cfblock.msg"><strong>Es posible que la descarga no funcione ahora mismo.</strong> En España, una orden judicial de LaLiga obliga a los operadores a bloquear Cloudflare los días de partido de fútbol, y nuestras descargas se alojan ahí. No es un problema de tdownloader. Vuelve a intentarlo cuando no haya partido. <a href="https://hayahora.futbol" target="_blank" rel="noopener" class="underline font-medium">Más información</a>.</div>
+            <div>
+              <div data-i18n-html="cfblock.msg"><strong>Es posible que la descarga no funcione ahora mismo.</strong> En España, una orden judicial de LaLiga obliga a los operadores a bloquear Cloudflare los días de partido de fútbol, y nuestras descargas se alojan ahí. No es un problema de tdownloader. Vuelve a intentarlo cuando no haya partido. <a href="https://hayahora.futbol" target="_blank" rel="noopener" class="underline font-medium">Más información</a>.</div>
+              <!-- Workaround: lo rellena el script SOLO con resolvers que devuelven una IP distinta a la de Google (es decir, no bloqueada). -->
+              <div id="cf-workaround" class="hidden" style="margin-top:.6rem">
+                <!-- Bloque DNS: solo aparece si al menos 2 resolvers dan IPs distintas. -->
+                <div id="cf-dns-block" class="hidden">
+                  <span data-i18n="cfblock.fix_dns">Para descargar ahora sin esperar, prueba a cambiar tu DNS a uno de estos (devuelven otra IP; no garantizado):</span>
+                  <ul id="cf-dns-list" style="margin:.35rem 0 .5rem 1.1rem; list-style:disc"></ul>
+                  <button type="button" onclick="document.getElementById('cf-dns-modal').classList.remove('hidden')" class="underline font-medium" data-i18n="cfdns.howto">Cómo cambiar el DNS</button>
+                </div>
+                <span data-i18n="cfblock.fix_vpn">Lo que funciona siempre es usar una VPN.</span>
+              </div>
+            </div>
           </div>
 
           <div id="dl-cards" class="grid sm:grid-cols-3 gap-4">
@@ -514,6 +526,47 @@
     // Sonda silenciosa a Cloudflare. Si NO se alcanza (bloqueo del operador),
     // se muestra el banner. no-cors para no depender de cabeceras CORS: resuelve
     // (opaco) si llega, y rechaza si la conexion falla.
+    // Consulta DoH (JSON) a un resolver y devuelve sus IPv4 (ordenadas, unidas) o null.
+    function _dohA(url) {
+      return fetch(url, { headers: { accept: 'application/dns-json' }, signal: AbortSignal.timeout(6000) })
+        .then(function (r) { return r.json(); })
+        .then(function (d) {
+          return (d.Answer || []).filter(function (a) { return a.type === 1; })
+                                 .map(function (a) { return a.data; }).sort().join(',');
+        })
+        .catch(function () { return null; });
+    }
+    // Rellena el workaround SOLO con resolvers que devuelven una IP distinta a la
+    // de Google (la de Google es la bloqueada). Auto-validacion: si algun dia
+    // dieran la misma IP bloqueada, no se recomiendan.
+    function buildWorkaround() {
+      var box = document.getElementById('cf-workaround');
+      var dnsBlock = document.getElementById('cf-dns-block');
+      var list = document.getElementById('cf-dns-list');
+      if (!box) return;
+      box.classList.remove('hidden');   // mostrar el workaround (al menos la linea de la VPN)
+      if (!dnsBlock || !list) return;
+      var Q = 'name=dl.tdownloader.org&type=A';
+      // Preferencia: Cloudflare > AdGuard > Google. Consultamos los 3 por DoH (JSON)
+      // y deduplicamos por IP (si dos dan la misma, se queda el de mayor preferencia).
+      // Solo recomendamos cambiar de DNS si quedan >=2 IPs DISTINTAS; si las 3 dan la
+      // misma IP, cambiar de DNS no sirve de nada y no se muestra (solo la VPN).
+      var prov = [
+        { name: 'Cloudflare', info: '1.1.1.1 / 1.0.0.1',                              url: 'https://1.1.1.1/dns-query?' + Q },
+        { name: 'AdGuard',    info: 'dns.adguard.com (94.140.14.14 / 94.140.15.15)', url: 'https://dns.adguard.com/resolve?' + Q },
+        { name: 'Google',     info: '8.8.8.8 / 8.8.4.4',                             url: 'https://dns.google/resolve?' + Q },
+      ];
+      Promise.all(prov.map(function (p) { return _dohA(p.url).then(function (ips) { p.ips = ips; return p; }); }))
+        .then(function (rs) {
+          var seen = {}, distinct = [];
+          rs.forEach(function (p) { if (p.ips && !seen[p.ips]) { seen[p.ips] = true; distinct.push(p); } });
+          if (distinct.length < 2) return;   // todas iguales (o sin respuesta) -> no recomendar DNS
+          list.innerHTML = distinct.map(function (p) {
+            return '<li><strong>' + p.name + '</strong>: ' + p.info + '</li>';
+          }).join('');
+          dnsBlock.classList.remove('hidden');
+        });
+    }
     (function () {
       var warn = document.getElementById('cf-block-warn');
       var cards = document.getElementById('dl-cards');
@@ -527,6 +580,7 @@
           clearTimeout(tid);
           warn.classList.remove('hidden');          // mostrar el aviso
           if (cards) cards.classList.add('hidden');  // ocultar los botones (que harian bucle)
+          buildWorkaround();                          // ofrecer DNS que esquivan el bloqueo
         });
     })();
 
@@ -579,5 +633,35 @@
 
     loadLang(detectLang());
   </script>
+
+  <!-- Modal: como cambiar el DNS (lo abre el boton del aviso de bloqueo) -->
+  <div id="cf-dns-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4" style="background:rgba(0,0,0,.55)" onclick="if(event.target===this)this.classList.add('hidden')">
+    <div class="bg-white dark:bg-gray-900 rounded-2xl max-w-lg w-full p-6 shadow-2xl" style="max-height:85vh;overflow-y:auto">
+      <div class="flex items-start justify-between mb-3 gap-4">
+        <h3 class="text-lg font-bold text-gray-900 dark:text-white" data-i18n="cfdns.title">Cómo cambiar el DNS</h3>
+        <button onclick="document.getElementById('cf-dns-modal').classList.add('hidden')" class="text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 flex-shrink-0" aria-label="Cerrar">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <p class="text-sm text-gray-600 dark:text-gray-300 mb-4" data-i18n="cfdns.intro">Elige un proveedor, pon sus IPs en tu sistema, router o navegador. Para que esquive el bloqueo de forma fiable, usa DNS cifrado (DoH/DoT); en el móvil, actívalo en «DNS privado». Cada proveedor lo explica paso a paso en su guía oficial:</p>
+      <ul class="space-y-3 text-sm">
+        <li class="rounded-xl border border-gray-200 dark:border-gray-800 p-3">
+          <div class="font-semibold text-gray-900 dark:text-white">Cloudflare</div>
+          <div class="text-gray-500 dark:text-gray-400 font-mono text-xs mt-0.5">1.1.1.1 · 1.0.0.1 &nbsp;|&nbsp; DoH/DoT: 1dot1dot1dot1.cloudflare-dns.com</div>
+          <a href="https://www.cloudflare.com/es-es/learning/dns/what-is-1.1.1.1/" target="_blank" rel="noopener" class="text-blue-600 dark:text-blue-400 hover:underline inline-block mt-1" data-i18n="cfdns.guide">Guía oficial</a>
+        </li>
+        <li class="rounded-xl border border-gray-200 dark:border-gray-800 p-3">
+          <div class="font-semibold text-gray-900 dark:text-white">AdGuard</div>
+          <div class="text-gray-500 dark:text-gray-400 font-mono text-xs mt-0.5">94.140.14.14 · 94.140.15.15 &nbsp;|&nbsp; DoH/DoT: dns.adguard.com</div>
+          <a href="https://adguard-dns.io/es/public-dns.html" target="_blank" rel="noopener" class="text-blue-600 dark:text-blue-400 hover:underline inline-block mt-1" data-i18n="cfdns.guide">Guía oficial</a>
+        </li>
+        <li class="rounded-xl border border-gray-200 dark:border-gray-800 p-3">
+          <div class="font-semibold text-gray-900 dark:text-white">Google</div>
+          <div class="text-gray-500 dark:text-gray-400 font-mono text-xs mt-0.5">8.8.8.8 · 8.8.4.4 &nbsp;|&nbsp; DoH/DoT: dns.google</div>
+          <a href="https://developers.google.com/speed/public-dns/docs/using?hl=es-419" target="_blank" rel="noopener" class="text-blue-600 dark:text-blue-400 hover:underline inline-block mt-1" data-i18n="cfdns.guide">Guía oficial</a>
+        </li>
+      </ul>
+    </div>
+  </div>
 </body>
 </html>
