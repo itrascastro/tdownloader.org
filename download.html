@@ -621,7 +621,10 @@
       var cards = document.getElementById('dl-cards');
       if (!warn) return;
       var ctrl = new AbortController();
-      var tid = setTimeout(function () { ctrl.abort(); }, 8000);
+      // Alcanzar Cloudflare R2 cuando funciona es sub-segundo; si en 3 s no ha
+      // respondido, lo damos por bloqueado. Subir si aparecen falsos positivos
+      // en conexiones muy lentas; bajar para avisar antes (mas riesgo de falso).
+      var tid = setTimeout(function () { ctrl.abort(); }, 3000);
       fetch('https://dl.tdownloader.org/latest.json?t=' + Date.now(),
             { mode: 'no-cors', cache: 'no-store', signal: ctrl.signal })
         .then(function () { clearTimeout(tid); })
