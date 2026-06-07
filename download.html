@@ -526,19 +526,50 @@
     // Sonda silenciosa a Cloudflare. Si NO se alcanza (bloqueo del operador),
     // se muestra el banner. no-cors para no depender de cabeceras CORS: resuelve
     // (opaco) si llega, y rechaza si la conexion falla.
-    // Consulta DoH (JSON) a un resolver y devuelve sus IPv4 (ordenadas, unidas) o null.
-    function _dohA(url) {
+    // Consulta DoH (JSON) a un resolver y devuelve un array de sus IPv4 (ordenadas) o null.
+    function _dohAList(url) {
       return fetch(url, { headers: { accept: 'application/dns-json' }, signal: AbortSignal.timeout(6000) })
         .then(function (r) { return r.json(); })
         .then(function (d) {
           return (d.Answer || []).filter(function (a) { return a.type === 1; })
-                                 .map(function (a) { return a.data; }).sort().join(',');
+                                 .map(function (a) { return a.data; }).sort();
         })
         .catch(function () { return null; });
     }
-    // Rellena el workaround SOLO con resolvers que devuelven una IP distinta a la
-    // de Google (la de Google es la bloqueada). Auto-validacion: si algun dia
-    // dieran la misma IP bloqueada, no se recomiendan.
+    // IPv4 (string) -> entero sin signo, o null si no es una IPv4 valida.
+    function _ipToInt(ip) {
+      var p = ('' + ip).split('.');
+      if (p.length !== 4) return null;
+      var n = 0;
+      for (var i = 0; i < 4; i++) { var o = parseInt(p[i], 10); if (isNaN(o) || o < 0 || o > 255) return null; n = (n * 256) + o; }
+      return n >>> 0;
+    }
+    // Construye un test "esta IP esta bloqueada?" a partir de la lista (IPs sueltas y/o CIDR).
+    function _blockMatcher(entries) {
+      var ips = {}, cidrs = [];
+      (entries || []).forEach(function (e) {
+        e = ('' + e).trim();
+        if (e.indexOf('/') >= 0) {
+          var parts = e.split('/'), base = _ipToInt(parts[0]), bits = parseInt(parts[1], 10);
+          if (base !== null && bits >= 0 && bits <= 32) {
+            var mask = bits === 0 ? 0 : (0xFFFFFFFF << (32 - bits)) >>> 0;
+            cidrs.push([(base & mask) >>> 0, mask]);
+          }
+        } else { var v = _ipToInt(e); if (v !== null) ips[v] = true; }
+      });
+      return function (ip) {
+        var v = _ipToInt(ip); if (v === null) return false;
+        if (ips[v]) return true;
+        for (var i = 0; i < cidrs.length; i++) { if (((v & cidrs[i][1]) >>> 0) === cidrs[i][0]) return true; }
+        return false;
+      };
+    }
+    // Recomienda DNS para esquivar el bloqueo. Preferencia: Cloudflare > AdGuard > Google.
+    // Con la lista real de IPs bloqueadas (api.tdownloader.org/blocked, que reexpone
+    // hayahora.futbol con CORS) recomienda SOLO los resolvers que devuelven una IP que
+    // NO esta bloqueada -> recomendacion fiable. Si la lista no esta disponible, cae al
+    // heuristico: recomendar si >=2 resolvers dan IPs DISTINTAS (dedup por IP). Si nada
+    // es fiable, no recomienda cambio de DNS (solo la VPN).
     function buildWorkaround() {
       var box = document.getElementById('cf-workaround');
       var dnsBlock = document.getElementById('cf-dns-block');
@@ -547,25 +578,43 @@
       box.classList.remove('hidden');   // mostrar el workaround (al menos la linea de la VPN)
       if (!dnsBlock || !list) return;
       var Q = 'name=dl.tdownloader.org&type=A';
-      // Preferencia: Cloudflare > AdGuard > Google. Consultamos los 3 por DoH (JSON)
-      // y deduplicamos por IP (si dos dan la misma, se queda el de mayor preferencia).
-      // Solo recomendamos cambiar de DNS si quedan >=2 IPs DISTINTAS; si las 3 dan la
-      // misma IP, cambiar de DNS no sirve de nada y no se muestra (solo la VPN).
       var prov = [
         { name: 'Cloudflare', info: '1.1.1.1 / 1.0.0.1',                              url: 'https://1.1.1.1/dns-query?' + Q },
         { name: 'AdGuard',    info: 'dns.adguard.com (94.140.14.14 / 94.140.15.15)', url: 'https://dns.adguard.com/resolve?' + Q },
         { name: 'Google',     info: '8.8.8.8 / 8.8.4.4',                             url: 'https://dns.google/resolve?' + Q },
       ];
-      Promise.all(prov.map(function (p) { return _dohA(p.url).then(function (ips) { p.ips = ips; return p; }); }))
-        .then(function (rs) {
-          var seen = {}, distinct = [];
-          rs.forEach(function (p) { if (p.ips && !seen[p.ips]) { seen[p.ips] = true; distinct.push(p); } });
-          if (distinct.length < 2) return;   // todas iguales (o sin respuesta) -> no recomendar DNS
-          list.innerHTML = distinct.map(function (p) {
-            return '<li><strong>' + p.name + '</strong>: ' + p.info + '</li>';
-          }).join('');
-          dnsBlock.classList.remove('hidden');
-        });
+      var pIps = Promise.all(prov.map(function (p) { return _dohAList(p.url).then(function (ips) { p.ips = ips; return p; }); }));
+      var pBlk = fetch('https://api.tdownloader.org/blocked', { cache: 'no-store', signal: AbortSignal.timeout(6000) })
+        .then(function (r) { return r.json(); })
+        .then(function (d) { return (d && d.blocked) || null; })
+        .catch(function () { return null; });
+      Promise.all([pIps, pBlk]).then(function (arr) {
+        var rs = arr[0], blocked = arr[1], chosen = [], seen = {};
+        if (blocked && blocked.length) {
+          // Lista real: recomienda resolvers con >=1 IP NO bloqueada (dedup por IP buena).
+          var isBlocked = _blockMatcher(blocked);
+          rs.forEach(function (p) {
+            if (!p.ips || !p.ips.length) return;
+            var good = p.ips.filter(function (ip) { return !isBlocked(ip); });
+            if (!good.length) return;
+            var key = good.join(',');
+            if (seen[key]) return;
+            seen[key] = true; chosen.push(p);
+          });
+        } else {
+          // Sin lista: heuristico anterior (dedup por IP distinta; >=2 para recomendar).
+          rs.forEach(function (p) {
+            var key = p.ips && p.ips.length ? p.ips.join(',') : null;
+            if (key && !seen[key]) { seen[key] = true; chosen.push(p); }
+          });
+          if (chosen.length < 2) chosen = [];
+        }
+        if (!chosen.length) return;   // nada fiable -> solo VPN
+        list.innerHTML = chosen.map(function (p) {
+          return '<li><strong>' + p.name + '</strong>: ' + p.info + '</li>';
+        }).join('');
+        dnsBlock.classList.remove('hidden');
+      });
     }
     (function () {
       var warn = document.getElementById('cf-block-warn');
