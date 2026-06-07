@@ -194,25 +194,6 @@
             Primer paso: descarga la app para tu sistema. Es gratis y sin registro. Después, baja a la sección de tu sistema para instalarla.
           </p>
 
-          <!-- Aviso de bloqueo de Cloudflare (LaLiga/futbol en ES). Oculto; lo
-               muestra la sonda del script si no se alcanza Cloudflare. -->
-          <div id="cf-block-warn" class="callout warn mb-6 hidden">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-            <div>
-              <div data-i18n-html="cfblock.msg"><strong>Es posible que la descarga no funcione ahora mismo.</strong> En España, una orden judicial de LaLiga obliga a los operadores a bloquear Cloudflare los días de partido de fútbol, y nuestras descargas se alojan ahí. No es un problema de tdownloader. Vuelve a intentarlo cuando no haya partido. <a href="https://hayahora.futbol" target="_blank" rel="noopener" class="underline font-medium">Más información</a>.</div>
-              <!-- Workaround: lo rellena el script SOLO con resolvers que devuelven una IP distinta a la de Google (es decir, no bloqueada). -->
-              <div id="cf-workaround" class="hidden" style="margin-top:.6rem">
-                <!-- Bloque DNS: solo aparece si al menos 2 resolvers dan IPs distintas. -->
-                <div id="cf-dns-block" class="hidden">
-                  <span data-i18n="cfblock.fix_dns">Para descargar ahora sin esperar, prueba a cambiar tu DNS a uno de estos (devuelven otra IP; no garantizado):</span>
-                  <ul id="cf-dns-list" style="margin:.35rem 0 .5rem 1.1rem; list-style:disc"></ul>
-                  <button type="button" onclick="document.getElementById('cf-dns-modal').classList.remove('hidden')" class="underline font-medium" data-i18n="cfdns.howto">Cómo cambiar el DNS</button>
-                </div>
-                <span data-i18n="cfblock.fix_vpn">Lo que funciona siempre es usar una VPN.</span>
-              </div>
-            </div>
-          </div>
-
           <div id="dl-cards" class="grid sm:grid-cols-3 gap-4">
             <!-- Linux -->
             <div class="rounded-2xl border border-gray-200 dark:border-gray-800 p-5 flex flex-col items-center gap-2 text-center">
@@ -522,118 +503,51 @@
         .catch(function () { /* sin manifiesto: los botones llevan a la web de descarga */ });
     })();
 
-    // ── Aviso de bloqueo de Cloudflare (LaLiga/futbol en ES) ──
-    // Sonda silenciosa a Cloudflare. Si NO se alcanza (bloqueo del operador),
-    // se muestra el banner. no-cors para no depender de cabeceras CORS: resuelve
-    // (opaco) si llega, y rechaza si la conexion falla.
-    // Consulta DoH (JSON) a un resolver y devuelve un array de sus IPv4 (ordenadas) o null.
-    function _dohAList(url) {
-      return fetch(url, { headers: { accept: 'application/dns-json' }, signal: AbortSignal.timeout(6000) })
+    // Cuando Cloudflare/R2 esta bloqueado (futbol/LaLiga), repunta los botones de
+    // descarga al espejo del VPS (api.tdownloader.org/dl/...), que NO esta detras
+    // de Cloudflare y sigue alcanzable. Mismo arbol de rutas que R2: solo cambia
+    // el host. El manifiesto se pide a /version/latest (VPS, alcanzable). Devuelve
+    // una promesa que resuelve a true si pudo configurar el espejo.
+    function useVpsMirror() {
+      function toMirror(u) {
+        return u ? u.replace('https://dl.tdownloader.org/', 'https://api.tdownloader.org/dl/') : null;
+      }
+      function setHref(id, url) {
+        var el = document.getElementById(id);
+        if (el && url) { el.href = url; el.setAttribute('target', '_blank'); el.setAttribute('rel', 'noopener'); }
+      }
+      return fetch('https://api.tdownloader.org/version/latest', { cache: 'no-store', signal: AbortSignal.timeout(6000) })
         .then(function (r) { return r.json(); })
         .then(function (d) {
-          return (d.Answer || []).filter(function (a) { return a.type === 1; })
-                                 .map(function (a) { return a.data; }).sort();
+          var p = d.platforms || {};
+          function url(x) { return x ? (x.installer_url || x.url || null) : null; }
+          var lp = p['linux-x86_64'];
+          var appimg = url(lp);
+          var deb = lp ? (lp.installer_url_deb || null) : null;
+          if (!deb && appimg && /\.AppImage$/.test(appimg)) deb = appimg.replace(/\.AppImage$/, '.deb');
+          var mDeb = toMirror(deb || appimg), mApp = toMirror(appimg),
+              mWin = toMirror(url(p['windows-x86_64'])), mMac = toMirror(url(p['darwin-aarch64']));
+          if (!mDeb && !mApp && !mWin && !mMac) return false;
+          setHref('ayuda-btn-linux', mDeb || mApp);
+          setHref('ayuda-btn-linux-appimage', mApp);
+          setHref('ayuda-btn-windows', mWin);
+          setHref('ayuda-btn-mac', mMac);
+          return true;
         })
-        .catch(function () { return null; });
+        .catch(function () { return false; });
     }
-    // IPv4 (string) -> entero sin signo, o null si no es una IPv4 valida.
-    function _ipToInt(ip) {
-      var p = ('' + ip).split('.');
-      if (p.length !== 4) return null;
-      var n = 0;
-      for (var i = 0; i < 4; i++) { var o = parseInt(p[i], 10); if (isNaN(o) || o < 0 || o > 255) return null; n = (n * 256) + o; }
-      return n >>> 0;
-    }
-    // Construye un test "esta IP esta bloqueada?" a partir de la lista (IPs sueltas y/o CIDR).
-    function _blockMatcher(entries) {
-      var ips = {}, cidrs = [];
-      (entries || []).forEach(function (e) {
-        e = ('' + e).trim();
-        if (e.indexOf('/') >= 0) {
-          var parts = e.split('/'), base = _ipToInt(parts[0]), bits = parseInt(parts[1], 10);
-          if (base !== null && bits >= 0 && bits <= 32) {
-            var mask = bits === 0 ? 0 : (0xFFFFFFFF << (32 - bits)) >>> 0;
-            cidrs.push([(base & mask) >>> 0, mask]);
-          }
-        } else { var v = _ipToInt(e); if (v !== null) ips[v] = true; }
-      });
-      return function (ip) {
-        var v = _ipToInt(ip); if (v === null) return false;
-        if (ips[v]) return true;
-        for (var i = 0; i < cidrs.length; i++) { if (((v & cidrs[i][1]) >>> 0) === cidrs[i][0]) return true; }
-        return false;
-      };
-    }
-    // Recomienda DNS para esquivar el bloqueo. Preferencia: Cloudflare > AdGuard > Google.
-    // Con la lista real de IPs bloqueadas (api.tdownloader.org/blocked, que reexpone
-    // hayahora.futbol con CORS) recomienda SOLO los resolvers que devuelven una IP que
-    // NO esta bloqueada -> recomendacion fiable. Si la lista no esta disponible, cae al
-    // heuristico: recomendar si >=2 resolvers dan IPs DISTINTAS (dedup por IP). Si nada
-    // es fiable, no recomienda cambio de DNS (solo la VPN).
-    function buildWorkaround() {
-      var box = document.getElementById('cf-workaround');
-      var dnsBlock = document.getElementById('cf-dns-block');
-      var list = document.getElementById('cf-dns-list');
-      if (!box) return;
-      box.classList.remove('hidden');   // mostrar el workaround (al menos la linea de la VPN)
-      if (!dnsBlock || !list) return;
-      var Q = 'name=dl.tdownloader.org&type=A';
-      var prov = [
-        { name: 'Cloudflare', info: '1.1.1.1 / 1.0.0.1',                              url: 'https://1.1.1.1/dns-query?' + Q },
-        { name: 'AdGuard',    info: 'dns.adguard.com (94.140.14.14 / 94.140.15.15)', url: 'https://dns.adguard.com/resolve?' + Q },
-        { name: 'Google',     info: '8.8.8.8 / 8.8.4.4',                             url: 'https://dns.google/resolve?' + Q },
-      ];
-      var pIps = Promise.all(prov.map(function (p) { return _dohAList(p.url).then(function (ips) { p.ips = ips; return p; }); }));
-      var pBlk = fetch('https://api.tdownloader.org/blocked', { cache: 'no-store', signal: AbortSignal.timeout(6000) })
-        .then(function (r) { return r.json(); })
-        .then(function (d) { return (d && d.blocked) || null; })
-        .catch(function () { return null; });
-      Promise.all([pIps, pBlk]).then(function (arr) {
-        var rs = arr[0], blocked = arr[1], chosen = [], seen = {};
-        if (blocked && blocked.length) {
-          // Lista real: recomienda resolvers con >=1 IP NO bloqueada (dedup por IP buena).
-          var isBlocked = _blockMatcher(blocked);
-          rs.forEach(function (p) {
-            if (!p.ips || !p.ips.length) return;
-            var good = p.ips.filter(function (ip) { return !isBlocked(ip); });
-            if (!good.length) return;
-            var key = good.join(',');
-            if (seen[key]) return;
-            seen[key] = true; chosen.push(p);
-          });
-        } else {
-          // Sin lista: heuristico anterior (dedup por IP distinta; >=2 para recomendar).
-          rs.forEach(function (p) {
-            var key = p.ips && p.ips.length ? p.ips.join(',') : null;
-            if (key && !seen[key]) { seen[key] = true; chosen.push(p); }
-          });
-          if (chosen.length < 2) chosen = [];
-        }
-        if (!chosen.length) return;   // nada fiable -> solo VPN
-        list.innerHTML = chosen.map(function (p) {
-          return '<li><strong>' + p.name + '</strong>: ' + p.info + '</li>';
-        }).join('');
-        dnsBlock.classList.remove('hidden');
-      });
-    }
+    // Sonda silenciosa a Cloudflare/R2. Si no responde en 3 s (bloqueo del
+    // operador los dias de futbol), repunta los botones al espejo del VPS. Es
+    // transparente: el usuario no ve nada, solo descarga.
     (function () {
-      var warn = document.getElementById('cf-block-warn');
       var cards = document.getElementById('dl-cards');
-      if (!warn) return;
+      if (!cards) return;
       var ctrl = new AbortController();
-      // Alcanzar Cloudflare R2 cuando funciona es sub-segundo; si en 3 s no ha
-      // respondido, lo damos por bloqueado. Subir si aparecen falsos positivos
-      // en conexiones muy lentas; bajar para avisar antes (mas riesgo de falso).
       var tid = setTimeout(function () { ctrl.abort(); }, 3000);
       fetch('https://dl.tdownloader.org/latest.json?t=' + Date.now(),
             { mode: 'no-cors', cache: 'no-store', signal: ctrl.signal })
         .then(function () { clearTimeout(tid); })
-        .catch(function () {
-          clearTimeout(tid);
-          warn.classList.remove('hidden');          // mostrar el aviso
-          if (cards) cards.classList.add('hidden');  // ocultar los botones (que harian bucle)
-          buildWorkaround();                          // ofrecer DNS que esquivan el bloqueo
-        });
+        .catch(function () { clearTimeout(tid); useVpsMirror(); });
     })();
 
     // ── Idioma (i18n) ──
@@ -687,33 +601,5 @@
   </script>
 
   <!-- Modal: como cambiar el DNS (lo abre el boton del aviso de bloqueo) -->
-  <div id="cf-dns-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4" style="background:rgba(0,0,0,.55)" onclick="if(event.target===this)this.classList.add('hidden')">
-    <div class="bg-white dark:bg-gray-900 rounded-2xl max-w-lg w-full p-6 shadow-2xl" style="max-height:85vh;overflow-y:auto">
-      <div class="flex items-start justify-between mb-3 gap-4">
-        <h3 class="text-lg font-bold text-gray-900 dark:text-white" data-i18n="cfdns.title">Cómo cambiar el DNS</h3>
-        <button onclick="document.getElementById('cf-dns-modal').classList.add('hidden')" class="text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 flex-shrink-0" aria-label="Cerrar">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        </button>
-      </div>
-      <p class="text-sm text-gray-600 dark:text-gray-300 mb-4" data-i18n="cfdns.intro">Elige un proveedor, pon sus IPs en tu sistema, router o navegador. Para que esquive el bloqueo de forma fiable, usa DNS cifrado (DoH/DoT); en el móvil, actívalo en «DNS privado». Cada proveedor lo explica paso a paso en su guía oficial:</p>
-      <ul class="space-y-3 text-sm">
-        <li class="rounded-xl border border-gray-200 dark:border-gray-800 p-3">
-          <div class="font-semibold text-gray-900 dark:text-white">Cloudflare</div>
-          <div class="text-gray-500 dark:text-gray-400 font-mono text-xs mt-0.5">1.1.1.1 · 1.0.0.1 &nbsp;|&nbsp; DoH/DoT: 1dot1dot1dot1.cloudflare-dns.com</div>
-          <a href="https://www.cloudflare.com/es-es/learning/dns/what-is-1.1.1.1/" target="_blank" rel="noopener" class="text-blue-600 dark:text-blue-400 hover:underline inline-block mt-1" data-i18n="cfdns.guide">Guía oficial</a>
-        </li>
-        <li class="rounded-xl border border-gray-200 dark:border-gray-800 p-3">
-          <div class="font-semibold text-gray-900 dark:text-white">AdGuard</div>
-          <div class="text-gray-500 dark:text-gray-400 font-mono text-xs mt-0.5">94.140.14.14 · 94.140.15.15 &nbsp;|&nbsp; DoH/DoT: dns.adguard.com</div>
-          <a href="https://adguard-dns.io/es/public-dns.html" target="_blank" rel="noopener" class="text-blue-600 dark:text-blue-400 hover:underline inline-block mt-1" data-i18n="cfdns.guide">Guía oficial</a>
-        </li>
-        <li class="rounded-xl border border-gray-200 dark:border-gray-800 p-3">
-          <div class="font-semibold text-gray-900 dark:text-white">Google</div>
-          <div class="text-gray-500 dark:text-gray-400 font-mono text-xs mt-0.5">8.8.8.8 · 8.8.4.4 &nbsp;|&nbsp; DoH/DoT: dns.google</div>
-          <a href="https://developers.google.com/speed/public-dns/docs/using?hl=es-419" target="_blank" rel="noopener" class="text-blue-600 dark:text-blue-400 hover:underline inline-block mt-1" data-i18n="cfdns.guide">Guía oficial</a>
-        </li>
-      </ul>
-    </div>
-  </div>
 </body>
 </html>

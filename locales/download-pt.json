@@ -83,12 +83,5 @@
   "dl.intro": "Primeiro passo: descarrega a app para o teu sistema. É grátis e sem registo. Depois, desce até à secção do teu sistema para a instalares.",
   "dl.next": "Quando a descarga terminar, vai à <strong>secção do teu sistema</strong> (Windows, macOS ou Linux) para a instalar, e depois cria o teu <strong>API ID e API Hash</strong>.",
   "win.update": "<strong>Para atualizar, não descarregue o instalador novamente.</strong> Abre o tdownloader e, se houver uma versão nova, atualiza-se sozinho ao arrancar: avisa-te e reinicia já com a versão mais recente. Reinstalar por cima manualmente não é necessário.",
-  "mac.update": "<strong>Para atualizar, abre a app: atualiza-se sozinha ao arrancar</strong> e reinicia com a versão mais recente. Não copies o novo <code>.dmg</code> por cima manualmente, porque voltarias a passar pela quarentena do Gatekeeper e terias de repetir o passo do comando <code>xattr</code> acima.",
-  "cfblock.msg": "<strong>É possível que a descarga não funcione agora.</strong> Em Espanha, uma ordem judicial da LaLiga obriga os operadores a bloquear a Cloudflare nos dias de jogo de futebol, e as nossas descargas estão alojadas aí. Não é um problema do tdownloader. Tenta novamente quando não houver jogo. <a href=\"https://hayahora.futbol\" target=\"_blank\" rel=\"noopener\" class=\"underline font-medium\">Mais informação</a>.",
-  "cfblock.fix_dns": "Para descarregar agora sem esperar, experimenta mudar o teu DNS para um destes (devolvem outro IP; sem garantia):",
-  "cfblock.fix_vpn": "O que funciona sempre é usar uma VPN.",
-  "cfdns.howto": "Como mudar o DNS",
-  "cfdns.title": "Como mudar o DNS",
-  "cfdns.guide": "Guia oficial",
-  "cfdns.intro": "Escolhe um fornecedor e coloca os seus IPs no sistema, router ou navegador. Para contornar o bloqueio de forma fiável, usa DNS cifrado (DoH/DoT); no telemóvel, ativa-o em «DNS privado». Cada fornecedor explica-o passo a passo no seu guia oficial:"
+  "mac.update": "<strong>Para atualizar, abre a app: atualiza-se sozinha ao arrancar</strong> e reinicia com a versão mais recente. Não copies o novo <code>.dmg</code> por cima manualmente, porque voltarias a passar pela quarentena do Gatekeeper e terias de repetir o passo do comando <code>xattr</code> acima."
 }

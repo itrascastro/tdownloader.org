@@ -83,12 +83,5 @@
   "dl.intro": "First step: download the app for your system. It's free and needs no registration. Then scroll down to your system's section to install it.",
   "dl.next": "Once the download finishes, go to <strong>your system's section</strong> (Windows, macOS or Linux) to install it, then create your <strong>API ID and API Hash</strong>.",
   "win.update": "<strong>To update, do not download the installer again.</strong> Open tdownloader and, if a new version is available, it updates itself on launch: it notifies you and restarts already on the latest version. Reinstalling over it by hand is not necessary.",
-  "mac.update": "<strong>To update, open the app: it updates itself on launch</strong> and restarts on the latest version. Do not copy the new <code>.dmg</code> over it by hand, because you would go through Gatekeeper quarantine again and have to repeat the <code>xattr</code> command step above.",
-  "cfblock.msg": "<strong>The download may not work right now.</strong> In Spain, a court order obtained by LaLiga forces all ISPs to block Cloudflare on football match days, and our downloads are hosted there. This is not a tdownloader problem. Please try again when there is no match. <a href=\"https://hayahora.futbol\" target=\"_blank\" rel=\"noopener\" class=\"underline font-medium\">More info</a>.",
-  "cfblock.fix_dns": "To download now without waiting, try changing your DNS to one of these (they return a different IP; not guaranteed):",
-  "cfblock.fix_vpn": "What always works is using a VPN.",
-  "cfdns.howto": "How to change your DNS",
-  "cfdns.title": "How to change your DNS",
-  "cfdns.guide": "Official guide",
-  "cfdns.intro": "Pick a provider and set its IPs in your system, router or browser. To bypass the block reliably, use encrypted DNS (DoH/DoT); on mobile, enable it under «Private DNS». Each provider explains it step by step in its official guide:"
+  "mac.update": "<strong>To update, open the app: it updates itself on launch</strong> and restarts on the latest version. Do not copy the new <code>.dmg</code> over it by hand, because you would go through Gatekeeper quarantine again and have to repeat the <code>xattr</code> command step above."
 }
