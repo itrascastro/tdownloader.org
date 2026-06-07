@@ -83,5 +83,6 @@
   "dl.intro": "Première étape : télécharge l'app pour ton système. C'est gratuit et sans inscription. Ensuite, descends à la section de ton système pour l'installer.",
   "dl.next": "Une fois le téléchargement terminé, va à <strong>la section de ton système</strong> (Windows, macOS ou Linux) pour l'installer, puis crée ton <strong>API ID et ton API Hash</strong>.",
   "win.update": "<strong>Pour mettre à jour, ne téléchargez pas l'installateur à nouveau.</strong> Ouvrez tdownloader et, si une nouvelle version est disponible, il se met à jour tout seul au démarrage : il vous prévient et redémarre déjà sur la dernière version. Réinstaller par-dessus à la main n'est pas nécessaire.",
-  "mac.update": "<strong>Pour mettre à jour, ouvrez l'app : elle se met à jour toute seule au démarrage</strong> et redémarre sur la dernière version. Ne copiez pas le nouveau <code>.dmg</code> par-dessus à la main, car vous repasseriez par la quarantaine de Gatekeeper et devriez répéter l'étape de la commande <code>xattr</code> ci-dessus."
+  "mac.update": "<strong>Pour mettre à jour, ouvrez l'app : elle se met à jour toute seule au démarrage</strong> et redémarre sur la dernière version. Ne copiez pas le nouveau <code>.dmg</code> par-dessus à la main, car vous repasseriez par la quarantaine de Gatekeeper et devriez répéter l'étape de la commande <code>xattr</code> ci-dessus.",
+  "linux.deb_pkg": "Paquet"
 }
