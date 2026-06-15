@@ -1,0 +1,542 @@
+<!DOCTYPE html><html lang="pt" class="scroll-smooth"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Descarregar o tdownloader - Windows, macOS e Linux</title><meta name="description" content="Descarrega o tdownloader grátis para Windows, macOS e Linux. Guia de instalação passo a passo com capturas para começar a descarregar os teus vídeos e ficheiros do Telegram para o PC."><meta name="keywords" content="descarregar tdownloader, telegram downloader windows, telegram downloader mac, telegram downloader linux, instalar tdownloader, telegram downloader grátis"><meta name="author" content="tdownloader"><meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"><link rel="canonical" href="https://tdownloader.org/pt/download/"><!-- hreflang --><link rel="alternate" hreflang="en" href="https://tdownloader.org/download/"><link rel="alternate" hreflang="es" href="https://tdownloader.org/es/download/"><link rel="alternate" hreflang="fr" href="https://tdownloader.org/fr/download/"><link rel="alternate" hreflang="de" href="https://tdownloader.org/de/download/"><link rel="alternate" hreflang="pt" href="https://tdownloader.org/pt/download/"><link rel="alternate" hreflang="x-default" href="https://tdownloader.org/download/"><!-- Open Graph --><meta property="og:type" content="website"><meta property="og:url" content="https://tdownloader.org/pt/download/"><meta property="og:site_name" content="tdownloader"><meta property="og:title" content="Descarregar o tdownloader - Windows, macOS e Linux"><meta property="og:description" content="Descarrega o tdownloader grátis para Windows, macOS e Linux. Guia de instalação passo a passo com capturas para começar a descarregar os teus vídeos e ficheiros do Telegram para o PC."><meta property="og:image" content="https://tdownloader.org/og-image.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="tdownloader - Desktop app for Telegram downloads"><meta property="og:locale" content="pt_PT"><meta property="og:locale:alternate" content="en_US"><meta property="og:locale:alternate" content="es_ES"><meta property="og:locale:alternate" content="fr_FR"><meta property="og:locale:alternate" content="de_DE"><!-- Twitter / X Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Descarregar o tdownloader - Windows, macOS e Linux"><meta name="twitter:description" content="Descarrega o tdownloader grátis para Windows, macOS e Linux. Guia de instalação passo a passo com capturas para começar a descarregar os teus vídeos e ficheiros do Telegram para o PC."><meta name="twitter:image" content="https://tdownloader.org/og-image.png"><meta name="twitter:image:alt" content="tdownloader - Desktop app for Telegram downloads"><!-- Favicons --><link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><meta name="theme-color" content="#2563eb"><meta name="msapplication-TileColor" content="#2563eb"><!-- Tailwind --><script src="https://cdn.tailwindcss.com"></script><script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eff6ff', 100: '#dbeafe', 400: '#60a5fa', 500: '#3b82f6',
+              600: '#2563eb', 700: '#1d4ed8', 900: '#1e3a8a',
+            }
+          },
+          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] }
+        }
+      }
+    };
+  </script><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"><style is:global>
+    html { font-family:'Inter',system-ui,sans-serif; scroll-padding-top:5.5rem; }
+
+    .help-hero { background: linear-gradient(135deg,#1e3a8a 0%,#1d4ed8 45%,#2563eb 75%,#3b82f6 100%); }
+    .dark .help-hero { background: linear-gradient(135deg,#0b1220 0%,#13205c 45%,#1d4ed8 80%,#2563eb 100%); }
+
+    .toc a { transition: color .15s, border-color .15s; border-left:2px solid transparent; }
+    .toc a.active { color:#2563eb; border-left-color:#2563eb; font-weight:600; }
+    .dark .toc a.active { color:#60a5fa; border-left-color:#60a5fa; }
+
+    .anchor-h { scroll-margin-top:5.5rem; }
+    .anchor-h .anchor-link { opacity:0; transition:opacity .15s; }
+    .anchor-h:hover .anchor-link { opacity:1; }
+
+    .step { counter-increment:step; position:relative; padding-left:3.25rem; }
+    .step::before {
+      content:counter(step);
+      position:absolute; left:0; top:0;
+      width:2.25rem; height:2.25rem; border-radius:9999px;
+      display:flex; align-items:center; justify-content:center;
+      font-weight:700; font-size:.95rem; color:#fff;
+      background:linear-gradient(135deg,#2563eb,#1d4ed8);
+      box-shadow:0 4px 12px rgba(37,99,235,.35);
+    }
+    .steps { counter-reset:step; }
+
+    .codeblock { position:relative; }
+    .codeblock pre {
+      background:#0f172a; color:#e2e8f0; border-radius:.6rem;
+      padding:1rem; overflow-x:auto; font-size:.82rem; line-height:1.6;
+      font-family:'SF Mono',ui-monospace,Menlo,Consolas,monospace; border:1px solid #1e293b;
+    }
+    .copy-btn {
+      position:absolute; top:.5rem; right:.5rem;
+      background:#1e293b; color:#94a3b8; border:1px solid #334155;
+      border-radius:.4rem; padding:.25rem .55rem; font-size:.72rem; cursor:pointer;
+      display:inline-flex; align-items:center; gap:.3rem; transition:color .15s,background .15s;
+    }
+    .copy-btn:hover { background:#334155; color:#e2e8f0; }
+
+    .callout { border-radius:.7rem; padding:1rem 1.15rem; display:flex; gap:.8rem; font-size:.9rem; line-height:1.6; }
+    .callout svg { flex-shrink:0; width:1.25rem; height:1.25rem; margin-top:.1rem; }
+    .callout.info { background:#eff6ff; border:1px solid #bfdbfe; color:#1e40af; }
+    .dark .callout.info { background:rgba(37,99,235,.12); border-color:rgba(59,130,246,.35); color:#bfdbfe; }
+    .callout.warn { background:#fffbeb; border:1px solid #fde68a; color:#92400e; }
+    .dark .callout.warn { background:rgba(217,119,6,.12); border-color:rgba(245,158,11,.35); color:#fcd34d; }
+
+    figure.shot { border-radius:.7rem; overflow:hidden; border:1px solid #e5e7eb; box-shadow:0 6px 20px rgba(15,23,42,.08); }
+    .dark figure.shot { border-color:#1f2937; box-shadow:0 6px 20px rgba(0,0,0,.3); }
+    figure.shot img { display:block; width:100%; height:auto; }
+    figure.shot figcaption { font-size:.78rem; color:#94a3b8; padding:.5rem .75rem; background:#f8fafc; border-top:1px solid #eef2f7; }
+    .dark figure.shot figcaption { background:#0b1220; border-top-color:#1f2937; color:#64748b; }
+
+    .lead { font-size:1.05rem; line-height:1.7; }
+    kbd { background:#f1f5f9; border:1px solid #cbd5e1; border-bottom-width:2px; border-radius:.35rem; padding:.05rem .4rem; font-size:.8rem; font-family:inherit; color:#334155; }
+    .dark kbd { background:#1e293b; border-color:#475569; color:#e2e8f0; }
+    .ui { font-weight:600; color:#1d4ed8; }
+    .dark .ui { color:#93c5fd; }
+  </style></head> <body class="bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 antialiased">  
+
+  <!-- ── Navbar ──────────────────────────────────────────────────────────── -->
+  <nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-white/80 dark:bg-gray-950/80 border-b border-gray-200/60 dark:border-gray-800/60">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-14">
+      <a href="/pt/" class="flex items-center gap-2.5 hover:opacity-80 transition-opacity" aria-label="tdownloader - inicio">
+        <svg width="40" height="40" viewBox="0 0 16 16" fill="currentColor" class="text-brand-600" aria-hidden="true">
+          <path d="M2.5 3.5a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1zm2-2a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1zM0 13a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 16 13V6a1.5 1.5 0 0 0-1.5-1.5h-13A1.5 1.5 0 0 0 0 6zm6.258-6.437a.5.5 0 0 1 .507.013l4 2.5a.5.5 0 0 1 0 .848l-4 2.5A.5.5 0 0 1 6 11.5v-5a.5.5 0 0 1 .258-.437"></path>
+        </svg>
+        <span class="font-bold text-2xl tracking-tight text-gray-900 dark:text-white" style="font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif">tdownloader</span>
+      </a>
+      <div class="flex items-center gap-3 sm:gap-4">
+        <a href="/pt/" class="hidden sm:inline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors" data-i18n="nav.home">Início</a>
+        <a href="#descargar" class="text-sm font-medium text-white px-3.5 py-1.5 rounded-lg" style="background:linear-gradient(135deg,#2563eb,#1d4ed8)" data-i18n="nav.download">Descarregar</a>
+
+        <!-- selector de idioma -->
+        <div class="relative" id="lang-selector">
+          <button id="lang-btn" onclick="toggleLangMenu()" class="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors px-2 py-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" aria-label="Idioma">
+            <span id="lang-current">PT</span>
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div id="lang-menu" class="hidden absolute right-0 top-full mt-1 w-40 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg py-1 z-50"><a href="/download/" hreflang="en" class="w-full block text-left px-4 py-1.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">EN - English</a><a href="/es/download/" hreflang="es" class="w-full block text-left px-4 py-1.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">ES - Español</a><a href="/fr/download/" hreflang="fr" class="w-full block text-left px-4 py-1.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">FR - Français</a><a href="/de/download/" hreflang="de" class="w-full block text-left px-4 py-1.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">DE - Deutsch</a><a href="/pt/download/" hreflang="pt" class="w-full block text-left px-4 py-1.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors font-semibold text-brand-600">PT - Português</a></div>
+        </div>
+
+        <button id="theme-toggle" class="p-1.5 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" aria-label="Tema">
+          <svg id="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path></svg>
+          <svg id="icon-sun" class="hidden" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── Hero ────────────────────────────────────────────────────────────── -->
+  <header class="help-hero text-white pt-28 pb-16 px-4">
+    <div class="max-w-5xl mx-auto">
+      <nav class="text-sm text-white/70 mb-4" aria-label="Migas de pan">
+        <a href="/pt/" class="hover:text-white transition-colors" data-i18n="nav.home">Início</a>
+        <span class="mx-2">/</span>
+        <span class="text-white/90" data-i18n="hero.crumb">Descarregar</span>
+      </nav>
+      <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight mb-3" data-i18n="hero.title">Descarregar o tdownloader</h1>
+      <p class="text-white/80 text-lg max-w-2xl" data-i18n="hero.subtitle">Descarrega o tdownloader, instala-o no teu sistema e cria as tuas credenciais do Telegram. Cada passo, com a sua captura, para que não haja dúvidas.</p>
+    </div>
+  </header>
+
+  <!-- ── Contenido + índice ──────────────────────────────────────────────── -->
+  <main class="max-w-5xl mx-auto px-4 py-12">
+    <div class="lg:grid lg:grid-cols-[200px_1fr] lg:gap-12">
+
+      <aside class="hidden lg:block">
+        <nav class="toc sticky top-24 text-sm space-y-1" aria-label="Índice">
+          <p class="text-xs font-semibold uppercase tracking-wide text-gray-400 dark:text-gray-500 mb-3 pl-3" data-i18n="toc.title">Nesta página</p>
+          <a href="#descargar" class="block py-1.5 pl-3 text-gray-600 dark:text-gray-400 hover:text-brand-600 dark:hover:text-brand-400" data-i18n="toc.download">Descarregar</a>
+          <a href="#windows" class="block py-1.5 pl-3 text-gray-600 dark:text-gray-400 hover:text-brand-600 dark:hover:text-brand-400" data-i18n="toc.windows">Windows</a>
+          <a href="#mac" class="block py-1.5 pl-3 text-gray-600 dark:text-gray-400 hover:text-brand-600 dark:hover:text-brand-400" data-i18n="toc.mac">macOS</a>
+          <a href="#linux" class="block py-1.5 pl-3 text-gray-600 dark:text-gray-400 hover:text-brand-600 dark:hover:text-brand-400" data-i18n="toc.linux">Linux</a>
+          <a href="#api" class="block py-1.5 pl-3 text-gray-600 dark:text-gray-400 hover:text-brand-600 dark:hover:text-brand-400" data-i18n="toc.api">API ID e API Hash</a>
+        </nav>
+      </aside>
+
+      <div class="min-w-0 space-y-16">
+
+        <!-- DESCARGAR -->
+        <section id="descargar" class="anchor-h">
+          <div class="flex items-center gap-3 mb-5">
+            <span class="flex items-center justify-center w-11 h-11 rounded-xl bg-brand-50 dark:bg-brand-600/15 text-brand-600 dark:text-brand-400">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            </span>
+            <h2 class="text-2xl font-bold tracking-tight"><span data-i18n="dl.title">Descarregar o tdownloader</span><span id="ayuda-version" class="text-base font-mono text-brand-600 dark:text-brand-400 font-normal"></span> <a href="#descargar" class="anchor-link text-brand-600 ml-1" aria-label="#">#</a></h2>
+          </div>
+          <p class="lead text-gray-600 dark:text-gray-300 mb-6" data-i18n="dl.intro">Primeiro passo: descarrega a app para o teu sistema. É grátis e sem registo. Depois, desce até à secção do teu sistema para a instalares.</p>
+
+          <div id="dl-cards" class="grid sm:grid-cols-3 gap-4">
+            <!-- Linux -->
+            <div class="rounded-2xl border border-gray-200 dark:border-gray-800 p-5 flex flex-col items-center gap-2 text-center">
+              <svg width="34" height="34" viewBox="0 0 16 16" fill="currentColor" class="text-gray-700 dark:text-gray-300" aria-hidden="true"><path d="M6 9a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3A.5.5 0 0 1 6 9M3.854 4.146a.5.5 0 1 0-.708.708L4.793 6.5 3.146 8.146a.5.5 0 1 0 .708.708l2-2a.5.5 0 0 0 0-.708z"></path><path d="M2 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zm12 1a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"></path></svg>
+              <div class="font-semibold text-gray-900 dark:text-white">Linux</div>
+              <a id="ayuda-btn-linux" href="#descargar" class="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-white text-sm font-medium" style="background:linear-gradient(135deg,#2563eb,#1d4ed8)">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                <span data-i18n="dl.btn">Descarregar</span>&nbsp;.deb
+              </a>
+              <a id="ayuda-btn-linux-appimage" href="#descargar" class="text-xs text-brand-600 dark:text-brand-400 hover:underline">.AppImage</a>
+            </div>
+            <!-- Windows -->
+            <div class="rounded-2xl border border-gray-200 dark:border-gray-800 p-5 flex flex-col items-center gap-2 text-center">
+              <svg width="32" height="32" viewBox="0 0 16 16" fill="currentColor" class="text-gray-700 dark:text-gray-300" aria-hidden="true"><path d="M6.555 1.375 0 2.237v5.45h6.555zM0 13.795l6.555.933V8.313H0zm7.278-5.4.026 6.378L16 16V8.395zM16 0 7.33 1.244v6.414H16z"></path></svg>
+              <div class="font-semibold text-gray-900 dark:text-white">Windows</div>
+              <a id="ayuda-btn-windows" href="#descargar" class="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-white text-sm font-medium" style="background:linear-gradient(135deg,#2563eb,#1d4ed8)">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                <span data-i18n="dl.btn">Descarregar</span>&nbsp;.exe
+              </a>
+            </div>
+            <!-- macOS -->
+            <div class="rounded-2xl border border-gray-200 dark:border-gray-800 p-5 flex flex-col items-center gap-2 text-center">
+              <svg width="32" height="32" viewBox="0 0 16 16" fill="currentColor" class="text-gray-700 dark:text-gray-300" aria-hidden="true"><path d="M11.182.008C11.148-.03 9.923.023 8.857 1.18c-1.066 1.156-.902 2.482-.878 2.516.024.034 1.52.087 2.475-1.258.955-1.345.762-2.391.728-2.43Zm3.314 11.733c-.048-.096-2.325-1.234-2.113-3.422.212-2.189 1.675-2.789 1.698-2.854.023-.065-.597-.79-1.254-1.157a3.692 3.692 0 0 0-1.563-.434c-.108-.003-.483-.095-1.254.116-.508.139-1.653.589-1.968.607-.316.018-1.256-.522-2.267-.665-.647-.125-1.333.131-1.824.328-.49.196-1.422.754-2.074 2.237-.652 1.482-.311 3.83-.067 4.56.244.729.625 1.924 1.273 2.796.576.984 1.34 1.667 1.659 1.899.319.232 1.219.386 1.843.067.502-.308 1.408-.485 1.766-.472.357.013 1.061.154 1.782.539.571.197 1.111.115 1.652-.105.541-.221 1.324-1.059 2.238-2.758.347-.79.505-1.217.473-1.282Z"></path></svg>
+              <div class="font-semibold text-gray-900 dark:text-white">macOS</div>
+              <a id="ayuda-btn-mac" href="#descargar" class="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-white text-sm font-medium" style="background:linear-gradient(135deg,#2563eb,#1d4ed8)">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                <span data-i18n="dl.btn">Descarregar</span>&nbsp;.dmg
+              </a>
+            </div>
+          </div>
+
+          <div class="callout info mt-6">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+            <div data-i18n-html="dl.next">Quando a descarga terminar, vai à <strong>secção do teu sistema</strong> (Windows, macOS ou Linux) para a instalar, e depois cria o teu <strong>API ID e API Hash</strong>.</div>
+          </div>
+        </section>
+
+        <!-- WINDOWS -->
+        <section id="windows" class="anchor-h">
+          <div class="flex items-center gap-3 mb-5">
+            <span class="flex items-center justify-center w-11 h-11 rounded-xl bg-brand-50 dark:bg-brand-600/15 text-brand-600 dark:text-brand-400">
+              <svg width="22" height="22" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M6.555 1.375 0 2.237v5.45h6.555zM0 13.795l6.555.933V8.313H0zm7.278-5.4.026 6.378L16 16V8.395zM16 0 7.33 1.244v6.414H16z"></path></svg>
+            </span>
+            <h2 class="text-2xl font-bold tracking-tight"><span data-i18n="win.title">Instalar no Windows</span> <a href="#windows" class="anchor-link text-brand-600 ml-1" aria-label="#">#</a></h2>
+          </div>
+          <p class="lead text-gray-600 dark:text-gray-300 mb-6" data-i18n-html="win.intro">Ao abrir o instalador, o Windows mostra um aviso azul do <strong class="text-gray-900 dark:text-white">SmartScreen</strong>. É completamente normal: aparece em qualquer aplicação nova que ainda não tem um certificado de assinatura pago. A app é segura; basta dizer ao Windows que continue.</p>
+
+          <ol class="steps space-y-8 text-gray-600 dark:text-gray-300">
+            <li class="step"><p data-i18n-html="win.s1">Faz duplo clique no ficheiro <code class="px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-800 text-sm">tdownloader-setup.exe</code> que descarregaste.</p></li>
+            <li class="step">
+              <p class="mb-3" data-i18n-html="win.s2">Aparece o ecrã azul <span class="ui">Windows protected your PC</span> (o Windows protegeu o seu PC). Clica na ligação <span class="ui">More info</span> (Mais informações).</p>
+              <figure class="shot">
+                <img src="/img/ayuda-win-1.png" data-i18n-alt="win.alt1" alt="Aviso do SmartScreen com a ligação More info" loading="lazy">
+                <figcaption data-i18n="win.cap1">Clica em More info / Mais informações.</figcaption>
+              </figure>
+            </li>
+            <li class="step">
+              <p class="mb-3" data-i18n-html="win.s3">É mostrado o nome da app e surge um botão novo. Clica em <span class="ui">Run anyway</span> (Executar mesmo assim).</p>
+              <figure class="shot">
+                <img src="/img/ayuda-win-2.png" data-i18n-alt="win.alt2" alt="SmartScreen com o botão Run anyway" loading="lazy">
+                <figcaption data-i18n="win.cap2">Clica em Run anyway / Executar mesmo assim.</figcaption>
+              </figure>
+            </li>
+            <li class="step"><p data-i18n-html="win.s4">Continua o instalador normalmente e abre o tdownloader.</p></li>
+          </ol>
+
+          <div class="callout info mt-6">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+            <div data-i18n-html="win.note"><strong>Na primeira vez que abrires a app</strong> pode demorar uns segundos a mostrar os teus canais enquanto o Windows a analisa. Se o painel lateral aparecer vazio, espera um momento: preenche-se sozinho assim que o programa acaba de arrancar.</div>
+          </div>
+
+          <div class="callout info mt-4">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+            <div data-i18n-html="win.update"><strong>Para atualizar, não descarregue o instalador novamente.</strong> Abre o tdownloader e, se houver uma versão nova, atualiza-se sozinho ao arrancar: avisa-te e reinicia já com a versão mais recente. Reinstalar por cima manualmente não é necessário.</div>
+          </div>
+        </section>
+
+        <!-- MAC -->
+        <section id="mac" class="anchor-h">
+          <div class="flex items-center gap-3 mb-5">
+            <span class="flex items-center justify-center w-11 h-11 rounded-xl bg-brand-50 dark:bg-brand-600/15 text-brand-600 dark:text-brand-400">
+              <svg width="22" height="22" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M11.182.008C11.148-.03 9.923.023 8.857 1.18c-1.066 1.156-.902 2.482-.878 2.516.024.034 1.52.087 2.475-1.258.955-1.345.762-2.391.728-2.43Zm3.314 11.733c-.048-.096-2.325-1.234-2.113-3.422.212-2.189 1.675-2.789 1.698-2.854.023-.065-.597-.79-1.254-1.157a3.692 3.692 0 0 0-1.563-.434c-.108-.003-.483-.095-1.254.116-.508.139-1.653.589-1.968.607-.316.018-1.256-.522-2.267-.665-.647-.125-1.333.131-1.824.328-.49.196-1.422.754-2.074 2.237-.652 1.482-.311 3.83-.067 4.56.244.729.625 1.924 1.273 2.796.576.984 1.34 1.667 1.659 1.899.319.232 1.219.386 1.843.067.502-.308 1.408-.485 1.766-.472.357.013 1.061.154 1.782.539.571.197 1.111.115 1.652-.105.541-.221 1.324-1.059 2.238-2.758.347-.79.505-1.217.473-1.282Z"></path></svg>
+            </span>
+            <h2 class="text-2xl font-bold tracking-tight"><span data-i18n="mac.title">Instalar no macOS</span> <a href="#mac" class="anchor-link text-brand-600 ml-1" aria-label="#">#</a></h2>
+          </div>
+          <p class="lead text-gray-600 dark:text-gray-300 mb-6" data-i18n-html="mac.intro">O macOS pode dizer que a app está <strong class="text-gray-900 dark:text-white">danificada e não pode ser aberta</strong> (ou que é de um programador não identificado). <strong class="text-gray-900 dark:text-white">Não está danificada:</strong> é a proteção Gatekeeper a bloquear apps que ainda não têm a assinatura paga da Apple. Resolve-se em 10 segundos.</p>
+
+          <figure class="shot mb-6">
+            <img src="/img/ayuda-mac-1.png" data-i18n-alt="mac.alt" alt="Alerta do macOS: a app está danificada e não pode ser aberta" loading="lazy">
+            <figcaption data-i18n="mac.cap">Se vires este aviso, NÃO cliques em Move to Trash. Clica em Cancel e segue os passos.</figcaption>
+          </figure>
+
+          <ol class="steps space-y-7 text-gray-600 dark:text-gray-300">
+            <li class="step"><p data-i18n-html="mac.s1">Arrasta o <strong class="text-gray-900 dark:text-white">tdownloader</strong> para a tua pasta <strong class="text-gray-900 dark:text-white">Aplicações</strong>. No aviso, clica em <span class="ui">Cancel</span> (NÃO Move to Trash).</p></li>
+            <li class="step">
+              <p class="mb-3" data-i18n-html="mac.s2">Abre a app <strong class="text-gray-900 dark:text-white">Terminal</strong> (em Aplicações &rarr; Utilitários, ou pelo Spotlight: <kbd>Cmd</kbd>+<kbd>Espaço</kbd> e escreve Terminal). Cola este comando e carrega em <kbd>Enter</kbd>:</p>
+              <div class="codeblock"><pre><code>xattr -dr com.apple.quarantine /Applications/tdownloader.app</code></pre></div>
+              <p class="mt-2 text-sm" data-i18n-html="mac.s2note">Remove a marca de quarentena que o macOS põe no que é descarregado. Não pede palavra-passe e, se correr bem, não mostra nenhuma mensagem.</p>
+            </li>
+            <li class="step"><p data-i18n-html="mac.s3">Abre o <strong class="text-gray-900 dark:text-white">tdownloader</strong> normalmente (duplo clique). Já não se vai queixar.</p></li>
+          </ol>
+
+          <div class="callout info mt-6">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+            <div data-i18n-html="mac.note">Se em vez de danificada disser apenas <strong>programador não identificado</strong>, basta fazer <strong>clique direito</strong> (ou <kbd>Control</kbd>+clique) na app &rarr; <span class="ui">Abrir</span> &rarr; <span class="ui">Abrir</span>. Só na primeira vez.</div>
+          </div>
+
+          <div class="callout info mt-4">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+            <div data-i18n-html="mac.update"><strong>Para atualizar, abre a app: atualiza-se sozinha ao arrancar</strong> e reinicia com a versão mais recente. Não copies o novo <code>.dmg</code> por cima manualmente, porque voltarias a passar pela quarentena do Gatekeeper e terias de repetir o passo do comando <code>xattr</code> acima.</div>
+          </div>
+        </section>
+
+        <!-- LINUX -->
+        <section id="linux" class="anchor-h">
+          <div class="flex items-center gap-3 mb-5">
+            <span class="flex items-center justify-center w-11 h-11 rounded-xl bg-brand-50 dark:bg-brand-600/15 text-brand-600 dark:text-brand-400">
+              <svg width="22" height="22" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M6 9a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3A.5.5 0 0 1 6 9M3.854 4.146a.5.5 0 1 0-.708.708L4.793 6.5 3.146 8.146a.5.5 0 1 0 .708.708l2-2a.5.5 0 0 0 0-.708z"></path><path d="M2 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zm12 1a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"></path></svg>
+            </span>
+            <h2 class="text-2xl font-bold tracking-tight"><span data-i18n="linux.title">Instalar no Linux</span> <a href="#linux" class="anchor-link text-brand-600 ml-1" aria-label="#">#</a></h2>
+          </div>
+          <p class="lead text-gray-600 dark:text-gray-300 mb-6" data-i18n="linux.intro">Há dois formatos. Usa o que preferires.</p>
+
+          <h3 class="font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2"><span data-i18n="linux.deb_pkg">Pacote</span> <code class="px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-800 text-sm">.deb</code> <span class="text-sm font-normal text-gray-500" data-i18n="linux.deb_sub">Ubuntu, Debian, Mint...</span></h3>
+          <p class="text-gray-600 dark:text-gray-300 mb-3" data-i18n="linux.deb_text">Faz duplo clique no ficheiro para o instalar a partir do Centro de Software, ou por um terminal:</p>
+          <div class="codeblock mb-8"><pre><code>sudo apt install ./tdownloader_*.deb</code></pre></div>
+
+          <h3 class="font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">AppImage <span class="text-sm font-normal text-gray-500" data-i18n="linux.appimage_sub">qualquer distribuição</span></h3>
+          <p class="text-gray-600 dark:text-gray-300 mb-4" data-i18n="linux.appimage_text">O AppImage não precisa de instalação: dá-lhe permissão de execução e abre-o.</p>
+          <ol class="steps space-y-7 text-gray-600 dark:text-gray-300">
+            <li class="step">
+              <p class="mb-3" data-i18n-html="linux.s1">Clique direito no ficheiro &rarr; <span class="ui">Propriedades</span> &rarr; <span class="ui">Permissões</span> &rarr; ativa <span class="ui">Permitir executar como um programa</span>. Ou por terminal:</p>
+              <div class="codeblock"><pre><code>chmod +x tdownloader-*.AppImage</code></pre></div>
+            </li>
+            <li class="step"><p data-i18n-html="linux.s2">Faz duplo clique para o abrir.</p></li>
+          </ol>
+        </section>
+
+        <!-- API -->
+        <section id="api" class="anchor-h">
+          <div class="flex items-center gap-3 mb-5">
+            <span class="flex items-center justify-center w-11 h-11 rounded-xl bg-brand-50 dark:bg-brand-600/15 text-brand-600 dark:text-brand-400">
+              <svg width="22" height="22" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.354.146H7.465A4 4 0 0 1 0 8m4-3a3 3 0 1 0 0 6 3 3 0 0 0 0-6"></path><path d="M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0"></path></svg>
+            </span>
+            <h2 class="text-2xl font-bold tracking-tight"><span data-i18n="api.title">Criar o teu API ID e API Hash</span> <a href="#api" class="anchor-link text-brand-600 ml-1" aria-label="#">#</a></h2>
+          </div>
+          <p class="lead text-gray-600 dark:text-gray-300 mb-6" data-i18n-html="api.intro">O Telegram exige credenciais pessoais (um <strong class="text-gray-900 dark:text-white">API ID</strong> e um <strong class="text-gray-900 dark:text-white">API Hash</strong>) para que as apps acedam à tua conta. Criam-se uma só vez, são grátis e demoram um minuto. A página do Telegram está em inglês; aqui tens cada passo com a sua captura.</p>
+
+          <div class="mb-6">
+            <a href="https://my.telegram.org/apps" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-sm font-medium text-white px-4 py-2.5 rounded-lg" style="background:linear-gradient(135deg,#2563eb,#1d4ed8)">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+              <span data-i18n="api.btn">Abrir my.telegram.org</span>
+            </a>
+          </div>
+
+          <ol class="steps space-y-9 text-gray-600 dark:text-gray-300">
+            <li class="step">
+              <p class="mb-3" data-i18n-html="api.s1">Entra em <a href="https://my.telegram.org/apps" target="_blank" rel="noopener" class="text-brand-600 dark:text-brand-400 font-medium hover:underline">my.telegram.org</a>. Escreve o teu <strong class="text-gray-900 dark:text-white">número de telefone</strong> em formato internacional (com o indicativo do país, por exemplo <code class="px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-800 text-sm">+34611223344</code>) e clica em <span class="ui">Next</span>.</p>
+              <figure class="shot"><img src="/img/ayuda-api-1.png" data-i18n-alt="api.alt1" alt="my.telegram.org: introduzir o número de telefone em formato internacional" loading="lazy"><figcaption data-i18n="api.cap1">O teu número com indicativo internacional → Next.</figcaption></figure>
+            </li>
+            <li class="step">
+              <p class="mb-3" data-i18n-html="api.s2">O Telegram envia um <strong class="text-gray-900 dark:text-white">código de acesso para a tua app do Telegram</strong> (NÃO por SMS). Abre o Telegram no telemóvel ou no computador: no chat oficial <strong class="text-gray-900 dark:text-white">Telegram</strong> verás uma mensagem com o teu <span class="ui">Web login code</span>.</p>
+              <figure class="shot"><img src="/img/ayuda-api-2.png" data-i18n-alt="api.alt2" alt="Mensagem do Telegram com o código de acesso web" loading="lazy"><figcaption data-i18n="api.cap2">O código chega dentro do Telegram, no chat Telegram.</figcaption></figure>
+            </li>
+            <li class="step">
+              <p class="mb-3" data-i18n-html="api.s3">Volta a my.telegram.org, escreve esse código em <span class="ui">Confirmation code</span> e clica em <span class="ui">Sign In</span>.</p>
+              <figure class="shot"><img src="/img/ayuda-api-3.png" data-i18n-alt="api.alt3" alt="my.telegram.org: introduzir o código de confirmação e clicar em Sign In" loading="lazy"><figcaption data-i18n="api.cap3">Cola o código → Sign In.</figcaption></figure>
+            </li>
+            <li class="step">
+              <p class="mb-3" data-i18n-html="api.s4">Clica em <span class="ui">API development tools</span>.</p>
+              <figure class="shot"><img src="/img/ayuda-api-4.png" data-i18n-alt="api.alt4" alt="Your Telegram Core: opção API development tools" loading="lazy"><figcaption data-i18n="api.cap4">Clica em API development tools.</figcaption></figure>
+            </li>
+            <li class="step">
+              <p class="mb-3" data-i18n-html="api.s5">Preenche o formulário <span class="ui">Create new application</span> com estes valores e clica em <span class="ui">Create application</span>:</p>
+              <div class="rounded-lg border border-gray-200 dark:border-gray-800 overflow-hidden mb-3 text-sm">
+                <dl class="divide-y divide-gray-200 dark:divide-gray-800">
+                  <div class="flex gap-4 px-4 py-2.5"><dt class="w-32 shrink-0 font-semibold text-gray-900 dark:text-white">App title</dt><dd data-i18n-html="api.t_apptitle"><code class="px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-800 text-sm">tdownloader</code></dd></div>
+                  <div class="flex gap-4 px-4 py-2.5"><dt class="w-32 shrink-0 font-semibold text-gray-900 dark:text-white">Short name</dt><dd data-i18n-html="api.t_shortname"><code class="px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-800 text-sm">tdownloader</code> (entre 5 e 32 letras ou números)</dd></div>
+                  <div class="flex gap-4 px-4 py-2.5"><dt class="w-32 shrink-0 font-semibold text-gray-900 dark:text-white">URL</dt><dd data-i18n="api.t_url">Deixa em branco</dd></div>
+                  <div class="flex gap-4 px-4 py-2.5"><dt class="w-32 shrink-0 font-semibold text-gray-900 dark:text-white">Platform</dt><dd data-i18n-html="api.t_platform">Escolhe <strong class="text-gray-900 dark:text-white">Desktop</strong></dd></div>
+                  <div class="flex gap-4 px-4 py-2.5"><dt class="w-32 shrink-0 font-semibold text-gray-900 dark:text-white">Description</dt><dd data-i18n-html="api.t_desc"><code class="px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-800 text-sm">tdownloader app</code> (ou deixa em branco)</dd></div>
+                </dl>
+              </div>
+              <figure class="shot"><img src="/img/ayuda-api-5.png" data-i18n-alt="api.alt5" alt="Formulário Create new application: App title e Short name tdownloader, Platform Desktop" loading="lazy"><figcaption data-i18n="api.cap5">Preenche assim e clica em Create application.</figcaption></figure>
+            </li>
+            <li class="step">
+              <p class="mb-3" data-i18n-html="api.s6">Verás dois valores: <strong class="text-gray-900 dark:text-white">App api_id</strong> (um número) e <strong class="text-gray-900 dark:text-white">App api_hash</strong> (uma cadeia longa de letras e números). <strong class="text-gray-900 dark:text-white">Copia os dois.</strong> São os únicos de que precisas.</p>
+              <figure class="shot"><img src="/img/ayuda-api-6.png" data-i18n-alt="api.alt6" alt="App configuration: copiar App api_id e App api_hash" loading="lazy"><figcaption data-i18n="api.cap6">Copia App api_id e App api_hash.</figcaption></figure>
+            </li>
+            <li class="step"><p data-i18n-html="api.s7">Volta ao <strong class="text-gray-900 dark:text-white">tdownloader</strong>: cola o <strong class="text-gray-900 dark:text-white">api_id</strong> no campo <span class="ui">API ID</span> e o <strong class="text-gray-900 dark:text-white">api_hash</strong> em <span class="ui">API Hash</span>, adiciona o teu telefone e clica em <span class="ui">Enviar código</span>. Pronto!</p></li>
+          </ol>
+
+          <div class="callout info mt-6">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            <div data-i18n-html="api.note">Estas credenciais são tuas e ficam no teu computador. O tdownloader nunca as envia para os nossos servidores: apenas ligam o teu equipamento diretamente ao Telegram, tal como a app oficial.</div>
+          </div>
+        </section>
+
+        <!-- MÁS AYUDA -->
+
+      </div>
+    </div>
+  </main>
+
+  <!-- ── Footer ──────────────────────────────────────────────────────────── -->
+  <footer class="py-10 px-4 border-t border-gray-200 dark:border-gray-800">
+    <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-500 dark:text-gray-400">
+      <a href="/pt/" class="flex items-center gap-2 hover:opacity-80 transition-opacity">
+        <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor" class="text-brand-600" aria-hidden="true"><path d="M2.5 3.5a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1zm2-2a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1zM0 13a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 16 13V6a1.5 1.5 0 0 0-1.5-1.5h-13A1.5 1.5 0 0 0 0 6zm6.258-6.437a.5.5 0 0 1 .507.013l4 2.5a.5.5 0 0 1 0 .848l-4 2.5A.5.5 0 0 1 6 11.5v-5a.5.5 0 0 1 .258-.437"></path></svg>
+        <span class="font-medium text-gray-600 dark:text-gray-400" style="font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif">tdownloader</span>
+      </a>
+      <div class="flex flex-wrap gap-5 justify-center">
+        <a href="/pt/download/" class="text-brand-600 dark:text-brand-400" data-i18n="nav.download">Descarregar</a>
+        <a href="/status/" class="hover:text-gray-700 dark:hover:text-gray-300 transition-colors" data-i18n="footer.status">Estado</a>
+        <a href="/pt/privacy/" class="hover:text-gray-700 dark:hover:text-gray-300 transition-colors" data-i18n="footer.privacy">Privacidade</a>
+        <a href="/pt/terms/" class="hover:text-gray-700 dark:hover:text-gray-300 transition-colors" data-i18n="footer.terms">Termos</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ── Modal: Soporte / Reportar problema (envia al VPS via API) ── -->
+
+  
+
+  <!-- Modal: como cambiar el DNS (lo abre el boton del aviso de bloqueo) -->
+ <script>
+    // ── Tema ──
+    (function () {
+      var stored = localStorage.getItem('theme');
+      var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (stored === 'dark' || (!stored && prefersDark)) document.documentElement.classList.add('dark');
+    })();
+    var themeToggle = document.getElementById('theme-toggle');
+    var iconMoon = document.getElementById('icon-moon');
+    var iconSun = document.getElementById('icon-sun');
+    function applyTheme() {
+      var dark = document.documentElement.classList.contains('dark');
+      iconMoon.classList.toggle('hidden', dark);
+      iconSun.classList.toggle('hidden', !dark);
+    }
+    applyTheme();
+    themeToggle.addEventListener('click', function () {
+      var dark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', dark ? 'dark' : 'light');
+      applyTheme();
+    });
+
+    // ── Copiar código ──
+    document.querySelectorAll('.codeblock').forEach(function (block) {
+      var btn = document.createElement('button');
+      btn.className = 'copy-btn'; btn.type = 'button';
+      btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span data-copy>Copiar</span>';
+      btn.addEventListener('click', function () {
+        var code = block.querySelector('code');
+        navigator.clipboard.writeText(code.innerText.trim()).then(function () {
+          var s = btn.querySelector('[data-copy]');
+          var prev = s.textContent;
+          s.textContent = (_i18n['ui.copied'] || 'Copiado');
+          setTimeout(function () { s.textContent = (_i18n['ui.copy'] || 'Copiar'); }, 1500);
+        });
+      });
+      block.appendChild(btn);
+    });
+
+    // ── Índice activo ──
+    var tocLinks = Array.prototype.slice.call(document.querySelectorAll('.toc a'));
+    var sectionsObs = tocLinks.map(function (a) { return document.querySelector(a.getAttribute('href')); });
+    var obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          var id = '#' + e.target.id;
+          tocLinks.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === id); });
+        }
+      });
+    }, { rootMargin: '-30% 0px -60% 0px' });
+    sectionsObs.forEach(function (s) { if (s) obs.observe(s); });
+
+    // ── Descarga (latest.json) ──
+    (function () {
+      function setHref(id, url) {
+        var el = document.getElementById(id);
+        if (el && url) { el.href = url; el.setAttribute('target', '_blank'); el.setAttribute('rel', 'noopener'); }
+      }
+      fetch('https://dl.tdownloader.org/latest.json?t=' + Date.now(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
+        .then(function (d) {
+          var p = d.platforms || {};
+          function url(x) { return x ? (x.installer_url || x.url || null) : null; }
+          var lp = p['linux-x86_64'];
+          var appimg = url(lp);
+          var deb = lp ? (lp.installer_url_deb || null) : null;
+          if (!deb && appimg && /\.AppImage$/.test(appimg)) deb = appimg.replace(/\.AppImage$/, '.deb');
+          setHref('ayuda-btn-linux', deb || appimg);
+          setHref('ayuda-btn-linux-appimage', appimg);
+          setHref('ayuda-btn-windows', url(p['windows-x86_64']));
+          setHref('ayuda-btn-mac', url(p['darwin-aarch64']));
+          var v = document.getElementById('ayuda-version');
+          if (v && d.version) v.textContent = ' v' + String(d.version).replace(/^v/, '');
+        })
+        .catch(function () { /* sin manifiesto: los botones llevan a la web de descarga */ });
+    })();
+
+    // Cuando Cloudflare/R2 esta bloqueado (futbol/LaLiga), repunta los botones de
+    // descarga al espejo del VPS (api.tdownloader.org/dl/...), que NO esta detras
+    // de Cloudflare y sigue alcanzable. Mismo arbol de rutas que R2: solo cambia
+    // el host. El manifiesto se pide a /version/latest (VPS, alcanzable). Devuelve
+    // una promesa que resuelve a true si pudo configurar el espejo.
+    function useVpsMirror() {
+      function toMirror(u) {
+        return u ? u.replace('https://dl.tdownloader.org/', 'https://api.tdownloader.org/dl/') : null;
+      }
+      function setHref(id, url) {
+        var el = document.getElementById(id);
+        if (el && url) { el.href = url; el.setAttribute('target', '_blank'); el.setAttribute('rel', 'noopener'); }
+      }
+      return fetch('https://api.tdownloader.org/version/latest', { cache: 'no-store', signal: AbortSignal.timeout(6000) })
+        .then(function (r) { return r.json(); })
+        .then(function (d) {
+          var p = d.platforms || {};
+          function url(x) { return x ? (x.installer_url || x.url || null) : null; }
+          var lp = p['linux-x86_64'];
+          var appimg = url(lp);
+          var deb = lp ? (lp.installer_url_deb || null) : null;
+          if (!deb && appimg && /\.AppImage$/.test(appimg)) deb = appimg.replace(/\.AppImage$/, '.deb');
+          var mDeb = toMirror(deb || appimg), mApp = toMirror(appimg),
+              mWin = toMirror(url(p['windows-x86_64'])), mMac = toMirror(url(p['darwin-aarch64']));
+          if (!mDeb && !mApp && !mWin && !mMac) return false;
+          setHref('ayuda-btn-linux', mDeb || mApp);
+          setHref('ayuda-btn-linux-appimage', mApp);
+          setHref('ayuda-btn-windows', mWin);
+          setHref('ayuda-btn-mac', mMac);
+          return true;
+        })
+        .catch(function () { return false; });
+    }
+    // Sonda silenciosa a Cloudflare/R2. Si no responde en 3 s (bloqueo del
+    // operador los dias de futbol), repunta los botones al espejo del VPS. Es
+    // transparente: el usuario no ve nada, solo descarga.
+    (function () {
+      var cards = document.getElementById('dl-cards');
+      if (!cards) return;
+      var ctrl = new AbortController();
+      var tid = setTimeout(function () { ctrl.abort(); }, 3000);
+      fetch('https://dl.tdownloader.org/latest.json?t=' + Date.now(),
+            { mode: 'no-cors', cache: 'no-store', signal: ctrl.signal })
+        .then(function () { clearTimeout(tid); })
+        .catch(function () { clearTimeout(tid); useVpsMirror(); });
+    })();
+
+    // ── Idioma (i18n) ──
+    var _i18n = {"meta.title":"Descarregar o tdownloader - Windows, macOS e Linux","nav.home":"Início","nav.download":"Descarregar","hero.crumb":"Descarregar","hero.title":"Descarregar o tdownloader","hero.subtitle":"Descarrega o tdownloader, instala-o no teu sistema e cria as tuas credenciais do Telegram. Cada passo, com a sua captura, para que não haja dúvidas.","toc.title":"Nesta página","toc.windows":"Windows","toc.mac":"macOS","toc.linux":"Linux","toc.api":"API ID e API Hash","toc.extra":"Mais ajuda","ui.copy":"Copiar","ui.copied":"Copiado","win.title":"Instalar no Windows","win.intro":"Ao abrir o instalador, o Windows mostra um aviso azul do \u003cstrong class=\"text-gray-900 dark:text-white\">SmartScreen\u003c/strong>. É completamente normal: aparece em qualquer aplicação nova que ainda não tem um certificado de assinatura pago. A app é segura; basta dizer ao Windows que continue.","win.s1":"Faz duplo clique no ficheiro \u003ccode class=\"px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-800 text-sm\">tdownloader-setup.exe\u003c/code> que descarregaste.","win.s2":"Aparece o ecrã azul \u003cspan class=\"ui\">Windows protected your PC\u003c/span> (o Windows protegeu o seu PC). Clica na ligação \u003cspan class=\"ui\">More info\u003c/span> (Mais informações).","win.cap1":"Clica em More info / Mais informações.","win.s3":"É mostrado o nome da app e surge um botão novo. Clica em \u003cspan class=\"ui\">Run anyway\u003c/span> (Executar mesmo assim).","win.cap2":"Clica em Run anyway / Executar mesmo assim.","win.s4":"Continua o instalador normalmente e abre o tdownloader.","win.note":"\u003cstrong>Na primeira vez que abrires a app\u003c/strong> pode demorar uns segundos a mostrar os teus canais enquanto o Windows a analisa. Se o painel lateral aparecer vazio, espera um momento: preenche-se sozinho assim que o programa acaba de arrancar.","win.alt1":"Aviso do SmartScreen com a ligação More info","win.alt2":"SmartScreen com o botão Run anyway","mac.title":"Instalar no macOS","mac.intro":"O macOS pode dizer que a app está \u003cstrong class=\"text-gray-900 dark:text-white\">danificada e não pode ser aberta\u003c/strong> (ou que é de um programador não identificado). \u003cstrong class=\"text-gray-900 dark:text-white\">Não está danificada:\u003c/strong> é a proteção Gatekeeper a bloquear apps que ainda não têm a assinatura paga da Apple. Resolve-se em 10 segundos.","mac.alt":"Alerta do macOS: a app está danificada e não pode ser aberta","mac.cap":"Se vires este aviso, NÃO cliques em Move to Trash. Clica em Cancel e segue os passos.","mac.s1":"Arrasta o \u003cstrong class=\"text-gray-900 dark:text-white\">tdownloader\u003c/strong> para a tua pasta \u003cstrong class=\"text-gray-900 dark:text-white\">Aplicações\u003c/strong>. No aviso, clica em \u003cspan class=\"ui\">Cancel\u003c/span> (NÃO Move to Trash).","mac.s2":"Abre a app \u003cstrong class=\"text-gray-900 dark:text-white\">Terminal\u003c/strong> (em Aplicações &rarr; Utilitários, ou pelo Spotlight: \u003ckbd>Cmd\u003c/kbd>+\u003ckbd>Espaço\u003c/kbd> e escreve Terminal). Cola este comando e carrega em \u003ckbd>Enter\u003c/kbd>:","mac.s2note":"Remove a marca de quarentena que o macOS põe no que é descarregado. Não pede palavra-passe e, se correr bem, não mostra nenhuma mensagem.","mac.s3":"Abre o \u003cstrong class=\"text-gray-900 dark:text-white\">tdownloader\u003c/strong> normalmente (duplo clique). Já não se vai queixar.","mac.note":"Se em vez de danificada disser apenas \u003cstrong>programador não identificado\u003c/strong>, basta fazer \u003cstrong>clique direito\u003c/strong> (ou \u003ckbd>Control\u003c/kbd>+clique) na app &rarr; \u003cspan class=\"ui\">Abrir\u003c/span> &rarr; \u003cspan class=\"ui\">Abrir\u003c/span>. Só na primeira vez.","linux.title":"Instalar no Linux","linux.intro":"Há dois formatos. Usa o que preferires.","linux.deb_sub":"Ubuntu, Debian, Mint...","linux.deb_text":"Faz duplo clique no ficheiro para o instalar a partir do Centro de Software, ou por um terminal:","linux.appimage_sub":"qualquer distribuição","linux.appimage_text":"O AppImage não precisa de instalação: dá-lhe permissão de execução e abre-o.","linux.s1":"Clique direito no ficheiro &rarr; \u003cspan class=\"ui\">Propriedades\u003c/span> &rarr; \u003cspan class=\"ui\">Permissões\u003c/span> &rarr; ativa \u003cspan class=\"ui\">Permitir executar como um programa\u003c/span>. Ou por terminal:","linux.s2":"Faz duplo clique para o abrir.","api.title":"Criar o teu API ID e API Hash","api.intro":"O Telegram exige credenciais pessoais (um \u003cstrong class=\"text-gray-900 dark:text-white\">API ID\u003c/strong> e um \u003cstrong class=\"text-gray-900 dark:text-white\">API Hash\u003c/strong>) para que as apps acedam à tua conta. Criam-se uma só vez, são grátis e demoram um minuto. A página do Telegram está em inglês; aqui tens cada passo com a sua captura.","api.btn":"Abrir my.telegram.org","api.s1":"Entra em \u003ca href=\"https://my.telegram.org/apps\" target=\"_blank\" rel=\"noopener\" class=\"text-brand-600 dark:text-brand-400 font-medium hover:underline\">my.telegram.org\u003c/a>. Escreve o teu \u003cstrong class=\"text-gray-900 dark:text-white\">número de telefone\u003c/strong> em formato internacional (com o indicativo do país, por exemplo \u003ccode class=\"px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-800 text-sm\">+34611223344\u003c/code>) e clica em \u003cspan class=\"ui\">Next\u003c/span>.","api.cap1":"O teu número com indicativo internacional → Next.","api.alt1":"my.telegram.org: introduzir o número de telefone em formato internacional","api.s2":"O Telegram envia um \u003cstrong class=\"text-gray-900 dark:text-white\">código de acesso para a tua app do Telegram\u003c/strong> (NÃO por SMS). Abre o Telegram no telemóvel ou no computador: no chat oficial \u003cstrong class=\"text-gray-900 dark:text-white\">Telegram\u003c/strong> verás uma mensagem com o teu \u003cspan class=\"ui\">Web login code\u003c/span>.","api.cap2":"O código chega dentro do Telegram, no chat Telegram.","api.alt2":"Mensagem do Telegram com o código de acesso web","api.s3":"Volta a my.telegram.org, escreve esse código em \u003cspan class=\"ui\">Confirmation code\u003c/span> e clica em \u003cspan class=\"ui\">Sign In\u003c/span>.","api.cap3":"Cola o código → Sign In.","api.alt3":"my.telegram.org: introduzir o código de confirmação e clicar em Sign In","api.s4":"Clica em \u003cspan class=\"ui\">API development tools\u003c/span>.","api.cap4":"Clica em API development tools.","api.alt4":"Your Telegram Core: opção API development tools","api.s5":"Preenche o formulário \u003cspan class=\"ui\">Create new application\u003c/span> com estes valores e clica em \u003cspan class=\"ui\">Create application\u003c/span>:","api.t_apptitle":"\u003ccode class=\"px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-800 text-sm\">tdownloader\u003c/code>","api.t_shortname":"\u003ccode class=\"px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-800 text-sm\">tdownloader\u003c/code> (entre 5 e 32 letras ou números)","api.t_url":"Deixa em branco","api.t_platform":"Escolhe \u003cstrong class=\"text-gray-900 dark:text-white\">Desktop\u003c/strong>","api.t_desc":"\u003ccode class=\"px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-800 text-sm\">tdownloader app\u003c/code> (ou deixa em branco)","api.cap5":"Preenche assim e clica em Create application.","api.alt5":"Formulário Create new application: App title e Short name tdownloader, Platform Desktop","api.s6":"Verás dois valores: \u003cstrong class=\"text-gray-900 dark:text-white\">App api_id\u003c/strong> (um número) e \u003cstrong class=\"text-gray-900 dark:text-white\">App api_hash\u003c/strong> (uma cadeia longa de letras e números). \u003cstrong class=\"text-gray-900 dark:text-white\">Copia os dois.\u003c/strong> São os únicos de que precisas.","api.cap6":"Copia App api_id e App api_hash.","api.alt6":"App configuration: copiar App api_id e App api_hash","api.s7":"Volta ao \u003cstrong class=\"text-gray-900 dark:text-white\">tdownloader\u003c/strong>: cola o \u003cstrong class=\"text-gray-900 dark:text-white\">api_id\u003c/strong> no campo \u003cspan class=\"ui\">API ID\u003c/span> e o \u003cstrong class=\"text-gray-900 dark:text-white\">api_hash\u003c/strong> em \u003cspan class=\"ui\">API Hash\u003c/span>, adiciona o teu telefone e clica em \u003cspan class=\"ui\">Enviar código\u003c/span>. Pronto!","api.note":"Estas credenciais são tuas e ficam no teu computador. O tdownloader nunca as envia para os nossos servidores: apenas ligam o teu equipamento diretamente ao Telegram, tal como a app oficial.","extra.title":"Ainda com dúvidas?","extra.text":"Se algo não funcionar como esperavas, diz-nos e ajudamos-te.","extra.report":"Reportar um problema","extra.back":"Voltar ao início","footer.help":"Ajuda","footer.status":"Estado","footer.privacy":"Privacidade","footer.terms":"Termos","toc.download":"Descarregar","dl.title":"Descarregar o tdownloader","dl.btn":"Descarregar","dl.intro":"Primeiro passo: descarrega a app para o teu sistema. É grátis e sem registo. Depois, desce até à secção do teu sistema para a instalares.","dl.next":"Quando a descarga terminar, vai à \u003cstrong>secção do teu sistema\u003c/strong> (Windows, macOS ou Linux) para a instalar, e depois cria o teu \u003cstrong>API ID e API Hash\u003c/strong>.","win.update":"\u003cstrong>Para atualizar, não descarregue o instalador novamente.\u003c/strong> Abre o tdownloader e, se houver uma versão nova, atualiza-se sozinho ao arrancar: avisa-te e reinicia já com a versão mais recente. Reinstalar por cima manualmente não é necessário.","mac.update":"\u003cstrong>Para atualizar, abre a app: atualiza-se sozinha ao arrancar\u003c/strong> e reinicia com a versão mais recente. Não copies o novo \u003ccode>.dmg\u003c/code> por cima manualmente, porque voltarias a passar pela quarentena do Gatekeeper e terias de repetir o passo do comando \u003ccode>xattr\u003c/code> acima.","linux.deb_pkg":"Pacote"};
+    var _SUPPORTED  = ['es','en','fr','de','pt'];
+    var _LANG_NAMES = { es:'ES', en:'EN', fr:'FR', de:'DE', pt:'PT' };
+    function detectLang() {
+      var s = localStorage.getItem('lang');
+      if (s && _SUPPORTED.indexOf(s) !== -1) return s;
+      var n = ((navigator.language || navigator.userLanguage || 'es') + '').split('-')[0].toLowerCase();
+      return _SUPPORTED.indexOf(n) !== -1 ? n : 'en';
+    }
+    function applyI18n() {
+      document.querySelectorAll('[data-i18n]').forEach(function (el) {
+        var k = el.getAttribute('data-i18n'); if (_i18n[k] !== undefined) el.textContent = _i18n[k];
+      });
+      document.querySelectorAll('[data-i18n-html]').forEach(function (el) {
+        var k = el.getAttribute('data-i18n-html'); if (_i18n[k] !== undefined) el.innerHTML = _i18n[k];
+      });
+      document.querySelectorAll('[data-i18n-alt]').forEach(function (el) {
+        var k = el.getAttribute('data-i18n-alt'); if (_i18n[k] !== undefined) el.setAttribute('alt', _i18n[k]);
+      });
+      if (_i18n['meta.title']) document.title = _i18n['meta.title'];
+    }
+    function loadLang(lang) {
+      fetch('locales/download-' + lang + '.json')
+        .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
+        .then(function (data) {
+          _i18n = data;
+          localStorage.setItem('lang', lang);
+          document.documentElement.lang = lang;
+          applyI18n();
+          var cur = document.getElementById('lang-current');
+          if (cur) cur.textContent = _LANG_NAMES[lang] || lang.toUpperCase();
+          document.querySelectorAll('.lang-opt').forEach(function (b) {
+            b.classList.toggle('font-semibold', b.dataset.lang === lang);
+            b.classList.toggle('text-brand-600', b.dataset.lang === lang);
+          });
+        })
+        .catch(function () { if (lang !== 'es') loadLang('es'); });
+    }
+    function setLang(l) { closeLangMenu(); loadLang(l); }
+    function toggleLangMenu() { document.getElementById('lang-menu').classList.toggle('hidden'); }
+    function closeLangMenu() { var m = document.getElementById('lang-menu'); if (m) m.classList.add('hidden'); }
+    document.addEventListener('click', function (e) {
+      var sel = document.getElementById('lang-selector');
+      if (sel && !sel.contains(e.target)) closeLangMenu();
+    });
+
+    </script> </body></html>

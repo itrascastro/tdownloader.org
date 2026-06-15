@@ -4,41 +4,267 @@
 
   <url>
     <loc>https://tdownloader.org/</loc>
-    <lastmod>2026-06-03</lastmod>
+    <lastmod>2026-06-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="es" href="https://tdownloader.org/?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://tdownloader.org/?lang=en"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://tdownloader.org/?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://tdownloader.org/?lang=de"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://tdownloader.org/?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tdownloader.org/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://tdownloader.org/es/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://tdownloader.org/fr/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://tdownloader.org/de/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://tdownloader.org/pt/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://tdownloader.org/"/>
   </url>
 
   <url>
-    <loc>https://tdownloader.org/download.html</loc>
-    <lastmod>2026-06-04</lastmod>
+    <loc>https://tdownloader.org/es/</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tdownloader.org/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://tdownloader.org/es/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://tdownloader.org/fr/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://tdownloader.org/de/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://tdownloader.org/pt/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tdownloader.org/"/>
+  </url>
+
+  <url>
+    <loc>https://tdownloader.org/fr/</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tdownloader.org/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://tdownloader.org/es/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://tdownloader.org/fr/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://tdownloader.org/de/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://tdownloader.org/pt/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tdownloader.org/"/>
+  </url>
+
+  <url>
+    <loc>https://tdownloader.org/de/</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tdownloader.org/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://tdownloader.org/es/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://tdownloader.org/fr/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://tdownloader.org/de/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://tdownloader.org/pt/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tdownloader.org/"/>
+  </url>
+
+  <url>
+    <loc>https://tdownloader.org/pt/</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tdownloader.org/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://tdownloader.org/es/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://tdownloader.org/fr/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://tdownloader.org/de/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://tdownloader.org/pt/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tdownloader.org/"/>
+  </url>
+
+  <url>
+    <loc>https://tdownloader.org/download/</loc>
+    <lastmod>2026-06-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tdownloader.org/download/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://tdownloader.org/es/download/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://tdownloader.org/fr/download/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://tdownloader.org/de/download/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://tdownloader.org/pt/download/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tdownloader.org/download/"/>
   </url>
 
   <url>
-    <loc>https://tdownloader.org/privacy.html</loc>
-    <lastmod>2026-06-03</lastmod>
+    <loc>https://tdownloader.org/es/download/</loc>
+    <lastmod>2026-06-15</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.3</priority>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tdownloader.org/download/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://tdownloader.org/es/download/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://tdownloader.org/fr/download/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://tdownloader.org/de/download/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://tdownloader.org/pt/download/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tdownloader.org/download/"/>
   </url>
 
   <url>
-    <loc>https://tdownloader.org/terms.html</loc>
-    <lastmod>2026-06-03</lastmod>
+    <loc>https://tdownloader.org/fr/download/</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tdownloader.org/download/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://tdownloader.org/es/download/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://tdownloader.org/fr/download/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://tdownloader.org/de/download/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://tdownloader.org/pt/download/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tdownloader.org/download/"/>
+  </url>
+
+  <url>
+    <loc>https://tdownloader.org/de/download/</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tdownloader.org/download/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://tdownloader.org/es/download/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://tdownloader.org/fr/download/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://tdownloader.org/de/download/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://tdownloader.org/pt/download/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tdownloader.org/download/"/>
+  </url>
+
+  <url>
+    <loc>https://tdownloader.org/pt/download/</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tdownloader.org/download/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://tdownloader.org/es/download/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://tdownloader.org/fr/download/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://tdownloader.org/de/download/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://tdownloader.org/pt/download/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tdownloader.org/download/"/>
+  </url>
+
+  <url>
+    <loc>https://tdownloader.org/privacy/</loc>
+    <lastmod>2026-06-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tdownloader.org/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://tdownloader.org/es/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://tdownloader.org/fr/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://tdownloader.org/de/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://tdownloader.org/pt/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tdownloader.org/privacy/"/>
+  </url>
+
+  <url>
+    <loc>https://tdownloader.org/es/privacy/</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tdownloader.org/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://tdownloader.org/es/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://tdownloader.org/fr/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://tdownloader.org/de/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://tdownloader.org/pt/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tdownloader.org/privacy/"/>
+  </url>
+
+  <url>
+    <loc>https://tdownloader.org/fr/privacy/</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tdownloader.org/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://tdownloader.org/es/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://tdownloader.org/fr/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://tdownloader.org/de/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://tdownloader.org/pt/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tdownloader.org/privacy/"/>
+  </url>
+
+  <url>
+    <loc>https://tdownloader.org/de/privacy/</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tdownloader.org/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://tdownloader.org/es/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://tdownloader.org/fr/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://tdownloader.org/de/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://tdownloader.org/pt/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tdownloader.org/privacy/"/>
+  </url>
+
+  <url>
+    <loc>https://tdownloader.org/pt/privacy/</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tdownloader.org/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://tdownloader.org/es/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://tdownloader.org/fr/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://tdownloader.org/de/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://tdownloader.org/pt/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tdownloader.org/privacy/"/>
+  </url>
+
+  <url>
+    <loc>https://tdownloader.org/terms/</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tdownloader.org/terms/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://tdownloader.org/es/terms/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://tdownloader.org/fr/terms/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://tdownloader.org/de/terms/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://tdownloader.org/pt/terms/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tdownloader.org/terms/"/>
+  </url>
+
+  <url>
+    <loc>https://tdownloader.org/es/terms/</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tdownloader.org/terms/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://tdownloader.org/es/terms/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://tdownloader.org/fr/terms/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://tdownloader.org/de/terms/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://tdownloader.org/pt/terms/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tdownloader.org/terms/"/>
+  </url>
+
+  <url>
+    <loc>https://tdownloader.org/fr/terms/</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tdownloader.org/terms/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://tdownloader.org/es/terms/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://tdownloader.org/fr/terms/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://tdownloader.org/de/terms/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://tdownloader.org/pt/terms/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tdownloader.org/terms/"/>
+  </url>
+
+  <url>
+    <loc>https://tdownloader.org/de/terms/</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tdownloader.org/terms/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://tdownloader.org/es/terms/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://tdownloader.org/fr/terms/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://tdownloader.org/de/terms/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://tdownloader.org/pt/terms/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tdownloader.org/terms/"/>
+  </url>
+
+  <url>
+    <loc>https://tdownloader.org/pt/terms/</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tdownloader.org/terms/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://tdownloader.org/es/terms/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://tdownloader.org/fr/terms/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://tdownloader.org/de/terms/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://tdownloader.org/pt/terms/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tdownloader.org/terms/"/>
   </url>
 
   <url>
     <loc>https://tdownloader.org/status/</loc>
-    <lastmod>2026-06-03</lastmod>
+    <lastmod>2026-06-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.4</priority>
   </url>

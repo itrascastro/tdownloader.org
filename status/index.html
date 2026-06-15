@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Estado del servicio — tdownloader.org</title>
+<title>Service status - tdownloader.org</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -43,38 +43,38 @@
 <body>
 <div class="wrap">
   <header>
-    <a href="/" style="display:flex;align-items:center;gap:.5rem;text-decoration:none;color:inherit" aria-label="tdownloader - inicio">
+    <a href="/" style="display:flex;align-items:center;gap:.5rem;text-decoration:none;color:inherit" aria-label="tdownloader - home">
       <svg viewBox="0 0 16 16" fill="#2563eb" aria-hidden="true">
         <path d="M2.5 3.5a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1zm2-2a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1zM0 13a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 16 13V6a1.5 1.5 0 0 0-1.5-1.5h-13A1.5 1.5 0 0 0 0 6zm6.258-6.437a.5.5 0 0 1 .507.013l4 2.5a.5.5 0 0 1 0 .848l-4 2.5A.5.5 0 0 1 6 11.5v-5a.5.5 0 0 1 .258-.437"/>
       </svg>
       <h1>tdownloader</h1>
     </a>
-    <span id="ts">Comprobando...</span>
+    <span id="ts">Checking...</span>
   </header>
 
   <div class="banner checking" id="banner">
-    <span>Comprobando servicios...</span>
+    <span>Checking services...</span>
   </div>
 
   <div id="services"></div>
 
   <footer>
-    <p>Actualizado automaticamente cada 60 s</p>
+    <p>Automatically updated every 60s</p>
     <p style="margin-top:.5rem">
-      <a href="/">Volver a tdownloader.org</a>
+      <a href="/">Back to tdownloader.org</a>
     </p>
   </footer>
 </div>
 
 <script>
 const SERVICES = [
-  { name: "Servidor",        url: "https://api.tdownloader.org/health",         expect: 200 },
-  { name: "Actualizaciones", url: "https://api.tdownloader.org/version/latest", expect: 200 },
-  // Descargas: estan en Cloudflare R2. Por CORS no se puede leer su status, asi
-  // que se sondea con no-cors (solo sabemos si se ALCANZA). Si no se alcanza,
-  // suele ser el bloqueo de operadores en Espana los dias de futbol (LaLiga).
-  { name: "Descargas (CDN)", url: "https://dl.tdownloader.org/latest.json",     probe: true },
-  { name: "Web",             url: "https://tdownloader.org",                    expect: 200 },
+  { name: "Server",          url: "https://api.tdownloader.org/health",         expect: 200 },
+  { name: "Updates",         url: "https://api.tdownloader.org/version/latest", expect: 200 },
+  // Downloads sit behind Cloudflare. CORS prevents reading their status, so we
+  // probe with no-cors (we only know whether they are REACHABLE). When they are
+  // not reachable it is usually the ISP blocking on football match days in Spain.
+  { name: "Downloads (CDN)", url: "https://dl.tdownloader.org/latest.json",     probe: true },
+  { name: "Website",         url: "https://tdownloader.org",                    expect: 200 },
 ];
 
 const SLOW_MS = 1500;
@@ -83,7 +83,7 @@ async function checkService(svc) {
   const t0 = Date.now();
   try {
     if (svc.probe) {
-      // Cloudflare: no-cors -> resuelve (opaco) si se alcanza, rechaza si no.
+      // no-cors -> resolves (opaque) if reachable, rejects if not.
       await fetch(svc.url + "?t=" + Date.now(),
                   { mode: "no-cors", cache: "no-store", signal: AbortSignal.timeout(8000) });
       const ms = Date.now() - t0;
@@ -100,7 +100,7 @@ async function checkService(svc) {
 }
 
 function pill(state, ms) {
-  const labels = { up: "Operativo", down: "Caido", slow: "Lento", checking: "Comprobando" };
+  const labels = { up: "Operational", down: "Down", slow: "Slow", checking: "Checking" };
   const msStr  = ms != null ? " &nbsp;" + ms + " ms" : "";
   return '<span class="pill ' + state + '"><span class="dot"></span>' + labels[state] + msStr + '</span>';
 }
@@ -120,20 +120,20 @@ function render(results) {
   var banner  = document.getElementById("banner");
   if (results.length < SERVICES.length) {
     banner.className = "banner checking";
-    banner.innerHTML = "<span>Comprobando servicios...</span>";
+    banner.innerHTML = "<span>Checking services...</span>";
   } else if (onlyCdnDown) {
     banner.className = "banner incident";
-    banner.innerHTML = "<span>No se alcanzan las descargas desde tu conexion. En Espana, los operadores bloquean Cloudflare los dias de futbol por una orden judicial de LaLiga; no es un fallo de tdownloader. <a href=\"https://hayahora.futbol\" target=\"_blank\" rel=\"noopener\" style=\"color:inherit;text-decoration:underline\">Mas info</a></span>";
+    banner.innerHTML = "<span>Downloads can't be reached from your connection. In Spain, ISPs block Cloudflare on football match days due to a court order from LaLiga; this is not a tdownloader issue. <a href=\"https://hayahora.futbol\" target=\"_blank\" rel=\"noopener\" style=\"color:inherit;text-decoration:underline\">More info</a></span>";
   } else if (anyDown) {
     banner.className = "banner incident";
-    banner.innerHTML = "<span>Incidencia detectada en uno o mas servicios</span>";
+    banner.innerHTML = "<span>Incident detected in one or more services</span>";
   } else {
     banner.className = "banner ok";
-    banner.innerHTML = "<span>Todos los sistemas operativos</span>";
+    banner.innerHTML = "<span>All systems operational</span>";
   }
 
   document.getElementById("ts").textContent =
-    "Actualizado: " + new Date().toLocaleTimeString("es-ES");
+    "Updated: " + new Date().toLocaleTimeString("en-US");
 }
 
 async function check() {
