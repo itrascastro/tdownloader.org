@@ -133,6 +133,71 @@
   </url>
 
   <url>
+    <loc>https://tdownloader.org/tcloud/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tdownloader.org/tcloud/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://tdownloader.org/es/tcloud/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://tdownloader.org/fr/tcloud/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://tdownloader.org/de/tcloud/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://tdownloader.org/pt/tcloud/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tdownloader.org/tcloud/"/>
+  </url>
+
+  <url>
+    <loc>https://tdownloader.org/es/tcloud/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tdownloader.org/tcloud/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://tdownloader.org/es/tcloud/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://tdownloader.org/fr/tcloud/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://tdownloader.org/de/tcloud/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://tdownloader.org/pt/tcloud/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tdownloader.org/tcloud/"/>
+  </url>
+
+  <url>
+    <loc>https://tdownloader.org/fr/tcloud/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tdownloader.org/tcloud/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://tdownloader.org/es/tcloud/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://tdownloader.org/fr/tcloud/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://tdownloader.org/de/tcloud/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://tdownloader.org/pt/tcloud/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tdownloader.org/tcloud/"/>
+  </url>
+
+  <url>
+    <loc>https://tdownloader.org/de/tcloud/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tdownloader.org/tcloud/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://tdownloader.org/es/tcloud/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://tdownloader.org/fr/tcloud/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://tdownloader.org/de/tcloud/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://tdownloader.org/pt/tcloud/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tdownloader.org/tcloud/"/>
+  </url>
+
+  <url>
+    <loc>https://tdownloader.org/pt/tcloud/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tdownloader.org/tcloud/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://tdownloader.org/es/tcloud/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://tdownloader.org/fr/tcloud/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://tdownloader.org/de/tcloud/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://tdownloader.org/pt/tcloud/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tdownloader.org/tcloud/"/>
+  </url>
+
+  <url>
     <loc>https://tdownloader.org/privacy/</loc>
     <lastmod>2026-06-15</lastmod>
     <changefreq>monthly</changefreq>
