@@ -1,0 +1,206 @@
+<!DOCTYPE html><html lang="pt" class="scroll-smooth"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Termos de utilização - tdownloader</title><meta name="description" content="O tdownloader para Android é uma aplicação que facilita a organização e descarga de ficheiros de canais ou grupos do Telegram a que o utilizador tem acesso com a sua própria conta. A aplicação atua como cliente da API do Telegram."><meta name="keywords" content="tdownloader terms, tdownloader terms of use, telegram downloader terms"><meta name="author" content="tdownloader"><meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"><link rel="canonical" href="https://tdownloader.org/android/pt/terms/"><!-- hreflang --><link rel="alternate" hreflang="en" href="https://tdownloader.org/android/terms/"><link rel="alternate" hreflang="es" href="https://tdownloader.org/android/es/terms/"><link rel="alternate" hreflang="fr" href="https://tdownloader.org/android/fr/terms/"><link rel="alternate" hreflang="de" href="https://tdownloader.org/android/de/terms/"><link rel="alternate" hreflang="pt" href="https://tdownloader.org/android/pt/terms/"><link rel="alternate" hreflang="x-default" href="https://tdownloader.org/android/terms/"><!-- Open Graph --><meta property="og:type" content="website"><meta property="og:url" content="https://tdownloader.org/android/pt/terms/"><meta property="og:site_name" content="tdownloader"><meta property="og:title" content="Termos de utilização - tdownloader"><meta property="og:description" content="O tdownloader para Android é uma aplicação que facilita a organização e descarga de ficheiros de canais ou grupos do Telegram a que o utilizador tem acesso com a sua própria conta. A aplicação atua como cliente da API do Telegram."><meta property="og:image" content="https://tdownloader.org/og-image.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="tdownloader for Android"><meta property="og:locale" content="pt_PT"><meta property="og:locale:alternate" content="es_ES"><meta property="og:locale:alternate" content="fr_FR"><meta property="og:locale:alternate" content="de_DE"><meta property="og:locale:alternate" content="pt_PT"><!-- Twitter / X Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Termos de utilização - tdownloader"><meta name="twitter:description" content="O tdownloader para Android é uma aplicação que facilita a organização e descarga de ficheiros de canais ou grupos do Telegram a que o utilizador tem acesso com a sua própria conta. A aplicação atua como cliente da API do Telegram."><meta name="twitter:image" content="https://tdownloader.org/og-image.png"><meta name="twitter:image:alt" content="tdownloader for Android"><!-- Favicons --><link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><meta name="theme-color" content="#2563eb"><meta name="msapplication-TileColor" content="#2563eb"><!-- Tailwind --><script src="https://cdn.tailwindcss.com"></script><script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eff6ff', 100: '#dbeafe', 400: '#60a5fa', 500: '#3b82f6',
+              600: '#2563eb', 700: '#1d4ed8', 900: '#1e3a8a',
+            }
+          },
+          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] }
+        }
+      }
+    };
+  </script><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"><style is:global>html { font-family: 'Inter', system-ui, sans-serif; }</style></head> <body class="bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 antialiased">  
+
+  <!-- Navbar minima -->
+  <nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-white/80 dark:bg-gray-950/80 border-b border-gray-200/60 dark:border-gray-800/60">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-14">
+      <a href="/" class="flex items-center gap-2.5 hover:opacity-80 transition-opacity">
+        <svg width="40" height="40" viewBox="0 0 16 16" fill="#2563eb" aria-hidden="true">
+          <path d="M2.5 3.5a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1zm2-2a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1zM0 13a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 16 13V6a1.5 1.5 0 0 0-1.5-1.5h-13A1.5 1.5 0 0 0 0 6zm6.258-6.437a.5.5 0 0 1 .507.013l4 2.5a.5.5 0 0 1 0 .848l-4 2.5A.5.5 0 0 1 6 11.5v-5a.5.5 0 0 1 .258-.437"></path>
+        </svg>
+        <span class="font-bold text-2xl tracking-tight text-gray-900 dark:text-white" style="font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif">tdownloader</span>
+      </a>
+      <div class="flex items-center gap-3 sm:gap-4">
+        <a href="/" class="hidden sm:inline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors" data-i18n="nav.home">Início</a>
+
+        <!-- selector de idioma -->
+        <div class="relative" id="lang-selector">
+          <button id="lang-btn" onclick="toggleLangMenu()" class="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors px-2 py-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" aria-label="Idioma">
+            <span id="lang-current">PT</span>
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div id="lang-menu" class="hidden absolute right-0 top-full mt-1 w-40 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg py-1 z-50"><a href="https://tdownloader.org/android/terms/" hreflang="en" onclick="try{localStorage.setItem('tdl_lang','en')}catch(e){}" class="w-full block text-left px-4 py-1.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">EN - English</a><a href="https://tdownloader.org/android/es/terms/" hreflang="es" onclick="try{localStorage.setItem('tdl_lang','es')}catch(e){}" class="w-full block text-left px-4 py-1.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">ES - Español</a><a href="https://tdownloader.org/android/fr/terms/" hreflang="fr" onclick="try{localStorage.setItem('tdl_lang','fr')}catch(e){}" class="w-full block text-left px-4 py-1.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">FR - Français</a><a href="https://tdownloader.org/android/de/terms/" hreflang="de" onclick="try{localStorage.setItem('tdl_lang','de')}catch(e){}" class="w-full block text-left px-4 py-1.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">DE - Deutsch</a><a href="https://tdownloader.org/android/pt/terms/" hreflang="pt" onclick="try{localStorage.setItem('tdl_lang','pt')}catch(e){}" class="w-full block text-left px-4 py-1.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors font-semibold text-brand-600">PT - Português</a></div>
+        </div>
+
+        <button id="theme-toggle" class="p-1.5 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" aria-label="Cambiar tema">
+          <svg id="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+          </svg>
+          <svg id="icon-sun" class="hidden" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="pt-24 pb-20 px-4">
+<div class="max-w-2xl mx-auto">
+
+<h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2" data-i18n="h1">Termos de utilização</h1>
+<p class="text-sm text-gray-400 dark:text-gray-500 mb-10" data-i18n="updated">Última atualização: junho de 2026</p>
+<div class="space-y-8 text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
+
+<section>
+<h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-3" data-i18n="t1.h2">1. Aceitação dos termos</h2>
+<p data-i18n="t1.p1">Ao descarregar ou usar o tdownloader aceitas estes termos de utilização. Se não concordares com algum deles, não uses a aplicação.</p>
+</section>
+
+<section>
+<h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-3" data-i18n="t2.h2">2. Descrição do serviço</h2>
+<p data-i18n="t2.p1">O tdownloader para Android é uma aplicação que facilita a organização e descarga de ficheiros de canais ou grupos do Telegram a que o utilizador tem acesso com a sua própria conta. A aplicação atua como cliente da API do Telegram.</p>
+</section>
+
+<section>
+<h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-3" data-i18n="t3.h2">3. Utilização aceitável</h2>
+<p data-i18n="t3.p1">O utilizador é o único responsável pela utilização que faz da aplicação e pelo conteúdo que descarrega. É expressamente proibido usar o tdownloader para:</p>
+<ul class="list-disc pl-5 mt-2 space-y-1">
+<li data-i18n="t3.li1">Descarregar ou distribuir conteúdo protegido por direitos de autor sem autorização</li>
+<li data-i18n-html="t3.li2">Infringir os <a href="https://telegram.org/tos" target="_blank" rel="noopener" class="text-blue-600 dark:text-blue-400 hover:underline">Termos de serviço do Telegram</a></li>
+<li data-i18n="t3.li3">Realizar scraping massivo ou automatizado que prejudique os servidores do Telegram</li>
+<li data-i18n="t3.li4">Qualquer atividade ilegal ou que viole direitos de terceiros</li>
+</ul>
+</section>
+
+<section>
+<h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-3" data-i18n="t4.h2">4. Propriedade intelectual</h2>
+<p data-i18n="t4.p1">O tdownloader e o seu código-fonte são propriedade dos seus autores. A aplicação é distribuída para uso pessoal. Não é permitida a sua redistribuição, modificação ou uso comercial sem autorização expressa.</p>
+</section>
+
+<section>
+<h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-3" data-i18n="t5.h2">5. Exclusão de garantias</h2>
+<p data-i18n-html="t5.p1">O tdownloader é fornecido <em>tal como está</em>, sem garantias de qualquer tipo, expressas ou implícitas. Não garantimos que a aplicação seja ininterrupta, livre de erros nem que funcione com todas as versões dos sistemas operativos.</p>
+</section>
+
+<section>
+<h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-3" data-i18n="t6.h2">6. Limitação de responsabilidade</h2>
+<p data-i18n="t6.p1">Em nenhuma circunstância os autores do tdownloader serão responsáveis por danos diretos, indiretos, incidentais ou consequentes decorrentes da utilização ou da impossibilidade de utilização da aplicação.</p>
+</section>
+
+<section>
+<h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-3" data-i18n="t7.h2">7. Modificações</h2>
+<p data-i18n="t7.p1">Reservamo-nos o direito de modificar estes termos a qualquer momento. As alterações produzem efeitos a partir da sua publicação nesta página com a data atualizada.</p>
+</section>
+
+<section>
+<h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-3" data-i18n="t8.h2">8. Lei aplicável</h2>
+<p data-i18n="t8.p1">Estes termos regem-se pela legislação espanhola. Qualquer litígio é submetido aos tribunais competentes de Espanha.</p>
+</section>
+
+<section>
+<h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-3" data-i18n="t9.h2">9. Contacto</h2>
+<p data-i18n="t9.p1">Para qualquer questão podes contactar-nos a partir da própria app (menu Suporte).</p>
+</section>
+
+</div>
+
+<div class="mt-12">
+<a href="/" class="inline-flex items-center gap-2 text-sm text-blue-600 dark:text-blue-400 hover:underline">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
+<span data-i18n="back">Voltar ao início</span>
+</a>
+</div>
+
+</div>
+</main>
+
+  <footer class="py-8 px-4 border-t border-gray-200 dark:border-gray-800">
+    <div class="max-w-2xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-gray-400 dark:text-gray-500">
+      <span>tdownloader</span>
+      <div class="flex gap-5">
+        <a href="https://tdownloader.org/android/pt/privacy/" class="hover:text-gray-700 dark:hover:text-gray-300 transition-colors" data-i18n="footer.privacy">Privacidade</a>
+        <a href="https://tdownloader.org/android/pt/terms/" class="text-blue-600 dark:text-blue-400" data-i18n="footer.terms">Termos</a>
+      </div>
+    </div>
+  </footer>
+
+  
+ <script>
+    // ── Tema ──
+    (function () {
+      var stored = localStorage.getItem('theme');
+      var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (stored === 'dark' || (!stored && prefersDark)) document.documentElement.classList.add('dark');
+    })();
+    var themeToggle = document.getElementById('theme-toggle');
+    var iconMoon = document.getElementById('icon-moon');
+    var iconSun = document.getElementById('icon-sun');
+    function applyTheme() {
+      var dark = document.documentElement.classList.contains('dark');
+      iconMoon.classList.toggle('hidden', dark);
+      iconSun.classList.toggle('hidden', !dark);
+    }
+    applyTheme();
+    themeToggle.addEventListener('click', function () {
+      var dark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', dark ? 'dark' : 'light');
+      applyTheme();
+    });
+
+    // ── Idioma (i18n) ──
+    var _i18n = {"meta.title": "Termos de utiliza\u00e7\u00e3o - tdownloader", "nav.home": "In\u00edcio", "h1": "Termos de utiliza\u00e7\u00e3o", "updated": "\u00daltima atualiza\u00e7\u00e3o: junho de 2026", "t1.h2": "1. Aceita\u00e7\u00e3o dos termos", "t1.p1": "Ao descarregar ou usar o tdownloader aceitas estes termos de utiliza\u00e7\u00e3o. Se n\u00e3o concordares com algum deles, n\u00e3o uses a aplica\u00e7\u00e3o.", "t2.h2": "2. Descri\u00e7\u00e3o do servi\u00e7o", "t2.p1": "O tdownloader para Android \u00e9 uma aplica\u00e7\u00e3o que facilita a organiza\u00e7\u00e3o e descarga de ficheiros de canais ou grupos do Telegram a que o utilizador tem acesso com a sua pr\u00f3pria conta. A aplica\u00e7\u00e3o atua como cliente da API do Telegram.", "t3.h2": "3. Utiliza\u00e7\u00e3o aceit\u00e1vel", "t3.p1": "O utilizador \u00e9 o \u00fanico respons\u00e1vel pela utiliza\u00e7\u00e3o que faz da aplica\u00e7\u00e3o e pelo conte\u00fado que descarrega. \u00c9 expressamente proibido usar o tdownloader para:", "t3.li1": "Descarregar ou distribuir conte\u00fado protegido por direitos de autor sem autoriza\u00e7\u00e3o", "t3.li2": "Infringir os \u003ca href=\"https://telegram.org/tos\" target=\"_blank\" rel=\"noopener\" class=\"text-blue-600 dark:text-blue-400 hover:underline\">Termos de servi\u00e7o do Telegram\u003c/a>", "t3.li3": "Realizar scraping massivo ou automatizado que prejudique os servidores do Telegram", "t3.li4": "Qualquer atividade ilegal ou que viole direitos de terceiros", "t4.h2": "4. Propriedade intelectual", "t4.p1": "O tdownloader e o seu c\u00f3digo-fonte s\u00e3o propriedade dos seus autores. A aplica\u00e7\u00e3o \u00e9 distribu\u00edda para uso pessoal. N\u00e3o \u00e9 permitida a sua redistribui\u00e7\u00e3o, modifica\u00e7\u00e3o ou uso comercial sem autoriza\u00e7\u00e3o expressa.", "t5.h2": "5. Exclus\u00e3o de garantias", "t5.p1": "O tdownloader \u00e9 fornecido \u003cem>tal como est\u00e1\u003c/em>, sem garantias de qualquer tipo, expressas ou impl\u00edcitas. N\u00e3o garantimos que a aplica\u00e7\u00e3o seja ininterrupta, livre de erros nem que funcione com todas as vers\u00f5es dos sistemas operativos.", "t6.h2": "6. Limita\u00e7\u00e3o de responsabilidade", "t6.p1": "Em nenhuma circunst\u00e2ncia os autores do tdownloader ser\u00e3o respons\u00e1veis por danos diretos, indiretos, incidentais ou consequentes decorrentes da utiliza\u00e7\u00e3o ou da impossibilidade de utiliza\u00e7\u00e3o da aplica\u00e7\u00e3o.", "t7.h2": "7. Modifica\u00e7\u00f5es", "t7.p1": "Reservamo-nos o direito de modificar estes termos a qualquer momento. As altera\u00e7\u00f5es produzem efeitos a partir da sua publica\u00e7\u00e3o nesta p\u00e1gina com a data atualizada.", "t8.h2": "8. Lei aplic\u00e1vel", "t8.p1": "Estes termos regem-se pela legisla\u00e7\u00e3o espanhola. Qualquer lit\u00edgio \u00e9 submetido aos tribunais competentes de Espanha.", "t9.h2": "9. Contacto", "t9.p1": "Para qualquer quest\u00e3o podes contactar-nos a partir da pr\u00f3pria app (menu Suporte).", "back": "Voltar ao in\u00edcio", "footer.privacy": "Privacidade", "footer.terms": "Termos"};
+    var _SUPPORTED  = ['es','en','fr','de','pt'];
+    var _LANG_NAMES = { es:'ES', en:'EN', fr:'FR', de:'DE', pt:'PT' };
+    function detectLang() {
+      var s = localStorage.getItem('lang');
+      if (s && _SUPPORTED.indexOf(s) !== -1) return s;
+      var n = ((navigator.language || navigator.userLanguage || 'es') + '').split('-')[0].toLowerCase();
+      return _SUPPORTED.indexOf(n) !== -1 ? n : 'en';
+    }
+    function applyI18n() {
+      document.querySelectorAll('[data-i18n]').forEach(function (el) {
+        var k = el.getAttribute('data-i18n'); if (_i18n[k] !== undefined) el.textContent = _i18n[k];
+      });
+      document.querySelectorAll('[data-i18n-html]').forEach(function (el) {
+        var k = el.getAttribute('data-i18n-html'); if (_i18n[k] !== undefined) el.innerHTML = _i18n[k];
+      });
+      if (_i18n['meta.title']) document.title = _i18n['meta.title'];
+    }
+    function loadLang(lang) {
+      fetch('locales/terms-' + lang + '.json')
+        .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
+        .then(function (data) {
+          _i18n = data;
+          localStorage.setItem('lang', lang);
+          document.documentElement.lang = lang;
+          applyI18n();
+          var cur = document.getElementById('lang-current');
+          if (cur) cur.textContent = _LANG_NAMES[lang] || lang.toUpperCase();
+          document.querySelectorAll('.lang-opt').forEach(function (b) {
+            b.classList.toggle('font-semibold', b.dataset.lang === lang);
+            b.classList.toggle('text-blue-600', b.dataset.lang === lang);
+          });
+        })
+        .catch(function () { if (lang !== 'es') loadLang('es'); });
+    }
+    function setLang(l) { closeLangMenu(); loadLang(l); }
+    function toggleLangMenu() { document.getElementById('lang-menu').classList.toggle('hidden'); }
+    function closeLangMenu() { var m = document.getElementById('lang-menu'); if (m) m.classList.add('hidden'); }
+    document.addEventListener('click', function (e) {
+      var sel = document.getElementById('lang-selector');
+      if (sel && !sel.contains(e.target)) closeLangMenu();
+    });
+
+    </script> </body></html>
