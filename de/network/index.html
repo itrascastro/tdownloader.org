@@ -1,0 +1,205 @@
+<!DOCTYPE html><html lang="de" class="scroll-smooth"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Netzwerk-Transparenz - tdownloader</title><meta name="description" content="Alles, womit sich tdownloader verbindet, und warum. Überprüfe es selbst mit einem Netzwerk-Monitor: Die App spricht nur mit Telegram und mit unserer Update-Domain. Anonyme, freiwillige Statistiken."><meta name="keywords" content="tdownloader netzwerk transparenz, telegram downloader ohne tracking, überprüfbare privatsphäre, tdownloader wireshark"><meta name="author" content="tdownloader"><meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"><link rel="canonical" href="https://tdownloader.org/de/network/"><!-- hreflang --><link rel="alternate" hreflang="en" href="https://tdownloader.org/network/"><link rel="alternate" hreflang="es" href="https://tdownloader.org/es/network/"><link rel="alternate" hreflang="fr" href="https://tdownloader.org/fr/network/"><link rel="alternate" hreflang="de" href="https://tdownloader.org/de/network/"><link rel="alternate" hreflang="pt" href="https://tdownloader.org/pt/network/"><link rel="alternate" hreflang="x-default" href="https://tdownloader.org/network/"><!-- Open Graph --><meta property="og:type" content="website"><meta property="og:url" content="https://tdownloader.org/de/network/"><meta property="og:site_name" content="tdownloader"><meta property="og:title" content="Netzwerk-Transparenz - tdownloader"><meta property="og:description" content="Alles, womit sich tdownloader verbindet, und warum. Überprüfe es selbst mit einem Netzwerk-Monitor: Die App spricht nur mit Telegram und mit unserer Update-Domain. Anonyme, freiwillige Statistiken."><meta property="og:image" content="https://tdownloader.org/og-image.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="tdownloader - Desktop app for Telegram downloads"><meta property="og:locale" content="de_DE"><meta property="og:locale:alternate" content="en_US"><meta property="og:locale:alternate" content="es_ES"><meta property="og:locale:alternate" content="fr_FR"><meta property="og:locale:alternate" content="pt_PT"><!-- Twitter / X Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Netzwerk-Transparenz - tdownloader"><meta name="twitter:description" content="Alles, womit sich tdownloader verbindet, und warum. Überprüfe es selbst mit einem Netzwerk-Monitor: Die App spricht nur mit Telegram und mit unserer Update-Domain. Anonyme, freiwillige Statistiken."><meta name="twitter:image" content="https://tdownloader.org/og-image.png"><meta name="twitter:image:alt" content="tdownloader - Desktop app for Telegram downloads"><!-- Favicons --><link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><meta name="theme-color" content="#2563eb"><meta name="msapplication-TileColor" content="#2563eb"><!-- Tailwind --><script src="https://cdn.tailwindcss.com"></script><script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eff6ff', 100: '#dbeafe', 400: '#60a5fa', 500: '#3b82f6',
+              600: '#2563eb', 700: '#1d4ed8', 900: '#1e3a8a',
+            }
+          },
+          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] }
+        }
+      }
+    };
+  </script><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"><style is:global>html { font-family: 'Inter', system-ui, sans-serif; }</style></head> <body class="bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 antialiased">  
+
+  <!-- Navbar minima -->
+  <nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-white/80 dark:bg-gray-950/80 border-b border-gray-200/60 dark:border-gray-800/60">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-14">
+      <a href="/de/" class="flex items-center gap-2.5 hover:opacity-80 transition-opacity">
+        <img src="/img/icon.png" alt="" width="40" height="40" style="width:40px;height:40px;border-radius:22%" class="inline-block align-middle shadow-sm" >
+        <span class="font-bold text-2xl tracking-tight text-gray-900 dark:text-white" style="font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif">tdownloader</span>
+      </a>
+      <div class="flex items-center gap-3 sm:gap-4">
+        <a href="/de/" class="hidden sm:inline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors" data-i18n="nav.home">Startseite</a>
+
+        <!-- selector de idioma -->
+        <div class="relative" id="lang-selector">
+          <button id="lang-btn" onclick="toggleLangMenu()" class="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors px-2 py-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" aria-label="Idioma">
+            <span id="lang-current">DE</span>
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div id="lang-menu" class="hidden absolute right-0 top-full mt-1 w-40 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg py-1 z-50"><a href="/network/" hreflang="en" onclick="try{localStorage.setItem('tdl_lang','en')}catch(e){}" class="w-full block text-left px-4 py-1.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">EN - English</a><a href="/es/network/" hreflang="es" onclick="try{localStorage.setItem('tdl_lang','es')}catch(e){}" class="w-full block text-left px-4 py-1.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">ES - Español</a><a href="/fr/network/" hreflang="fr" onclick="try{localStorage.setItem('tdl_lang','fr')}catch(e){}" class="w-full block text-left px-4 py-1.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">FR - Français</a><a href="/de/network/" hreflang="de" onclick="try{localStorage.setItem('tdl_lang','de')}catch(e){}" class="w-full block text-left px-4 py-1.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors font-semibold text-brand-600">DE - Deutsch</a><a href="/pt/network/" hreflang="pt" onclick="try{localStorage.setItem('tdl_lang','pt')}catch(e){}" class="w-full block text-left px-4 py-1.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">PT - Português</a></div>
+        </div>
+
+        <button id="theme-toggle" class="p-1.5 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" aria-label="Cambiar tema">
+          <svg id="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+          </svg>
+          <svg id="icon-sun" class="hidden" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="pt-24 pb-20 px-4">
+    <div class="max-w-2xl mx-auto prose dark:prose-invert">
+
+      <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-8" data-i18n="h1">Netzwerk-Transparenz</h1>
+
+      <div class="space-y-8 text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
+
+        <p data-i18n="intro">TDownloader läuft vollständig auf deinem Computer. Hier ist die genaue Liste von allem, womit sich die App verbindet, wofür und was gesendet wird, damit du es selbst überprüfen kannst.</p>
+
+        <section>
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-3" data-i18n="s1.h2">Überprüfe es selbst</h2>
+          <p data-i18n="s1.p1">Mit einem Netzwerk-Monitor kannst du in Echtzeit jede Verbindung der App sehen. Du wirst nur die auf dieser Seite aufgeführten sehen.</p>
+          <ul class="list-disc pl-5 mt-2 space-y-1">
+            <li data-i18n="s1.li1">Wireshark (jedes System)</li>
+            <li data-i18n="s1.li2">Little Snitch oder LuLu (macOS)</li>
+            <li data-i18n="s1.li3">OpenSnitch (Linux)</li>
+            <li data-i18n="s1.li4">GlassWire oder die Windows-Firewall (Windows)</li>
+          </ul>
+          <p class="mt-3" data-i18n-html="s1.guide">Du weißt nicht wie? Folge unserer <a href="/de/audit/" class="text-blue-600 dark:text-blue-400 hover:underline">Schritt-für-Schritt-Anleitung, um jede App zu prüfen</a>.</p>
+        </section>
+
+        <section>
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-3" data-i18n="s2.h2">Telegram, unverzichtbar</h2>
+          <p data-i18n-html="s2.p1">Es ist der Kern der App: Anmelden, deine Kanäle auflisten, Dateien herunterladen und in TCloud hochladen oder organisieren. <strong class="text-gray-800 dark:text-gray-200">Deine Sitzung bleibt auf deiner Festplatte und kommuniziert direkt mit den Servern von Telegram.</strong> Wir sind kein Vermittler: Dein Konto und deine Dateien laufen nicht über uns.</p>
+        </section>
+
+        <section>
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-3" data-i18n="s3.h2">tdownloader.org, Updates und Downloads</h2>
+          <p data-i18n="s3.p1">Die App prüft, ob eine neue Version verfügbar ist, empfängt ihre Grundkonfiguration und lädt Updates herunter. Das sind reine Leseanfragen: Wir senden keine Informationen über dich oder deine Nutzung.</p>
+          <p class="mt-3" data-i18n="s3.p2">Wenn du diese Domain in deiner Firewall blockierst, funktioniert die App weiterhin normal; du erhältst nur keine automatischen Updates mehr. Das ist der Beweis, dass der Kern nicht von unseren Servern abhängt.</p>
+        </section>
+
+        <section>
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-3" data-i18n="s4.h2">Anonyme Statistiken, nur wenn du sie aktivierst</h2>
+          <p data-i18n-html="s4.p1"><strong class="text-gray-800 dark:text-gray-200">Sie sind standardmäßig deaktiviert.</strong> Es wird absolut nichts gesendet, solange du das Einwilligungskästchen nicht ankreuzt.</p>
+          <p class="mt-3" data-i18n="s4.p2">Wenn du sie aktivierst, senden wir eine zufällige, anonyme Kennung (die weder dich noch dein Konto identifiziert), die App-Version, das Betriebssystem und die Sprache. Niemals dein Telegram-Konto, deine Dateien, deine Kanäle oder personenbezogene Daten.</p>
+          <p class="mt-3" data-i18n="s4.p3">Du kannst sie jederzeit in den Einstellungen widerrufen.</p>
+        </section>
+
+        <section>
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-3" data-i18n="s5.h2">Problemberichte, nur wenn du sie sendest</h2>
+          <p data-i18n="s5.p1">Wenn du „Problem melden" verwendest, erhalten wir nur den von dir geschriebenen Text (und einen Kontakt, falls du einen angibst). Niemals automatisch.</p>
+        </section>
+
+        <section>
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-3" data-i18n="s6.h2">Was TDownloader niemals tut</h2>
+          <ul class="list-disc pl-5 mt-2 space-y-1">
+            <li data-i18n="s6.li1">Deine Telegram-Sitzung oder Zugangsdaten irgendwohin senden.</li>
+            <li data-i18n="s6.li2">Deine Dateien auf unsere Server hochladen: In TCloud geht dein Inhalt an deinen eigenen Telegram-Kanal.</li>
+            <li data-i18n="s6.li3">Tracker von Dritten oder Werbenetzwerke einbinden.</li>
+            <li data-i18n="s6.li4">Daten verkaufen oder teilen oder dich profilieren.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-3" data-i18n="s7.h2">Kurz gesagt</h2>
+          <p data-i18n="s7.p1">Alles passiert auf deinem Computer. Die App kommuniziert mit Telegram ( wie der offizielle Client ) und mit unserer Domain nur, um sich zu aktualisieren. Die Statistiken sind anonym und optional, und du kannst es selbst mit einem Netzwerk-Monitor überprüfen.</p>
+        </section>
+
+      </div>
+
+      <div class="mt-12">
+        <a href="/de/" class="inline-flex items-center gap-2 text-sm text-blue-600 dark:text-blue-400 hover:underline">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          <span data-i18n="back">Zurück zur Startseite</span>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="py-8 px-4 border-t border-gray-200 dark:border-gray-800">
+    <div class="max-w-2xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-gray-400 dark:text-gray-500">
+      <span>tdownloader</span>
+      <div class="flex gap-5">
+        <a href="/de/privacy/" class="text-blue-600 dark:text-blue-400" data-i18n="footer.privacy">Datenschutz</a>
+        <a href="/de/terms/" class="hover:text-gray-700 dark:hover:text-gray-300 transition-colors" data-i18n="footer.terms">Nutzungsbedingungen</a>
+      </div>
+    </div>
+  </footer>
+
+  
+ <script>
+    // ── Tema ──
+    (function () {
+      var stored = localStorage.getItem('theme');
+      var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (stored === 'dark' || (!stored && prefersDark)) document.documentElement.classList.add('dark');
+    })();
+    var themeToggle = document.getElementById('theme-toggle');
+    var iconMoon = document.getElementById('icon-moon');
+    var iconSun = document.getElementById('icon-sun');
+    function applyTheme() {
+      var dark = document.documentElement.classList.contains('dark');
+      iconMoon.classList.toggle('hidden', dark);
+      iconSun.classList.toggle('hidden', !dark);
+    }
+    applyTheme();
+    themeToggle.addEventListener('click', function () {
+      var dark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', dark ? 'dark' : 'light');
+      applyTheme();
+    });
+
+    // ── Idioma (i18n) ──
+    var _i18n = {"nav.home":"Startseite","footer.privacy":"Datenschutz","footer.terms":"Nutzungsbedingungen","back":"Zurück zur Startseite","meta.title":"Netzwerk-Transparenz - tdownloader","h1":"Netzwerk-Transparenz","intro":"TDownloader läuft vollständig auf deinem Computer. Hier ist die genaue Liste von allem, womit sich die App verbindet, wofür und was gesendet wird, damit du es selbst überprüfen kannst.","s1.h2":"Überprüfe es selbst","s1.p1":"Mit einem Netzwerk-Monitor kannst du in Echtzeit jede Verbindung der App sehen. Du wirst nur die auf dieser Seite aufgeführten sehen.","s1.li1":"Wireshark (jedes System)","s1.li2":"Little Snitch oder LuLu (macOS)","s1.li3":"OpenSnitch (Linux)","s1.li4":"GlassWire oder die Windows-Firewall (Windows)","s2.h2":"Telegram, unverzichtbar","s2.p1":"Es ist der Kern der App: Anmelden, deine Kanäle auflisten, Dateien herunterladen und in TCloud hochladen oder organisieren. \u003cstrong class=\"text-gray-800 dark:text-gray-200\">Deine Sitzung bleibt auf deiner Festplatte und kommuniziert direkt mit den Servern von Telegram.\u003c/strong> Wir sind kein Vermittler: Dein Konto und deine Dateien laufen nicht über uns.","s3.h2":"tdownloader.org, Updates und Downloads","s3.p1":"Die App prüft, ob eine neue Version verfügbar ist, empfängt ihre Grundkonfiguration und lädt Updates herunter. Das sind reine Leseanfragen: Wir senden keine Informationen über dich oder deine Nutzung.","s3.p2":"Wenn du diese Domain in deiner Firewall blockierst, funktioniert die App weiterhin normal; du erhältst nur keine automatischen Updates mehr. Das ist der Beweis, dass der Kern nicht von unseren Servern abhängt.","s4.h2":"Anonyme Statistiken, nur wenn du sie aktivierst","s4.p1":"\u003cstrong class=\"text-gray-800 dark:text-gray-200\">Sie sind standardmäßig deaktiviert.\u003c/strong> Es wird absolut nichts gesendet, solange du das Einwilligungskästchen nicht ankreuzt.","s4.p2":"Wenn du sie aktivierst, senden wir eine zufällige, anonyme Kennung (die weder dich noch dein Konto identifiziert), die App-Version, das Betriebssystem und die Sprache. Niemals dein Telegram-Konto, deine Dateien, deine Kanäle oder personenbezogene Daten.","s4.p3":"Du kannst sie jederzeit in den Einstellungen widerrufen.","s5.h2":"Problemberichte, nur wenn du sie sendest","s5.p1":"Wenn du „Problem melden\" verwendest, erhalten wir nur den von dir geschriebenen Text (und einen Kontakt, falls du einen angibst). Niemals automatisch.","s6.h2":"Was TDownloader niemals tut","s6.li1":"Deine Telegram-Sitzung oder Zugangsdaten irgendwohin senden.","s6.li2":"Deine Dateien auf unsere Server hochladen: In TCloud geht dein Inhalt an deinen eigenen Telegram-Kanal.","s6.li3":"Tracker von Dritten oder Werbenetzwerke einbinden.","s6.li4":"Daten verkaufen oder teilen oder dich profilieren.","s7.h2":"Kurz gesagt","s7.p1":"Alles passiert auf deinem Computer. Die App kommuniziert mit Telegram ( wie der offizielle Client ) und mit unserer Domain nur, um sich zu aktualisieren. Die Statistiken sind anonym und optional, und du kannst es selbst mit einem Netzwerk-Monitor überprüfen.","s1.guide":"Du weißt nicht wie? Folge unserer \u003ca href=\"audit.html\" class=\"text-blue-600 dark:text-blue-400 hover:underline\">Schritt-für-Schritt-Anleitung, um jede App zu prüfen\u003c/a>."};
+    var _SUPPORTED  = ['es','en','fr','de','pt'];
+    var _LANG_NAMES = { es:'ES', en:'EN', fr:'FR', de:'DE', pt:'PT' };
+    function detectLang() {
+      var s = localStorage.getItem('lang');
+      if (s && _SUPPORTED.indexOf(s) !== -1) return s;
+      var n = ((navigator.language || navigator.userLanguage || 'es') + '').split('-')[0].toLowerCase();
+      return _SUPPORTED.indexOf(n) !== -1 ? n : 'en';
+    }
+    function applyI18n() {
+      document.querySelectorAll('[data-i18n]').forEach(function (el) {
+        var k = el.getAttribute('data-i18n'); if (_i18n[k] !== undefined) el.textContent = _i18n[k];
+      });
+      document.querySelectorAll('[data-i18n-html]').forEach(function (el) {
+        var k = el.getAttribute('data-i18n-html'); if (_i18n[k] !== undefined) el.innerHTML = _i18n[k];
+      });
+      if (_i18n['meta.title']) document.title = _i18n['meta.title'];
+    }
+    function loadLang(lang) {
+      fetch('locales/network-' + lang + '.json')
+        .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
+        .then(function (data) {
+          _i18n = data;
+          localStorage.setItem('lang', lang);
+          document.documentElement.lang = lang;
+          applyI18n();
+          var cur = document.getElementById('lang-current');
+          if (cur) cur.textContent = _LANG_NAMES[lang] || lang.toUpperCase();
+          document.querySelectorAll('.lang-opt').forEach(function (b) {
+            b.classList.toggle('font-semibold', b.dataset.lang === lang);
+            b.classList.toggle('text-blue-600', b.dataset.lang === lang);
+          });
+        })
+        .catch(function () { if (lang !== 'es') loadLang('es'); });
+    }
+    function setLang(l) { closeLangMenu(); loadLang(l); }
+    function toggleLangMenu() { document.getElementById('lang-menu').classList.toggle('hidden'); }
+    function closeLangMenu() { var m = document.getElementById('lang-menu'); if (m) m.classList.add('hidden'); }
+    document.addEventListener('click', function (e) {
+      var sel = document.getElementById('lang-selector');
+      if (sel && !sel.contains(e.target)) closeLangMenu();
+    });
+
+    </script> </body></html>
