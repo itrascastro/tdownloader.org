@@ -1,0 +1,205 @@
+<!DOCTYPE html><html lang="vi" class="scroll-smooth"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Network Transparency - TDownloader</title><meta name="description" content="Everything TDownloader connects to and why. Verify it yourself with a network monitor: it talks to Telegram and to our update domain only. Anonymous, opt-in statistics."><meta name="keywords" content="TDownloader network transparency, telegram downloader no tracking, TDownloader verify privacy, TDownloader wireshark"><meta name="author" content="TDownloader"><meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"><link rel="canonical" href="https://tdownloader.org/vi/network/"><!-- hreflang --><link rel="alternate" hreflang="en" href="https://tdownloader.org/network/"><link rel="alternate" hreflang="es" href="https://tdownloader.org/es/network/"><link rel="alternate" hreflang="fr" href="https://tdownloader.org/fr/network/"><link rel="alternate" hreflang="de" href="https://tdownloader.org/de/network/"><link rel="alternate" hreflang="pt" href="https://tdownloader.org/pt/network/"><link rel="alternate" hreflang="ru" href="https://tdownloader.org/ru/network/"><link rel="alternate" hreflang="hi" href="https://tdownloader.org/hi/network/"><link rel="alternate" hreflang="id" href="https://tdownloader.org/id/network/"><link rel="alternate" hreflang="tr" href="https://tdownloader.org/tr/network/"><link rel="alternate" hreflang="it" href="https://tdownloader.org/it/network/"><link rel="alternate" hreflang="uk" href="https://tdownloader.org/uk/network/"><link rel="alternate" hreflang="vi" href="https://tdownloader.org/vi/network/"><link rel="alternate" hreflang="x-default" href="https://tdownloader.org/network/"><!-- Open Graph --><meta property="og:type" content="website"><meta property="og:url" content="https://tdownloader.org/vi/network/"><meta property="og:site_name" content="TDownloader"><meta property="og:title" content="Network Transparency - TDownloader"><meta property="og:description" content="Everything TDownloader connects to and why. Verify it yourself with a network monitor: it talks to Telegram and to our update domain only. Anonymous, opt-in statistics."><meta property="og:image" content="https://tdownloader.org/og-image.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="TDownloader - Desktop app for Telegram downloads"><meta property="og:locale" content="vi_VN"><meta property="og:locale:alternate" content="en_US"><meta property="og:locale:alternate" content="es_ES"><meta property="og:locale:alternate" content="fr_FR"><meta property="og:locale:alternate" content="de_DE"><meta property="og:locale:alternate" content="pt_PT"><meta property="og:locale:alternate" content="ru_RU"><meta property="og:locale:alternate" content="hi_IN"><meta property="og:locale:alternate" content="id_ID"><meta property="og:locale:alternate" content="tr_TR"><meta property="og:locale:alternate" content="it_IT"><meta property="og:locale:alternate" content="uk_UA"><!-- Twitter / X Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Network Transparency - TDownloader"><meta name="twitter:description" content="Everything TDownloader connects to and why. Verify it yourself with a network monitor: it talks to Telegram and to our update domain only. Anonymous, opt-in statistics."><meta name="twitter:image" content="https://tdownloader.org/og-image.png"><meta name="twitter:image:alt" content="TDownloader - Desktop app for Telegram downloads"><!-- Favicons --><link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><meta name="theme-color" content="#2563eb"><meta name="msapplication-TileColor" content="#2563eb"><!-- Tailwind --><script src="https://cdn.tailwindcss.com"></script><script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eff6ff', 100: '#dbeafe', 400: '#60a5fa', 500: '#3b82f6',
+              600: '#2563eb', 700: '#1d4ed8', 900: '#1e3a8a',
+            }
+          },
+          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] }
+        }
+      }
+    };
+  </script><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"><style is:global>html { font-family: 'Inter', system-ui, sans-serif; }</style></head> <body class="bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 antialiased">  
+
+  <!-- Navbar minima -->
+  <nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-white/80 dark:bg-gray-950/80 border-b border-gray-200/60 dark:border-gray-800/60">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-14">
+      <a href="/vi/" class="flex items-center gap-2.5 hover:opacity-80 transition-opacity">
+        <img src="/img/icon.png" alt="" width="40" height="40" style="width:40px;height:40px;border-radius:22%" class="inline-block align-middle shadow-sm" >
+        <span class="font-bold text-2xl tracking-tight text-gray-900 dark:text-white" style="font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif">TDownloader</span>
+      </a>
+      <div class="flex items-center gap-3 sm:gap-4">
+        <a href="/vi/" class="hidden sm:inline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors" data-i18n="nav.home">Home</a>
+
+        <!-- selector de idioma -->
+        <div class="relative" id="lang-selector">
+          <button id="lang-btn" onclick="toggleLangMenu()" class="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors px-2 py-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" aria-label="Idioma">
+            <span id="lang-current">VI</span>
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div id="lang-menu" class="hidden absolute right-0 top-full mt-1 w-40 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg py-1 z-50"><a href="/network/" hreflang="en" onclick="try{localStorage.setItem('tdl_lang','en')}catch(e){}" class="w-full block text-left px-4 py-1.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">EN - English</a><a href="/es/network/" hreflang="es" onclick="try{localStorage.setItem('tdl_lang','es')}catch(e){}" class="w-full block text-left px-4 py-1.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">ES - Español</a><a href="/fr/network/" hreflang="fr" onclick="try{localStorage.setItem('tdl_lang','fr')}catch(e){}" class="w-full block text-left px-4 py-1.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">FR - Français</a><a href="/de/network/" hreflang="de" onclick="try{localStorage.setItem('tdl_lang','de')}catch(e){}" class="w-full block text-left px-4 py-1.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">DE - Deutsch</a><a href="/pt/network/" hreflang="pt" onclick="try{localStorage.setItem('tdl_lang','pt')}catch(e){}" class="w-full block text-left px-4 py-1.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">PT - Português</a><a href="/ru/network/" hreflang="ru" onclick="try{localStorage.setItem('tdl_lang','ru')}catch(e){}" class="w-full block text-left px-4 py-1.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">RU - Русский</a><a href="/hi/network/" hreflang="hi" onclick="try{localStorage.setItem('tdl_lang','hi')}catch(e){}" class="w-full block text-left px-4 py-1.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">HI - हिन्दी</a><a href="/id/network/" hreflang="id" onclick="try{localStorage.setItem('tdl_lang','id')}catch(e){}" class="w-full block text-left px-4 py-1.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">ID - Indonesia</a><a href="/tr/network/" hreflang="tr" onclick="try{localStorage.setItem('tdl_lang','tr')}catch(e){}" class="w-full block text-left px-4 py-1.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">TR - Türkçe</a><a href="/it/network/" hreflang="it" onclick="try{localStorage.setItem('tdl_lang','it')}catch(e){}" class="w-full block text-left px-4 py-1.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">IT - Italiano</a><a href="/uk/network/" hreflang="uk" onclick="try{localStorage.setItem('tdl_lang','uk')}catch(e){}" class="w-full block text-left px-4 py-1.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">UK - Українська</a><a href="/vi/network/" hreflang="vi" onclick="try{localStorage.setItem('tdl_lang','vi')}catch(e){}" class="w-full block text-left px-4 py-1.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors font-semibold text-brand-600">VI - Tiếng Việt</a></div>
+        </div>
+
+        <button id="theme-toggle" class="p-1.5 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" aria-label="Cambiar tema">
+          <svg id="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+          </svg>
+          <svg id="icon-sun" class="hidden" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="pt-24 pb-20 px-4">
+    <div class="max-w-2xl mx-auto prose dark:prose-invert">
+
+      <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-8" data-i18n="h1">Network transparency</h1>
+
+      <div class="space-y-8 text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
+
+        <p data-i18n="intro">TDownloader runs entirely on your computer. Here is the exact list of everything the app connects to, why, and what is sent, so you can verify it yourself.</p>
+
+        <section>
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-3" data-i18n="s1.h2">Verify it yourself</h2>
+          <p data-i18n="s1.p1">You can watch every connection the app makes, live, with a network monitor. You will only see the ones listed on this page.</p>
+          <ul class="list-disc pl-5 mt-2 space-y-1">
+            <li data-i18n="s1.li1">Wireshark (any system)</li>
+            <li data-i18n="s1.li2">Little Snitch or LuLu (macOS)</li>
+            <li data-i18n="s1.li3">OpenSnitch (Linux)</li>
+            <li data-i18n="s1.li4">GlassWire or Windows Firewall (Windows)</li>
+          </ul>
+          <p class="mt-3" data-i18n-html="s1.guide">Not sure how? Follow our <a href="/vi/audit/" class="text-blue-600 dark:text-blue-400 hover:underline">step-by-step guide to audit any app</a>.</p>
+        </section>
+
+        <section>
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-3" data-i18n="s2.h2">Telegram, essential</h2>
+          <p data-i18n-html="s2.p1">It is the core of the app: signing in, listing your channels, downloading files, and uploading or organizing in TCloud. <strong class="text-gray-800 dark:text-gray-200">Your session lives on your disk and talks directly to Telegram's servers.</strong> We are not a middleman: your account and your files never pass through us.</p>
+        </section>
+
+        <section>
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-3" data-i18n="s3.h2">TDownloader.org, updates and downloads</h2>
+          <p data-i18n="s3.p1">The app checks whether a new version is available, receives its basic configuration, and downloads updates. These are read-only requests: we send no information about you or how you use the app.</p>
+          <p class="mt-3" data-i18n="s3.p2">If you block this domain in your firewall, the app keeps working normally; you only stop receiving automatic updates. That is the proof that the core does not depend on our servers.</p>
+        </section>
+
+        <section>
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-3" data-i18n="s4.h2">Anonymous statistics, only if you enable them</h2>
+          <p data-i18n-html="s4.p1"><strong class="text-gray-800 dark:text-gray-200">They are off by default.</strong> Nothing at all is sent unless you tick the consent checkbox.</p>
+          <p class="mt-3" data-i18n="s4.p2">If you enable them, we send a random, anonymous identifier (which identifies neither you nor your account), the app version, the operating system, and the language. Never your Telegram account, your files, your channels, or any personal data.</p>
+          <p class="mt-3" data-i18n="s4.p3">You can revoke them at any time in Settings.</p>
+        </section>
+
+        <section>
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-3" data-i18n="s5.h2">Problem reports, only if you send them</h2>
+          <p data-i18n="s5.p1">When you use "Report a problem" we only receive the text you write (and a contact, if you choose to include one). Never automatically.</p>
+        </section>
+
+        <section>
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-3" data-i18n="s6.h2">What TDownloader never does</h2>
+          <ul class="list-disc pl-5 mt-2 space-y-1">
+            <li data-i18n="s6.li1">Send your Telegram session or credentials anywhere.</li>
+            <li data-i18n="s6.li2">Upload your files to our servers: in TCloud, your content goes to your own Telegram channel.</li>
+            <li data-i18n="s6.li3">Include third-party trackers or ad networks.</li>
+            <li data-i18n="s6.li4">Sell or share data, or profile you.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-3" data-i18n="s7.h2">In short</h2>
+          <p data-i18n="s7.p1">Everything happens on your computer. The app talks to Telegram ( just like the official client ) and to our domain only to update itself. Statistics are anonymous and optional, and you can verify it yourself with a network monitor.</p>
+        </section>
+
+      </div>
+
+      <div class="mt-12">
+        <a href="/vi/" class="inline-flex items-center gap-2 text-sm text-blue-600 dark:text-blue-400 hover:underline">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          <span data-i18n="back">Back to home</span>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="py-8 px-4 border-t border-gray-200 dark:border-gray-800">
+    <div class="max-w-2xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-gray-400 dark:text-gray-500">
+      <span>TDownloader</span>
+      <div class="flex gap-5">
+        <a href="/vi/privacy/" class="text-blue-600 dark:text-blue-400" data-i18n="footer.privacy">Privacy</a>
+        <a href="/vi/terms/" class="hover:text-gray-700 dark:hover:text-gray-300 transition-colors" data-i18n="footer.terms">Terms</a>
+      </div>
+    </div>
+  </footer>
+
+  
+ <script>
+    // ── Tema ──
+    (function () {
+      var stored = localStorage.getItem('theme');
+      var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (stored === 'dark' || (!stored && prefersDark)) document.documentElement.classList.add('dark');
+    })();
+    var themeToggle = document.getElementById('theme-toggle');
+    var iconMoon = document.getElementById('icon-moon');
+    var iconSun = document.getElementById('icon-sun');
+    function applyTheme() {
+      var dark = document.documentElement.classList.contains('dark');
+      iconMoon.classList.toggle('hidden', dark);
+      iconSun.classList.toggle('hidden', !dark);
+    }
+    applyTheme();
+    themeToggle.addEventListener('click', function () {
+      var dark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', dark ? 'dark' : 'light');
+      applyTheme();
+    });
+
+    // ── Idioma (i18n) ──
+    var _i18n = {"nav.home":"Home","footer.privacy":"Privacy","footer.terms":"Terms","back":"Back to home","meta.title":"Network transparency - TDownloader","h1":"Network transparency","intro":"TDownloader runs entirely on your computer. Here is the exact list of everything the app connects to, why, and what is sent, so you can verify it yourself.","s1.h2":"Verify it yourself","s1.p1":"You can watch every connection the app makes, live, with a network monitor. You will only see the ones listed on this page.","s1.li1":"Wireshark (any system)","s1.li2":"Little Snitch or LuLu (macOS)","s1.li3":"OpenSnitch (Linux)","s1.li4":"GlassWire or Windows Firewall (Windows)","s2.h2":"Telegram, essential","s2.p1":"It is the core of the app: signing in, listing your channels, downloading files, and uploading or organizing in TCloud. \u003cstrong class=\"text-gray-800 dark:text-gray-200\">Your session lives on your disk and talks directly to Telegram's servers.\u003c/strong> We are not a middleman: your account and your files never pass through us.","s3.h2":"TDownloader.org, updates and downloads","s3.p1":"The app checks whether a new version is available, receives its basic configuration, and downloads updates. These are read-only requests: we send no information about you or how you use the app.","s3.p2":"If you block this domain in your firewall, the app keeps working normally; you only stop receiving automatic updates. That is the proof that the core does not depend on our servers.","s4.h2":"Anonymous statistics, only if you enable them","s4.p1":"\u003cstrong class=\"text-gray-800 dark:text-gray-200\">They are off by default.\u003c/strong> Nothing at all is sent unless you tick the consent checkbox.","s4.p2":"If you enable them, we send a random, anonymous identifier (which identifies neither you nor your account), the app version, the operating system, and the language. Never your Telegram account, your files, your channels, or any personal data.","s4.p3":"You can revoke them at any time in Settings.","s5.h2":"Problem reports, only if you send them","s5.p1":"When you use \"Report a problem\" we only receive the text you write (and a contact, if you choose to include one). Never automatically.","s6.h2":"What TDownloader never does","s6.li1":"Send your Telegram session or credentials anywhere.","s6.li2":"Upload your files to our servers: in TCloud, your content goes to your own Telegram channel.","s6.li3":"Include third-party trackers or ad networks.","s6.li4":"Sell or share data, or profile you.","s7.h2":"In short","s7.p1":"Everything happens on your computer. The app talks to Telegram ( just like the official client ) and to our domain only to update itself. Statistics are anonymous and optional, and you can verify it yourself with a network monitor.","s1.guide":"Not sure how? Follow our \u003ca href=\"audit.html\" class=\"text-blue-600 dark:text-blue-400 hover:underline\">step-by-step guide to audit any app\u003c/a>."};
+    var _SUPPORTED  = ['es','en','fr','de','pt'];
+    var _LANG_NAMES = { es:'ES', en:'EN', fr:'FR', de:'DE', pt:'PT' };
+    function detectLang() {
+      var s = localStorage.getItem('lang');
+      if (s && _SUPPORTED.indexOf(s) !== -1) return s;
+      var n = ((navigator.language || navigator.userLanguage || 'es') + '').split('-')[0].toLowerCase();
+      return _SUPPORTED.indexOf(n) !== -1 ? n : 'en';
+    }
+    function applyI18n() {
+      document.querySelectorAll('[data-i18n]').forEach(function (el) {
+        var k = el.getAttribute('data-i18n'); if (_i18n[k] !== undefined) el.textContent = _i18n[k];
+      });
+      document.querySelectorAll('[data-i18n-html]').forEach(function (el) {
+        var k = el.getAttribute('data-i18n-html'); if (_i18n[k] !== undefined) el.innerHTML = _i18n[k];
+      });
+      if (_i18n['meta.title']) document.title = _i18n['meta.title'];
+    }
+    function loadLang(lang) {
+      fetch('locales/network-' + lang + '.json')
+        .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
+        .then(function (data) {
+          _i18n = data;
+          localStorage.setItem('lang', lang);
+          document.documentElement.lang = lang;
+          applyI18n();
+          var cur = document.getElementById('lang-current');
+          if (cur) cur.textContent = _LANG_NAMES[lang] || lang.toUpperCase();
+          document.querySelectorAll('.lang-opt').forEach(function (b) {
+            b.classList.toggle('font-semibold', b.dataset.lang === lang);
+            b.classList.toggle('text-blue-600', b.dataset.lang === lang);
+          });
+        })
+        .catch(function () { if (lang !== 'es') loadLang('es'); });
+    }
+    function setLang(l) { closeLangMenu(); loadLang(l); }
+    function toggleLangMenu() { document.getElementById('lang-menu').classList.toggle('hidden'); }
+    function closeLangMenu() { var m = document.getElementById('lang-menu'); if (m) m.classList.add('hidden'); }
+    document.addEventListener('click', function (e) {
+      var sel = document.getElementById('lang-selector');
+      if (sel && !sel.contains(e.target)) closeLangMenu();
+    });
+
+    </script> </body></html>
