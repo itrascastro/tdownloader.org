@@ -1,0 +1,806 @@
+<!DOCTYPE html><html lang="uk" class="scroll-smooth"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>How to Audit What an App Sends Over the Network (Step by Step)</title><meta name="description" content="A step-by-step guide to see exactly what any app connects to on Windows, Mac and Linux, using an application firewall or Wireshark. Check if an app sends your data or phones home."><meta name="keywords" content="how to see what an app connects to, audit app network traffic, check what data an app sends, monitor app network connections, is this app spying on me, wireshark app traffic, little snitch, glasswire, opensnitch"><meta name="author" content="TDownloader"><meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"><link rel="canonical" href="https://tdownloader.org/uk/audit/"><!-- hreflang --><link rel="alternate" hreflang="en" href="https://tdownloader.org/audit/"><link rel="alternate" hreflang="es" href="https://tdownloader.org/es/audit/"><link rel="alternate" hreflang="fr" href="https://tdownloader.org/fr/audit/"><link rel="alternate" hreflang="de" href="https://tdownloader.org/de/audit/"><link rel="alternate" hreflang="pt" href="https://tdownloader.org/pt/audit/"><link rel="alternate" hreflang="ru" href="https://tdownloader.org/ru/audit/"><link rel="alternate" hreflang="hi" href="https://tdownloader.org/hi/audit/"><link rel="alternate" hreflang="id" href="https://tdownloader.org/id/audit/"><link rel="alternate" hreflang="tr" href="https://tdownloader.org/tr/audit/"><link rel="alternate" hreflang="it" href="https://tdownloader.org/it/audit/"><link rel="alternate" hreflang="uk" href="https://tdownloader.org/uk/audit/"><link rel="alternate" hreflang="x-default" href="https://tdownloader.org/audit/"><!-- Open Graph --><meta property="og:type" content="website"><meta property="og:url" content="https://tdownloader.org/uk/audit/"><meta property="og:site_name" content="TDownloader"><meta property="og:title" content="How to Audit What an App Sends Over the Network (Step by Step)"><meta property="og:description" content="A step-by-step guide to see exactly what any app connects to on Windows, Mac and Linux, using an application firewall or Wireshark. Check if an app sends your data or phones home."><meta property="og:image" content="https://tdownloader.org/og-image.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="TDownloader - Desktop app for Telegram downloads"><meta property="og:locale" content="uk_UA"><meta property="og:locale:alternate" content="en_US"><meta property="og:locale:alternate" content="es_ES"><meta property="og:locale:alternate" content="fr_FR"><meta property="og:locale:alternate" content="de_DE"><meta property="og:locale:alternate" content="pt_PT"><meta property="og:locale:alternate" content="ru_RU"><meta property="og:locale:alternate" content="hi_IN"><meta property="og:locale:alternate" content="id_ID"><meta property="og:locale:alternate" content="tr_TR"><meta property="og:locale:alternate" content="it_IT"><!-- Twitter / X Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="How to Audit What an App Sends Over the Network (Step by Step)"><meta name="twitter:description" content="A step-by-step guide to see exactly what any app connects to on Windows, Mac and Linux, using an application firewall or Wireshark. Check if an app sends your data or phones home."><meta name="twitter:image" content="https://tdownloader.org/og-image.png"><meta name="twitter:image:alt" content="TDownloader - Desktop app for Telegram downloads"><!-- Favicons --><link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><meta name="theme-color" content="#2563eb"><meta name="msapplication-TileColor" content="#2563eb"><!-- Tailwind --><script src="https://cdn.tailwindcss.com"></script><script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eff6ff', 100: '#dbeafe', 400: '#60a5fa', 500: '#3b82f6',
+              600: '#2563eb', 700: '#1d4ed8', 900: '#1e3a8a',
+            }
+          },
+          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] }
+        }
+      }
+    };
+  </script><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"><style is:global>html { font-family: 'Inter', system-ui, sans-serif; }</style></head> <body class="bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 antialiased">  
+
+  <!-- Navbar minima -->
+  <nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-white/80 dark:bg-gray-950/80 border-b border-gray-200/60 dark:border-gray-800/60">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-14">
+      <a href="/uk/" class="flex items-center gap-2.5 hover:opacity-80 transition-opacity">
+        <img src="/img/icon.png" alt="" width="40" height="40" style="width:40px;height:40px;border-radius:22%" class="inline-block align-middle shadow-sm" >
+        <span class="font-bold text-2xl tracking-tight text-gray-900 dark:text-white" style="font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif">TDownloader</span>
+      </a>
+      <div class="flex items-center gap-3 sm:gap-4">
+        <a href="/uk/" class="hidden sm:inline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors" data-i18n="nav.home">Inicio</a>
+
+        <!-- selector de idioma -->
+        <div class="relative" id="lang-selector">
+          <button id="lang-btn" onclick="toggleLangMenu()" class="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors px-2 py-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" aria-label="Idioma">
+            <span id="lang-current">UK</span>
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div id="lang-menu" class="hidden absolute right-0 top-full mt-1 w-40 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg py-1 z-50"><a href="/audit/" hreflang="en" onclick="try{localStorage.setItem('tdl_lang','en')}catch(e){}" class="w-full block text-left px-4 py-1.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">EN - English</a><a href="/es/audit/" hreflang="es" onclick="try{localStorage.setItem('tdl_lang','es')}catch(e){}" class="w-full block text-left px-4 py-1.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">ES - Español</a><a href="/fr/audit/" hreflang="fr" onclick="try{localStorage.setItem('tdl_lang','fr')}catch(e){}" class="w-full block text-left px-4 py-1.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">FR - Français</a><a href="/de/audit/" hreflang="de" onclick="try{localStorage.setItem('tdl_lang','de')}catch(e){}" class="w-full block text-left px-4 py-1.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">DE - Deutsch</a><a href="/pt/audit/" hreflang="pt" onclick="try{localStorage.setItem('tdl_lang','pt')}catch(e){}" class="w-full block text-left px-4 py-1.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">PT - Português</a><a href="/ru/audit/" hreflang="ru" onclick="try{localStorage.setItem('tdl_lang','ru')}catch(e){}" class="w-full block text-left px-4 py-1.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">RU - Русский</a><a href="/hi/audit/" hreflang="hi" onclick="try{localStorage.setItem('tdl_lang','hi')}catch(e){}" class="w-full block text-left px-4 py-1.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">HI - हिन्दी</a><a href="/id/audit/" hreflang="id" onclick="try{localStorage.setItem('tdl_lang','id')}catch(e){}" class="w-full block text-left px-4 py-1.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">ID - Indonesia</a><a href="/tr/audit/" hreflang="tr" onclick="try{localStorage.setItem('tdl_lang','tr')}catch(e){}" class="w-full block text-left px-4 py-1.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">TR - Türkçe</a><a href="/it/audit/" hreflang="it" onclick="try{localStorage.setItem('tdl_lang','it')}catch(e){}" class="w-full block text-left px-4 py-1.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">IT - Italiano</a><a href="/uk/audit/" hreflang="uk" onclick="try{localStorage.setItem('tdl_lang','uk')}catch(e){}" class="w-full block text-left px-4 py-1.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors font-semibold text-brand-600">UK - Українська</a></div>
+        </div>
+
+        <button id="theme-toggle" class="p-1.5 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" aria-label="Cambiar tema">
+          <svg id="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+          </svg>
+          <svg id="icon-sun" class="hidden" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="pt-24 pb-20 px-4">
+    <div class="max-w-2xl mx-auto">
+
+      <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-6" data-i18n="h1">Cómo auditar qué datos envía una aplicación por Internet</h1>
+        <p class="mt-2" data-i18n="lead">Cualquier aplicación que se comunique con Internet puede enviar información fuera de tu equipo. Algunas conexiones son necesarias para que el programa funcione; otras pueden utilizarse para comprobar actualizaciones, registrar errores, recopilar estadísticas o transmitir datos que no esperabas compartir.</p>
+        <p class="mt-2" data-i18n="lead2">Esta guía te permitirá:</p>
+        <ul class="list-disc pl-5 mt-2 space-y-1">
+          <li data-i18n="lead.list.1">identificar todas las conexiones realizadas por una aplicación;</li>
+          <li data-i18n="lead.list.2">inspeccionar el contenido de las comunicaciones HTTP y HTTPS;</li>
+          <li data-i18n="lead.list.3">comprobar qué datos concretos salen del equipo;</li>
+          <li data-i18n="lead.list.4">relacionar cada envío con una acción realizada en la aplicación;</li>
+          <li data-i18n="lead.list.5">detectar conexiones que no hayan podido ser inspeccionadas;</li>
+          <li data-i18n="lead.list.6">elaborar un informe reproducible con los resultados.</li>
+        </ul>
+        <p class="mt-2" data-i18n="lead.serve">El procedimiento sirve para TDownloader y para cualquier otra aplicación de escritorio instalada en Windows, macOS o Linux.</p>
+        <p class="mt-3 border-l-2 border-blue-500 pl-3 text-gray-700 dark:text-gray-300"><strong class="text-gray-800 dark:text-gray-200" data-i18n="lead.imp">Importante: ninguna herramienta permite prometer una auditoría perfecta en todos los casos. Una aplicación puede utilizar certificate pinning, protocolos propietarios, cifrado adicional, procesos auxiliares o controladores del sistema. Esta guía no oculta esas limitaciones: una auditoría solo se considerará completa cuando todas las conexiones detectadas hayan podido inspeccionarse o justificarse.</strong></p>
+        <section class="pt-2">
+        <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3 mt-4" data-i18n="check.h2">Qué vamos a comprobar</h2>
+        <p class="mt-2" data-i18n="check.p1">Una auditoría de red tiene dos partes distintas.</p>
+        <h3 class="text-base font-semibold text-gray-900 dark:text-white mt-6 mb-1" data-i18n="check.d.h3">1. Detectar las conexiones</h3>
+        <p class="mt-2" data-i18n="check.d.p">Primero hay que averiguar:</p>
+        <ul class="list-disc pl-5 mt-2 space-y-1">
+          <li data-i18n="check.d.list.1">qué servidores contacta la aplicación;</li>
+          <li data-i18n="check.d.list.2">qué dominios y direcciones IP utiliza;</li>
+          <li data-i18n="check.d.list.3">en qué momento se producen las conexiones;</li>
+          <li data-i18n="check.d.list.4">qué proceso las inicia;</li>
+          <li data-i18n="check.d.list.5">qué protocolo y puerto emplean;</li>
+          <li data-i18n="check.d.list.6">cuánto tráfico se envía y se recibe.</li>
+        </ul>
+        <h3 class="text-base font-semibold text-gray-900 dark:text-white mt-6 mb-1" data-i18n="check.i.h3">2. Inspeccionar el contenido</h3>
+        <p class="mt-2" data-i18n="check.i.p">Después hay que examinar cada petición para comprobar si contiene:</p>
+        <ul class="list-disc pl-5 mt-2 space-y-1">
+          <li data-i18n="check.i.list.1">direcciones de correo;</li>
+          <li data-i18n="check.i.list.2">nombres de usuario;</li>
+          <li data-i18n="check.i.list.3">identificadores del dispositivo;</li>
+          <li data-i18n="check.i.list.4">versión del sistema operativo;</li>
+          <li data-i18n="check.i.list.5">versión de la aplicación;</li>
+          <li data-i18n="check.i.list.6">estadísticas de uso;</li>
+          <li data-i18n="check.i.list.7">mensajes o búsquedas;</li>
+          <li data-i18n="check.i.list.8">nombres de archivos;</li>
+          <li data-i18n="check.i.list.9">rutas del disco;</li>
+          <li data-i18n="check.i.list.10">contenido de archivos;</li>
+          <li data-i18n="check.i.list.11">cookies;</li>
+          <li data-i18n="check.i.list.12">tokens de autenticación;</li>
+          <li data-i18n="check.i.list.13">contraseñas;</li>
+          <li data-i18n="check.i.list.14">claves privadas;</li>
+          <li data-i18n="check.i.list.15">cualquier otro dato personal o potencialmente sensible.</li>
+        </ul>
+        <p class="mt-2" data-i18n="check.i.p2">Un firewall permite realizar la primera parte. Para la segunda necesitaremos un proxy de interceptación HTTPS.</p>
+        <figure class="my-5">
+          <div class="rounded-xl border border-dashed border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 aspect-video flex items-center justify-center text-gray-400 dark:text-gray-600 text-xs">imagen</div>
+          <figcaption class="text-xs text-gray-400 dark:text-gray-500 mt-2 text-center" data-i18n="fig1">Ilustración: qué muestra cada herramienta (firewall: proceso, dominio, IP, puerto y volumen; proxy HTTPS: URL, cabeceras, parámetros, cuerpo de la petición y respuesta).</figcaption>
+        </figure>
+        <p class="mt-3 border-l-2 border-blue-500 pl-3 text-gray-700 dark:text-gray-300"><strong class="text-gray-800 dark:text-gray-200" data-i18n="fig1.note">Ver el destino no significa conocer los datos enviados.</strong></p>
+        </section>
+        <section class="pt-2">
+        <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3 mt-4" data-i18n="tools.h2">Herramientas necesarias</h2>
+        <p class="mt-2" data-i18n="tools.p1">Usaremos dos tipos de herramientas.</p>
+        <h3 class="text-base font-semibold text-gray-900 dark:text-white mt-6 mb-1" data-i18n="tools.main.h3">Herramienta principal: mitmproxy</h3>
+        <p class="mt-2" data-i18n="tools.main.p1">mitmproxy es un proxy de interceptación capaz de mostrar solicitudes y respuestas HTTP y HTTPS. Incluye tres interfaces:</p>
+        <ul class="list-disc pl-5 mt-2 space-y-1">
+          <li data-i18n="tools.main.list.1">mitmproxy: interfaz de terminal;</li>
+          <li data-i18n="tools.main.list.2">mitmweb: interfaz visual abierta en el navegador;</li>
+          <li data-i18n="tools.main.list.3">mitmdump: versión orientada a consola y automatización.</li>
+        </ul>
+        <p class="mt-2" data-i18n="tools.main.p2">En esta guía utilizaremos mitmweb, porque permite revisar las comunicaciones de forma visual.</p>
+        <p class="mt-2" data-i18n="tools.main.p3">mitmproxy puede interceptar HTTP, HTTPS, HTTP/2 y WebSockets, guardar las comunicaciones y mostrar su contenido. Para descifrar HTTPS, el dispositivo debe confiar temporalmente en el certificado local generado por mitmproxy.</p>
+        <h3 class="text-base font-semibold text-gray-900 dark:text-white mt-6 mb-1" data-i18n="tools.sec.h3">Herramienta secundaria: monitor de conexiones</h3>
+        <p class="mt-2" data-i18n="tools.sec.p1">También necesitaremos una herramienta que muestre todas las conexiones realizadas por el proceso, incluso aquellas que mitmproxy no consiga descifrar. Algunas opciones son:</p>
+        <ul class="list-disc pl-5 mt-2 space-y-1">
+          <li data-i18n="tools.sec.list.1">Windows: TCPView, Monitor de recursos o un firewall de aplicaciones.</li>
+          <li data-i18n="tools.sec.list.2">macOS: Monitor de Actividad, nettop o un firewall de aplicaciones.</li>
+          <li data-i18n="tools.sec.list.3">Linux: OpenSnitch, Portmaster, ss, lsof o Wireshark.</li>
+        </ul>
+        <p class="mt-2" data-i18n="tools.sec.p2">No es obligatorio utilizar una herramienta concreta. Lo importante es poder comparar la lista total de conexiones con las solicitudes que aparecen en mitmweb.</p>
+        <figure class="my-5">
+          <div class="rounded-xl border border-dashed border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 aspect-video flex items-center justify-center text-gray-400 dark:text-gray-600 text-xs">imagen</div>
+          <figcaption class="text-xs text-gray-400 dark:text-gray-500 mt-2 text-center" data-i18n="fig2">Ilustración: esquema completo de la auditoría. Aplicación va a mitmproxy va a Internet, con un monitor de red observando en paralelo todas las conexiones.</figcaption>
+        </figure>
+        </section>
+        <section class="pt-2">
+        <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3 mt-4" data-i18n="p1.h2">Parte 1. Preparar un entorno de prueba seguro</h2>
+        <h3 class="text-base font-semibold text-gray-900 dark:text-white mt-6 mb-1" data-i18n="p1.1.h3">1. Utiliza datos ficticios</h3>
+        <p class="mt-2" data-i18n="p1.1.p1">No realices la primera prueba con tu cuenta habitual ni con documentos personales. Crea, cuando sea posible:</p>
+        <ul class="list-disc pl-5 mt-2 space-y-1">
+          <li data-i18n="p1.1.list.1">una cuenta de prueba;</li>
+          <li data-i18n="p1.1.list.2">un perfil nuevo en la aplicación;</li>
+          <li data-i18n="p1.1.list.3">una carpeta temporal vacía;</li>
+          <li data-i18n="p1.1.list.4">archivos de prueba sin información real;</li>
+          <li data-i18n="p1.1.list.5">credenciales diferentes de las que utilizas habitualmente.</li>
+        </ul>
+        <p class="mt-2" data-i18n="p1.1.p2">Durante la auditoría podrás ver tokens, cookies y otros datos de autenticación. No publiques las capturas sin ocultarlos.</p>
+        <h3 class="text-base font-semibold text-gray-900 dark:text-white mt-6 mb-1" data-i18n="p1.2.h3">2. Crea datos identificables</h3>
+        <p class="mt-2" data-i18n="p1.2.p1">Para descubrir fácilmente si la aplicación transmite información local, utiliza valores únicos que puedas buscar después en el tráfico capturado. Por ejemplo:</p>
+        <pre class="block bg-gray-100 dark:bg-gray-900 rounded-lg p-3 my-3 text-xs font-mono text-gray-800 dark:text-gray-200 overflow-x-auto whitespace-pre-wrap">Usuario:  AUDIT_USUARIO_20260712
+Carpeta:  AUDIT_CARPETA_PRIVADA_20260712
+Archivo:  AUDIT_ARCHIVO_SECRETO_20260712.txt
+Contenido: AUDIT_CONTENIDO_NO_DEBE_ENVIARSE_20260712
+Búsqueda: AUDIT_BUSQUEDA_UNICA_20260712</pre>
+        <p class="mt-2" data-i18n="p1.2.p2">Estas cadenas funcionan como marcadores. Si una de ellas aparece en una petición, sabrás exactamente qué información ha enviado la aplicación y qué acción provocó el envío.</p>
+        <p class="mt-2" data-i18n="p1.2.p3">No utilices siempre los valores de este ejemplo. Añade una fecha o una secuencia aleatoria para que tus marcadores sean únicos.</p>
+        <figure class="my-5">
+          <div class="rounded-xl border border-dashed border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 aspect-video flex items-center justify-center text-gray-400 dark:text-gray-600 text-xs">imagen</div>
+          <figcaption class="text-xs text-gray-400 dark:text-gray-500 mt-2 text-center" data-i18n="fig3">Ilustración: preparación de datos de prueba. Una carpeta AUDIT_CARPETA_PRIVADA con un archivo AUDIT_ARCHIVO_SECRETO cuyo contenido es AUDIT_CONTENIDO_NO_DEBE_ENVIARSE.</figcaption>
+        </figure>
+        <p class="mt-3 border-l-2 border-blue-500 pl-3 text-gray-700 dark:text-gray-300"><strong class="text-gray-800 dark:text-gray-200" data-i18n="fig3.note">Los marcadores únicos permiten descubrir si la app transmite nombres, rutas o contenidos.</strong></p>
+        <h3 class="text-base font-semibold text-gray-900 dark:text-white mt-6 mb-1" data-i18n="p1.3.h3">3. Aísla la aplicación</h3>
+        <p class="mt-2" data-i18n="p1.3.p1">La forma más fiable de evitar que el tráfico de otros programas se mezcle con el de la aplicación auditada es utilizar:</p>
+        <ul class="list-disc pl-5 mt-2 space-y-1">
+          <li data-i18n="p1.3.list.1">una máquina virtual;</li>
+          <li data-i18n="p1.3.list.2">un equipo secundario;</li>
+          <li data-i18n="p1.3.list.3">una cuenta nueva del sistema operativo;</li>
+          <li data-i18n="p1.3.list.4">o, como mínimo, cerrar navegadores, clientes de correo, sincronizadores y otras aplicaciones que utilicen Internet.</li>
+        </ul>
+        <p class="mt-2" data-i18n="p1.3.p2">Una máquina virtual limpia es la opción más rigurosa. También permite restaurar el sistema después de instalar el certificado de interceptación.</p>
+        <p class="mt-2" data-i18n="p1.3.p3">Si no utilizas una máquina virtual, captura únicamente el proceso de la aplicación cuando la herramienta lo permita.</p>
+        <h3 class="text-base font-semibold text-gray-900 dark:text-white mt-6 mb-1" data-i18n="p1.4.h3">4. Desactiva interferencias</h3>
+        <p class="mt-2" data-i18n="p1.4.p1">Antes de comenzar:</p>
+        <ul class="list-disc pl-5 mt-2 space-y-1">
+          <li data-i18n="p1.4.list.1">cierra la aplicación que vas a analizar;</li>
+          <li data-i18n="p1.4.list.2">cierra programas innecesarios;</li>
+          <li data-i18n="p1.4.list.3">pausa las sincronizaciones;</li>
+          <li data-i18n="p1.4.list.4">evita realizar otras actividades durante la captura;</li>
+          <li data-i18n="p1.4.list.5">anota la fecha, la hora y la versión exacta de la aplicación;</li>
+          <li data-i18n="p1.4.list.6">anota la versión del sistema operativo.</li>
+        </ul>
+        </section>
+        <section class="pt-2">
+        <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3 mt-4" data-i18n="p2.h2">Parte 2. Instalar mitmproxy</h2>
+        <p class="mt-2" data-i18n="p2.p1">Descarga mitmproxy únicamente desde su sitio oficial. Las instrucciones oficiales recomiendan:</p>
+        <ul class="list-disc pl-5 mt-2 space-y-1">
+          <li data-i18n="p2.list.1">Windows: utilizar el instalador oficial;</li>
+          <li data-i18n="p2.list.2">macOS: instalarlo mediante Homebrew o descargar los binarios;</li>
+          <li data-i18n="p2.list.3">Linux: descargar los binarios independientes oficiales.</li>
+        </ul>
+        <p class="mt-2" data-i18n="p2.p2">Los paquetes incluidos en algunas distribuciones Linux pueden ir por detrás de la versión publicada por el proyecto.</p>
+        <p class="mt-2" data-i18n="p2.p3">Después de instalarlo, abre una terminal y ejecuta:</p>
+        <pre class="block bg-gray-100 dark:bg-gray-900 rounded-lg p-3 my-3 text-xs font-mono text-gray-800 dark:text-gray-200 overflow-x-auto whitespace-pre-wrap">mitmweb</pre>
+        <p class="mt-2" data-i18n="p2.p4">Se iniciará el proxy y se abrirá su interfaz visual en el navegador. Por defecto, el proxy escucha en:</p>
+        <pre class="block bg-gray-100 dark:bg-gray-900 rounded-lg p-3 my-3 text-xs font-mono text-gray-800 dark:text-gray-200 overflow-x-auto whitespace-pre-wrap">127.0.0.1:8080</pre>
+        <figure class="my-5">
+          <div class="rounded-xl border border-dashed border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 aspect-video flex items-center justify-center text-gray-400 dark:text-gray-600 text-xs">imagen</div>
+          <figcaption class="text-xs text-gray-400 dark:text-gray-500 mt-2 text-center" data-i18n="fig4">Ilustración: inicio de mitmweb. Una terminal con el comando mitmweb y, al lado, la interfaz de mitmweb abierta en el navegador donde aparecerán las conexiones capturadas.</figcaption>
+        </figure>
+        </section>
+        <section class="pt-2">
+        <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3 mt-4" data-i18n="p3.h2">Parte 3. Instalar temporalmente el certificado</h2>
+        <p class="mt-2" data-i18n="p3.p1">HTTPS cifra el contenido entre la aplicación y el servidor. Para mostrarlo, mitmproxy genera certificados locales y actúa como intermediario entre ambos extremos.</p>
+        <p class="mt-2" data-i18n="p3.p2">El certificado debe instalarse exclusivamente en el entorno utilizado para la auditoría.</p>
+        <h3 class="text-base font-semibold text-gray-900 dark:text-white mt-6 mb-1" data-i18n="p3.proc.h3">Procedimiento recomendado</h3>
+        <ol class="list-decimal pl-5 mt-2 space-y-1">
+          <li data-i18n="p3.steps.a.1">Inicia mitmweb.</li>
+          <li data-i18n="p3.steps.a.2">Configura temporalmente el proxy del sistema con estos valores:</li>
+        </ol>
+        <pre class="block bg-gray-100 dark:bg-gray-900 rounded-lg p-3 my-3 text-xs font-mono text-gray-800 dark:text-gray-200 overflow-x-auto whitespace-pre-wrap">Servidor: 127.0.0.1
+Puerto: 8080</pre>
+        <ol class="list-decimal pl-5 mt-2 space-y-1">
+          <li data-i18n="p3.steps.b.1">Abre un navegador.</li>
+          <li data-i18n="p3.steps.b.2">Visita:</li>
+        </ol>
+        <pre class="block bg-gray-100 dark:bg-gray-900 rounded-lg p-3 my-3 text-xs font-mono text-gray-800 dark:text-gray-200 overflow-x-auto whitespace-pre-wrap">http://mitm.it</pre>
+        <ol class="list-decimal pl-5 mt-2 space-y-1">
+          <li data-i18n="p3.steps.c.1">Selecciona tu sistema operativo.</li>
+          <li data-i18n="p3.steps.c.2">Descarga e instala el certificado.</li>
+          <li data-i18n="p3.steps.c.3">Cuando el sistema lo pregunte, autoriza su uso para identificar sitios web o conexiones TLS.</li>
+        </ol>
+        <p class="mt-2" data-i18n="p3.p3">mitmproxy genera una autoridad certificadora diferente en cada instalación. El certificado permite que mitmproxy descifre las conexiones mientras esté instalado y el tráfico pase por el proxy.</p>
+        <h3 class="text-base font-semibold text-gray-900 dark:text-white mt-6 mb-1" data-i18n="p3.prec.h3">Precauciones</h3>
+        <ul class="list-disc pl-5 mt-2 space-y-1">
+          <li data-i18n="p3.prec.list.1">No compartas la clave privada generada por mitmproxy.</li>
+          <li data-i18n="p3.prec.list.2">No instales certificados proporcionados por terceros.</li>
+          <li data-i18n="p3.prec.list.3">No dejes el certificado instalado permanentemente.</li>
+          <li data-i18n="p3.prec.list.4">Elimina el certificado cuando termines la auditoría.</li>
+          <li data-i18n="p3.prec.list.5">Realiza las pruebas con datos ficticios.</li>
+          <li data-i18n="p3.prec.list.6">No utilices este entorno para banca, correo personal ni servicios sensibles.</li>
+        </ul>
+        <figure class="my-5">
+          <div class="rounded-xl border border-dashed border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 aspect-video flex items-center justify-center text-gray-400 dark:text-gray-600 text-xs">imagen</div>
+          <figcaption class="text-xs text-gray-400 dark:text-gray-500 mt-2 text-center" data-i18n="fig5">Ilustración: instalación del certificado. Secuencia de tres pasos: proxy activo en 127.0.0.1:8080, navegador abriendo mitm.it, e instalación del certificado del sistema operativo.</figcaption>
+        </figure>
+        <p class="mt-3 border-l-2 border-blue-500 pl-3 text-gray-700 dark:text-gray-300"><strong class="text-gray-800 dark:text-gray-200" data-i18n="fig5.note">El certificado debe eliminarse al terminar.</strong></p>
+        </section>
+        <section class="pt-2">
+        <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3 mt-4" data-i18n="p4.h2">Parte 4. Comprobar que HTTPS puede inspeccionarse</h2>
+        <p class="mt-2" data-i18n="p4.p1">Antes de abrir la aplicación auditada, comprueba que la configuración funciona.</p>
+        <ol class="list-decimal pl-5 mt-2 space-y-1">
+          <li data-i18n="p4.steps.1">Mantén mitmweb abierto.</li>
+          <li data-i18n="p4.steps.2">Abre una página HTTPS desde el navegador.</li>
+          <li data-i18n="p4.steps.3">Comprueba que aparece una nueva entrada en mitmweb.</li>
+          <li data-i18n="p4.steps.4">Selecciona la entrada.</li>
+          <li data-i18n="p4.steps.5">Revisa las pestañas de solicitud y respuesta.</li>
+        </ol>
+        <p class="mt-2" data-i18n="p4.p2">Deberías poder ver:</p>
+        <ul class="list-disc pl-5 mt-2 space-y-1">
+          <li data-i18n="p4.list.1">dominio;</li>
+          <li data-i18n="p4.list.2">URL completa;</li>
+          <li data-i18n="p4.list.3">método HTTP;</li>
+          <li data-i18n="p4.list.4">cabeceras;</li>
+          <li data-i18n="p4.list.5">parámetros;</li>
+          <li data-i18n="p4.list.6">cookies;</li>
+          <li data-i18n="p4.list.7">cuerpo de la solicitud;</li>
+          <li data-i18n="p4.list.8">cuerpo de la respuesta.</li>
+        </ul>
+        <p class="mt-2" data-i18n="p4.p3">Si únicamente aparece una conexión sin contenido, o se produce un error de certificado, la instalación todavía no es correcta.</p>
+        <p class="mt-2" data-i18n="p4.p4">La propia documentación de mitmproxy recomienda comprobar la configuración abriendo una página HTTPS y verificando que el flujo puede inspeccionarse.</p>
+        </section>
+        <section class="pt-2">
+        <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3 mt-4" data-i18n="p5.h2">Parte 5. Capturar solamente la aplicación</h2>
+        <h3 class="text-base font-semibold text-gray-900 dark:text-white mt-6 mb-1" data-i18n="p5.a.h3">Opción A. Captura local por proceso</h3>
+        <p class="mt-2" data-i18n="p5.a.p1">Las versiones actuales de mitmproxy disponen de un modo de captura local para Windows, macOS y Linux. Este modo puede interceptar todas las conexiones del equipo o limitarse a un proceso concreto.</p>
+        <p class="mt-2" data-i18n="p5.a.p2">Cierra la ejecución anterior de mitmweb y utiliza:</p>
+        <pre class="block bg-gray-100 dark:bg-gray-900 rounded-lg p-3 my-3 text-xs font-mono text-gray-800 dark:text-gray-200 overflow-x-auto whitespace-pre-wrap">mitmweb --mode local</pre>
+        <p class="mt-2" data-i18n="p5.a.p3">Esto intentará capturar las conexiones salientes de todas las aplicaciones del equipo. Para limitar la captura a un proceso:</p>
+        <pre class="block bg-gray-100 dark:bg-gray-900 rounded-lg p-3 my-3 text-xs font-mono text-gray-800 dark:text-gray-200 overflow-x-auto whitespace-pre-wrap">mitmweb --mode local:NOMBRE_DEL_PROCESO</pre>
+        <p class="mt-2" data-i18n="p5.a.p4">Ejemplo genérico:</p>
+        <pre class="block bg-gray-100 dark:bg-gray-900 rounded-lg p-3 my-3 text-xs font-mono text-gray-800 dark:text-gray-200 overflow-x-auto whitespace-pre-wrap">mitmweb --mode local:miaplicacion</pre>
+        <p class="mt-2" data-i18n="p5.a.p5">También puede utilizarse el identificador numérico del proceso:</p>
+        <pre class="block bg-gray-100 dark:bg-gray-900 rounded-lg p-3 my-3 text-xs font-mono text-gray-800 dark:text-gray-200 overflow-x-auto whitespace-pre-wrap">mitmweb --mode local:12345</pre>
+        <h4 class="font-semibold text-gray-800 dark:text-gray-200 mt-4 mb-1" data-i18n="p5.a.aux.h4">Atención a los procesos auxiliares</h4>
+        <p class="mt-2" data-i18n="p5.a.aux.p1">Algunas aplicaciones crean procesos adicionales para:</p>
+        <ul class="list-disc pl-5 mt-2 space-y-1">
+          <li data-i18n="p5.a.aux.list.1">actualizarse;</li>
+          <li data-i18n="p5.a.aux.list.2">mostrar contenido web;</li>
+          <li data-i18n="p5.a.aux.list.3">descargar archivos;</li>
+          <li data-i18n="p5.a.aux.list.4">enviar informes de errores;</li>
+          <li data-i18n="p5.a.aux.list.5">ejecutar tareas en segundo plano.</li>
+        </ul>
+        <p class="mt-2" data-i18n="p5.a.aux.p2">Si capturas únicamente el proceso principal, podrías perder esas conexiones. Para una auditoría rigurosa, es preferible capturar todo el tráfico dentro de una máquina virtual limpia.</p>
+        <p class="mt-2" data-i18n="p5.a.aux.p3">En Linux, el modo local puede solicitar permisos administrativos y depende de la compatibilidad del kernel.</p>
+        <h3 class="text-base font-semibold text-gray-900 dark:text-white mt-6 mb-1" data-i18n="p5.b.h3">Opción B. Proxy configurado en el sistema</h3>
+        <p class="mt-2" data-i18n="p5.b.p1">Cuando el modo local no funcione, puedes mantener el proxy del sistema configurado en:</p>
+        <pre class="block bg-gray-100 dark:bg-gray-900 rounded-lg p-3 my-3 text-xs font-mono text-gray-800 dark:text-gray-200 overflow-x-auto whitespace-pre-wrap">127.0.0.1:8080</pre>
+        <p class="mt-2" data-i18n="p5.b.p2">Este método es más sencillo, pero algunas aplicaciones ignoran la configuración de proxy del sistema. Por eso debe complementarse siempre con un monitor de conexiones.</p>
+        <figure class="my-5">
+          <div class="rounded-xl border border-dashed border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 aspect-video flex items-center justify-center text-gray-400 dark:text-gray-600 text-xs">imagen</div>
+          <figcaption class="text-xs text-gray-400 dark:text-gray-500 mt-2 text-center" data-i18n="fig6">Ilustración: selección de la aplicación. Dos comandos: mitmweb --mode local (captura todo el equipo) y mitmweb --mode local:miaplicacion (captura un proceso concreto).</figcaption>
+        </figure>
+        <p class="mt-3 border-l-2 border-blue-500 pl-3 text-gray-700 dark:text-gray-300"><strong class="text-gray-800 dark:text-gray-200" data-i18n="fig6.note">Los procesos auxiliares también deben quedar incluidos.</strong></p>
+        </section>
+        <section class="pt-2">
+        <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3 mt-4" data-i18n="p6.h2">Parte 6. Registrar una línea base</h2>
+        <p class="mt-2" data-i18n="p6.p1">Antes de abrir la aplicación, registra el tráfico que se produce sin ella.</p>
+        <ol class="list-decimal pl-5 mt-2 space-y-1">
+          <li data-i18n="p6.steps.a.1">Limpia la lista de solicitudes de mitmweb.</li>
+          <li data-i18n="p6.steps.a.2">Inicia también el monitor de conexiones.</li>
+          <li data-i18n="p6.steps.a.3">Espera entre dos y cinco minutos.</li>
+          <li data-i18n="p6.steps.a.4">Anota los dominios que aparecen sin que la aplicación esté abierta.</li>
+          <li data-i18n="p6.steps.a.5">Guarda esta captura como línea base.</li>
+        </ol>
+        <p class="mt-2" data-i18n="p6.p2">La línea base sirve para separar el tráfico del sistema operativo, mitmproxy y otros servicios del tráfico generado por la aplicación.</p>
+        <p class="mt-2" data-i18n="p6.p3">Después:</p>
+        <ol class="list-decimal pl-5 mt-2 space-y-1">
+          <li data-i18n="p6.steps.b.1">vuelve a limpiar la captura;</li>
+          <li data-i18n="p6.steps.b.2">abre la aplicación;</li>
+          <li data-i18n="p6.steps.b.3">no realices ninguna acción durante unos minutos;</li>
+          <li data-i18n="p6.steps.b.4">observa qué conexiones aparecen únicamente al iniciar el programa.</li>
+        </ol>
+        <p class="mt-2" data-i18n="p6.p4">Esta segunda captura corresponde a la prueba de inicio e inactividad.</p>
+        </section>
+        <section class="pt-2">
+        <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3 mt-4" data-i18n="p7.h2">Parte 7. Ejecutar las pruebas de forma controlada</h2>
+        <p class="mt-2" data-i18n="p7.p1">No hagas todas las acciones seguidas. Realiza una sola acción, observa el tráfico y anota el resultado antes de continuar.</p>
+        <h3 class="text-base font-semibold text-gray-900 dark:text-white mt-6 mb-1" data-i18n="p7.t1.h3">Prueba 1. Inicio</h3>
+        <ol class="list-decimal pl-5 mt-2 space-y-1">
+          <li data-i18n="p7.t1.steps.1">Limpia la captura.</li>
+          <li data-i18n="p7.t1.steps.2">Abre la aplicación.</li>
+          <li data-i18n="p7.t1.steps.3">Espera dos minutos.</li>
+          <li data-i18n="p7.t1.steps.4">Anota todos los destinos y solicitudes.</li>
+        </ol>
+        <p class="mt-2" data-i18n="p7.t1.p">Esta prueba permite detectar:</p>
+        <ul class="list-disc pl-5 mt-2 space-y-1">
+          <li data-i18n="p7.t1.list.1">comprobaciones de actualización;</li>
+          <li data-i18n="p7.t1.list.2">carga de configuración;</li>
+          <li data-i18n="p7.t1.list.3">inicio automático de sesión;</li>
+          <li data-i18n="p7.t1.list.4">telemetría de arranque;</li>
+          <li data-i18n="p7.t1.list.5">identificadores enviados al ejecutar la aplicación.</li>
+        </ul>
+        <h3 class="text-base font-semibold text-gray-900 dark:text-white mt-6 mb-1" data-i18n="p7.t2.h3">Prueba 2. Aplicación inactiva</h3>
+        <ol class="list-decimal pl-5 mt-2 space-y-1">
+          <li data-i18n="p7.t2.steps.1">Deja la aplicación abierta sin utilizarla.</li>
+          <li data-i18n="p7.t2.steps.2">Espera entre cinco y diez minutos.</li>
+          <li data-i18n="p7.t2.steps.3">Comprueba si se producen conexiones periódicas.</li>
+        </ol>
+        <p class="mt-2" data-i18n="p7.t2.p">Esto puede revelar:</p>
+        <ul class="list-disc pl-5 mt-2 space-y-1">
+          <li data-i18n="p7.t2.list.1">estadísticas recurrentes;</li>
+          <li data-i18n="p7.t2.list.2">comprobaciones de estado;</li>
+          <li data-i18n="p7.t2.list.3">sincronización automática;</li>
+          <li data-i18n="p7.t2.list.4">conexiones permanentes;</li>
+          <li data-i18n="p7.t2.list.5">telemetría enviada en segundo plano.</li>
+        </ul>
+        <h3 class="text-base font-semibold text-gray-900 dark:text-white mt-6 mb-1" data-i18n="p7.t3.h3">Prueba 3. Inicio de sesión</h3>
+        <p class="mt-2" data-i18n="p7.t3.p">Utiliza una cuenta de prueba y comprueba:</p>
+        <ul class="list-disc pl-5 mt-2 space-y-1">
+          <li data-i18n="p7.t3.list.1">a qué servidor se envían las credenciales;</li>
+          <li data-i18n="p7.t3.list.2">si la contraseña viaja dentro de HTTPS;</li>
+          <li data-i18n="p7.t3.list.3">si aparecen tokens de autenticación;</li>
+          <li data-i18n="p7.t3.list.4">qué datos del usuario devuelve el servidor;</li>
+          <li data-i18n="p7.t3.list.5">si la app contacta con servicios distintos del proveedor esperado.</li>
+        </ul>
+        <p class="mt-2" data-i18n="p7.t3.p2">La contraseña no debería aparecer en una URL, en parámetros de consulta ni en registros públicos. Aunque aparezca dentro de una petición HTTPS descifrada, no debe publicarse en capturas.</p>
+        <h3 class="text-base font-semibold text-gray-900 dark:text-white mt-6 mb-1" data-i18n="p7.t4.h3">Prueba 4. Introducción de datos</h3>
+        <p class="mt-2" data-i18n="p7.t4.p">Introduce un marcador único en cada campo disponible:</p>
+        <pre class="block bg-gray-100 dark:bg-gray-900 rounded-lg p-3 my-3 text-xs font-mono text-gray-800 dark:text-gray-200 overflow-x-auto whitespace-pre-wrap">AUDIT_CAMPO_NOMBRE_20260712
+AUDIT_CAMPO_BUSQUEDA_20260712
+AUDIT_CAMPO_DESCRIPCION_20260712</pre>
+        <p class="mt-2" data-i18n="p7.t4.p2">Realiza una acción cada vez y busca ese marcador en las solicitudes capturadas.</p>
+        <h3 class="text-base font-semibold text-gray-900 dark:text-white mt-6 mb-1" data-i18n="p7.t5.h3">Prueba 5. Acceso a archivos</h3>
+        <p class="mt-2" data-i18n="p7.t5.p">Utiliza la carpeta y el archivo de prueba creados anteriormente. Comprueba por separado:</p>
+        <ul class="list-disc pl-5 mt-2 space-y-1">
+          <li data-i18n="p7.t5.list.1">seleccionar una carpeta;</li>
+          <li data-i18n="p7.t5.list.2">abrir un archivo;</li>
+          <li data-i18n="p7.t5.list.3">importar un archivo;</li>
+          <li data-i18n="p7.t5.list.4">iniciar una descarga;</li>
+          <li data-i18n="p7.t5.list.5">iniciar una subida;</li>
+          <li data-i18n="p7.t5.list.6">cancelar la operación;</li>
+          <li data-i18n="p7.t5.list.7">eliminar el elemento de la aplicación.</li>
+        </ul>
+        <p class="mt-2" data-i18n="p7.t5.p2">Busca en el tráfico:</p>
+        <ul class="list-disc pl-5 mt-2 space-y-1">
+          <li data-i18n="p7.t5.list2.1">nombre del archivo;</li>
+          <li data-i18n="p7.t5.list2.2">ruta completa;</li>
+          <li data-i18n="p7.t5.list2.3">tamaño;</li>
+          <li data-i18n="p7.t5.list2.4">extensión;</li>
+          <li data-i18n="p7.t5.list2.5">contenido;</li>
+          <li data-i18n="p7.t5.list2.6">hash o huella del archivo;</li>
+          <li data-i18n="p7.t5.list2.7">fecha de creación o modificación.</li>
+        </ul>
+        <p class="mt-2" data-i18n="p7.t5.p3">Que una aplicación envíe un archivo cuando el usuario ordena subirlo puede ser normal. Que envíe rutas, nombres o contenido al limitarse a visualizar una carpeta requiere una explicación.</p>
+        <h3 class="text-base font-semibold text-gray-900 dark:text-white mt-6 mb-1" data-i18n="p7.t6.h3">Prueba 6. Cierre</h3>
+        <ol class="list-decimal pl-5 mt-2 space-y-1">
+          <li data-i18n="p7.t6.steps.1">Limpia la captura.</li>
+          <li data-i18n="p7.t6.steps.2">Cierra la aplicación.</li>
+          <li data-i18n="p7.t6.steps.3">Mantén las herramientas funcionando durante cinco minutos.</li>
+          <li data-i18n="p7.t6.steps.4">Comprueba si algún proceso continúa comunicándose.</li>
+        </ol>
+        <p class="mt-2" data-i18n="p7.t6.p">Esto permite detectar:</p>
+        <ul class="list-disc pl-5 mt-2 space-y-1">
+          <li data-i18n="p7.t6.list.1">servicios residentes;</li>
+          <li data-i18n="p7.t6.list.2">actualizadores;</li>
+          <li data-i18n="p7.t6.list.3">tareas en segundo plano;</li>
+          <li data-i18n="p7.t6.list.4">envío de estadísticas al cerrar;</li>
+          <li data-i18n="p7.t6.list.5">informes de sesión.</li>
+        </ul>
+        <h3 class="text-base font-semibold text-gray-900 dark:text-white mt-6 mb-1" data-i18n="p7.t7.h3">Prueba 7. Reinicio del equipo</h3>
+        <p class="mt-2" data-i18n="p7.t7.p">Para una auditoría completa:</p>
+        <ol class="list-decimal pl-5 mt-2 space-y-1">
+          <li data-i18n="p7.t7.steps.1">reinicia el entorno de prueba;</li>
+          <li data-i18n="p7.t7.steps.2">no abras manualmente la aplicación;</li>
+          <li data-i18n="p7.t7.steps.3">comprueba si se inicia algún componente relacionado;</li>
+          <li data-i18n="p7.t7.steps.4">revisa si existe tráfico antes de abrir la interfaz.</li>
+        </ol>
+        <figure class="my-5">
+          <div class="rounded-xl border border-dashed border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 aspect-video flex items-center justify-center text-gray-400 dark:text-gray-600 text-xs">imagen</div>
+          <figcaption class="text-xs text-gray-400 dark:text-gray-500 mt-2 text-center" data-i18n="fig7">Ilustración: matriz de pruebas. Tabla con filas (inicio, inactividad, login, introducción de datos, selección de carpeta, apertura de archivo, descarga, subida, cierre, reinicio) y columnas (acción, hora, dominio contactado, datos enviados, resultado esperado, resultado observado).</figcaption>
+        </figure>
+        </section>
+        <section class="pt-2">
+        <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3 mt-4" data-i18n="p8.h2">Parte 8. Inspeccionar una solicitud</h2>
+        <p class="mt-2" data-i18n="p8.p1">Selecciona una conexión en mitmweb y revisa cuidadosamente los siguientes elementos.</p>
+        <h3 class="text-base font-semibold text-gray-900 dark:text-white mt-6 mb-1" data-i18n="p8.host.h3">Host y URL</h3>
+        <p class="mt-2" data-i18n="p8.host.p">Comprueba:</p>
+        <ul class="list-disc pl-5 mt-2 space-y-1">
+          <li data-i18n="p8.host.list.1">el dominio;</li>
+          <li data-i18n="p8.host.list.2">los subdominios;</li>
+          <li data-i18n="p8.host.list.3">la ruta;</li>
+          <li data-i18n="p8.host.list.4">los parámetros incluidos después de ?;</li>
+          <li data-i18n="p8.host.list.5">si la conexión utiliza HTTP o HTTPS.</li>
+        </ul>
+        <p class="mt-2" data-i18n="p8.host.p2">Ejemplo:</p>
+        <pre class="block bg-gray-100 dark:bg-gray-900 rounded-lg p-3 my-3 text-xs font-mono text-gray-800 dark:text-gray-200 overflow-x-auto whitespace-pre-wrap">https://api.ejemplo.com/telemetry?user=123&amp;version=4.2</pre>
+        <p class="mt-2" data-i18n="p8.host.p3">En este caso, incluso antes de revisar el cuerpo, ya sabemos que se están enviando un identificador de usuario y una versión.</p>
+        <h3 class="text-base font-semibold text-gray-900 dark:text-white mt-6 mb-1" data-i18n="p8.method.h3">Método</h3>
+        <p class="mt-2" data-i18n="p8.method.p">Los métodos más habituales son:</p>
+        <ul class="list-disc pl-5 mt-2 space-y-1">
+          <li data-i18n="p8.method.list.1">GET: solicita información;</li>
+          <li data-i18n="p8.method.list.2">POST: suele enviar información;</li>
+          <li data-i18n="p8.method.list.3">PUT o PATCH: suele modificar o actualizar información;</li>
+          <li data-i18n="p8.method.list.4">DELETE: solicita eliminar un recurso.</li>
+        </ul>
+        <p class="mt-2" data-i18n="p8.method.p2">Un GET también puede enviar datos mediante la URL, las cookies o las cabeceras.</p>
+        <h3 class="text-base font-semibold text-gray-900 dark:text-white mt-6 mb-1" data-i18n="p8.head.h3">Cabeceras</h3>
+        <p class="mt-2" data-i18n="p8.head.p">Revisa especialmente:</p>
+        <pre class="block bg-gray-100 dark:bg-gray-900 rounded-lg p-3 my-3 text-xs font-mono text-gray-800 dark:text-gray-200 overflow-x-auto whitespace-pre-wrap">Authorization
+Cookie
+User-Agent
+Referer
+Origin
+X-Device-ID
+X-Client-ID
+X-Request-ID</pre>
+        <p class="mt-2" data-i18n="p8.head.p2">Los nombres exactos pueden variar. Las cabeceras pueden contener:</p>
+        <ul class="list-disc pl-5 mt-2 space-y-1">
+          <li data-i18n="p8.head.list.1">tokens;</li>
+          <li data-i18n="p8.head.list.2">identificadores persistentes;</li>
+          <li data-i18n="p8.head.list.3">información del sistema;</li>
+          <li data-i18n="p8.head.list.4">versión de la app;</li>
+          <li data-i18n="p8.head.list.5">idioma;</li>
+          <li data-i18n="p8.head.list.6">arquitectura del procesador;</li>
+          <li data-i18n="p8.head.list.7">datos de sesión.</li>
+        </ul>
+        <h3 class="text-base font-semibold text-gray-900 dark:text-white mt-6 mb-1" data-i18n="p8.body.h3">Cuerpo de la petición</h3>
+        <p class="mt-2" data-i18n="p8.body.p">El cuerpo puede presentarse como:</p>
+        <ul class="list-disc pl-5 mt-2 space-y-1">
+          <li data-i18n="p8.body.list.1">JSON;</li>
+          <li data-i18n="p8.body.list.2">formulario;</li>
+          <li data-i18n="p8.body.list.3">XML;</li>
+          <li data-i18n="p8.body.list.4">texto;</li>
+          <li data-i18n="p8.body.list.5">archivo binario;</li>
+          <li data-i18n="p8.body.list.6">datos comprimidos;</li>
+          <li data-i18n="p8.body.list.7">Protobuf u otro formato binario.</li>
+        </ul>
+        <p class="mt-2" data-i18n="p8.body.p2">Ejemplo JSON:</p>
+        <pre class="block bg-gray-100 dark:bg-gray-900 rounded-lg p-3 my-3 text-xs font-mono text-gray-800 dark:text-gray-200 overflow-x-auto whitespace-pre-wrap">{
+  "event": "app_started",
+  "user_id": "12345",
+  "os": "Linux",
+  "app_version": "1.4.2"
+}</pre>
+        <p class="mt-2" data-i18n="p8.body.p3">En este caso, la aplicación estaría enviando un evento de inicio, un identificador, el sistema operativo y su versión.</p>
+        <h3 class="text-base font-semibold text-gray-900 dark:text-white mt-6 mb-1" data-i18n="p8.resp.h3">Respuesta del servidor</h3>
+        <p class="mt-2" data-i18n="p8.resp.p">La respuesta no representa información enviada por tu equipo, pero ayuda a interpretar la finalidad de la petición. Puede mostrar:</p>
+        <ul class="list-disc pl-5 mt-2 space-y-1">
+          <li data-i18n="p8.resp.list.1">confirmación de recepción;</li>
+          <li data-i18n="p8.resp.list.2">configuración remota;</li>
+          <li data-i18n="p8.resp.list.3">perfil del usuario;</li>
+          <li data-i18n="p8.resp.list.4">instrucciones para la aplicación;</li>
+          <li data-i18n="p8.resp.list.5">identificadores asignados por el servidor.</li>
+        </ul>
+        <figure class="my-5">
+          <div class="rounded-xl border border-dashed border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 aspect-video flex items-center justify-center text-gray-400 dark:text-gray-600 text-xs">imagen</div>
+          <figcaption class="text-xs text-gray-400 dark:text-gray-500 mt-2 text-center" data-i18n="fig8">Ilustración: anatomía de una petición. Interfaz de mitmweb con llamadas numeradas sobre dominio, URL, método, cabeceras, cookies y autorización, cuerpo JSON y respuesta.</figcaption>
+        </figure>
+        <p class="mt-3 border-l-2 border-blue-500 pl-3 text-gray-700 dark:text-gray-300"><strong class="text-gray-800 dark:text-gray-200" data-i18n="fig8.note">No utilizar datos reales ni tokens válidos.</strong></p>
+        </section>
+        <section class="pt-2">
+        <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3 mt-4" data-i18n="p9.h2">Parte 9. Buscar los marcadores</h2>
+        <p class="mt-2" data-i18n="p9.p1">Busca en las solicitudes las cadenas que preparaste al principio:</p>
+        <pre class="block bg-gray-100 dark:bg-gray-900 rounded-lg p-3 my-3 text-xs font-mono text-gray-800 dark:text-gray-200 overflow-x-auto whitespace-pre-wrap">AUDIT_</pre>
+        <p class="mt-2" data-i18n="p9.p2">Revisa: URL, parámetros, cabeceras, cookies, cuerpo de la petición, cuerpos codificados, respuestas y mensajes WebSocket.</p>
+        <p class="mt-2" data-i18n="p9.p3">Si aparece AUDIT_ARCHIVO_SECRETO_20260712.txt, la aplicación ha transmitido el nombre del archivo. Si aparece AUDIT_CONTENIDO_NO_DEBE_ENVIARSE_20260712, la aplicación ha transmitido el contenido.</p>
+        <p class="mt-2" data-i18n="p9.p4">Si no aparece directamente, no significa necesariamente que no se haya enviado. Puede haberse transmitido codificado en Base64, comprimido, fragmentado, convertido a un formato binario, cifrado de nuevo dentro de HTTPS o sustituido por un hash.</p>
+        <p class="mt-2" data-i18n="p9.p5">Cuando sospeches que un contenido ha sido codificado, calcula o busca también su representación Base64, su hash, una parte corta y distintiva del texto, el nombre sin extensión y el tamaño exacto del archivo.</p>
+        <figure class="my-5">
+          <div class="rounded-xl border border-dashed border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 aspect-video flex items-center justify-center text-gray-400 dark:text-gray-600 text-xs">imagen</div>
+          <figcaption class="text-xs text-gray-400 dark:text-gray-500 mt-2 text-center" data-i18n="fig9">Ilustración: detección de un marcador. Búsqueda de AUDIT_CONTENIDO_NO_DEBE_ENVIARSE dentro del cuerpo de una petición.</figcaption>
+        </figure>
+        <p class="mt-3 border-l-2 border-blue-500 pl-3 text-gray-700 dark:text-gray-300"><strong class="text-gray-800 dark:text-gray-200" data-i18n="fig9.note">El marcador demuestra qué acción provocó el envío de ese dato.</strong></p>
+        </section>
+        <section class="pt-2">
+        <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3 mt-4" data-i18n="p10.h2">Parte 10. Comprobar que no queda tráfico fuera del proxy</h2>
+        <p class="mt-2" data-i18n="p10.p1">Esta es la parte que convierte una simple captura en una auditoría seria. Mantén abierto el monitor de conexiones mientras realizas todas las pruebas. Para cada conexión iniciada por la aplicación, anota:</p>
+        <ul class="list-disc pl-5 mt-2 space-y-1">
+          <li data-i18n="p10.list.1">proceso;</li>
+          <li data-i18n="p10.list.2">dominio o IP;</li>
+          <li data-i18n="p10.list.3">puerto;</li>
+          <li data-i18n="p10.list.4">protocolo;</li>
+          <li data-i18n="p10.list.5">hora;</li>
+          <li data-i18n="p10.list.6">volumen enviado;</li>
+          <li data-i18n="p10.list.7">si aparece también en mitmweb;</li>
+          <li data-i18n="p10.list.8">si su contenido ha podido inspeccionarse.</li>
+        </ul>
+        <p class="mt-2" data-i18n="p10.p2">Después compara ambas listas.</p>
+        <h3 class="text-base font-semibold text-gray-900 dark:text-white mt-6 mb-1" data-i18n="p10.a.h3">Resultado A. La conexión aparece en ambas herramientas</h3>
+        <p class="mt-2" data-i18n="p10.a.p">La conexión está detectada y su contenido puede analizarse.</p>
+        <h3 class="text-base font-semibold text-gray-900 dark:text-white mt-6 mb-1" data-i18n="p10.b.h3">Resultado B. Aparece en el monitor, pero no en mitmweb</h3>
+        <p class="mt-2" data-i18n="p10.b.p">Existe tráfico no inspeccionado. Las causas pueden ser:</p>
+        <ul class="list-disc pl-5 mt-2 space-y-1">
+          <li data-i18n="p10.b.list.1">la aplicación ignora el proxy;</li>
+          <li data-i18n="p10.b.list.2">utiliza un proceso auxiliar;</li>
+          <li data-i18n="p10.b.list.3">emplea UDP o QUIC;</li>
+          <li data-i18n="p10.b.list.4">utiliza un protocolo no compatible;</li>
+          <li data-i18n="p10.b.list.5">establece una conexión TLS que mitmproxy no ha podido interceptar;</li>
+          <li data-i18n="p10.b.list.6">utiliza certificate pinning;</li>
+          <li data-i18n="p10.b.list.7">se comunica mediante un servicio del sistema.</li>
+        </ul>
+        <p class="mt-2" data-i18n="p10.b.p2">No declares que la aplicación ha superado la auditoría hasta resolver o documentar esa conexión.</p>
+        <h3 class="text-base font-semibold text-gray-900 dark:text-white mt-6 mb-1" data-i18n="p10.c.h3">Resultado C. Aparece en mitmweb, pero parece pertenecer a otro programa</h3>
+        <p class="mt-2" data-i18n="p10.c.p">Comprueba la línea base y el proceso responsable. Puede tratarse de tráfico ajeno a la aplicación. Wireshark permite seguir flujos TCP, UDP, TLS, HTTP, HTTP/2, QUIC y WebSocket, aunque el contenido TLS solo puede descifrarse cuando se dispone de las claves necesarias.</p>
+        <figure class="my-5">
+          <div class="rounded-xl border border-dashed border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 aspect-video flex items-center justify-center text-gray-400 dark:text-gray-600 text-xs">imagen</div>
+          <figcaption class="text-xs text-gray-400 dark:text-gray-500 mt-2 text-center" data-i18n="fig10">Ilustración: comparación de resultados. Dos listas paralelas (monitor de red y mitmweb); una conexión presente solo en el monitor se resalta en rojo como pendiente de inspeccionar.</figcaption>
+        </figure>
+        <p class="mt-3 border-l-2 border-blue-500 pl-3 text-gray-700 dark:text-gray-300"><strong class="text-gray-800 dark:text-gray-200" data-i18n="fig10.note">Una conexión no explicada impide considerar completa la auditoría.</strong></p>
+        </section>
+        <section class="pt-2">
+        <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3 mt-4" data-i18n="p11.h2">Parte 11. Problemas que pueden impedir la inspección</h2>
+        <h3 class="text-base font-semibold text-gray-900 dark:text-white mt-6 mb-1" data-i18n="p11.pin.h3">Certificate pinning</h3>
+        <p class="mt-2" data-i18n="p11.pin.p1">Algunas aplicaciones no confían en los certificados instalados en el sistema. En lugar de eso, esperan un certificado o una clave concreta. Cuando detectan el certificado de mitmproxy: rechazan la conexión, muestran un error, dejan de funcionar o conectan mediante otro mecanismo.</p>
+        <p class="mt-2" data-i18n="p11.pin.p2">En ese caso, debes indicar que la conexión ha sido detectada, pero su contenido no ha podido inspeccionarse debido a la validación interna del certificado. No debe concluirse que la conexión es segura ni que no contiene datos sensibles.</p>
+        <p class="mt-2" data-i18n="p11.pin.p3">Si eres el desarrollador de la aplicación, puedes utilizar una versión de depuración que permita instalar el certificado o registrar los datos antes del cifrado. No modifiques aplicaciones de terceros ni eludas sus protecciones sin autorización.</p>
+        <h3 class="text-base font-semibold text-gray-900 dark:text-white mt-6 mb-1" data-i18n="p11.enc.h3">Cifrado dentro de HTTPS</h3>
+        <p class="mt-2" data-i18n="p11.enc.p1">Una aplicación puede cifrar el cuerpo del mensaje antes de enviarlo por HTTPS. mitmproxy descifrará HTTPS, pero mostrará un bloque de datos todavía ilegible.</p>
+        <p class="mt-2" data-i18n="p11.enc.p2">En una aplicación propia, la solución es revisar el código que prepara la petición, registrar el contenido antes del cifrado, utilizar una compilación de depuración y documentar el algoritmo y los campos enviados. En una aplicación de terceros, esa comunicación debe marcarse como no verificada.</p>
+        <h3 class="text-base font-semibold text-gray-900 dark:text-white mt-6 mb-1" data-i18n="p11.bin.h3">Protocolos binarios</h3>
+        <p class="mt-2" data-i18n="p11.bin.p1">Algunos programas utilizan Protobuf, MessagePack u otros formatos binarios. Aunque el cuerpo no aparezca como texto, todavía puedes revisar: tamaño, destino, frecuencia, cabeceras, fragmentos legibles, cambios producidos por cada acción y documentación del protocolo, cuando exista.</p>
+        <h3 class="text-base font-semibold text-gray-900 dark:text-white mt-6 mb-1" data-i18n="p11.quic.h3">QUIC y HTTP/3</h3>
+        <p class="mt-2" data-i18n="p11.quic.p1">QUIC utiliza normalmente UDP. Dependiendo de la aplicación y la configuración, el contenido puede no aparecer como una petición HTTP convencional. Si se detecta tráfico UDP no inspeccionado, identifícalo en el monitor, comprueba el destino, intenta determinar si la aplicación puede utilizar HTTP/2 sobre TCP, utiliza Wireshark si dispones de las claves de sesión, y marca la conexión como pendiente si no puedes leerla.</p>
+        <h3 class="text-base font-semibold text-gray-900 dark:text-white mt-6 mb-1" data-i18n="p11.aux.h3">Procesos auxiliares</h3>
+        <p class="mt-2" data-i18n="p11.aux.p1">Una aplicación puede delegar una comunicación en un actualizador, un servicio del sistema, un WebView, un navegador integrado o un proceso de informes de errores. Por eso la prueba más sólida consiste en capturar todo el tráfico dentro de un entorno aislado.</p>
+        </section>
+        <section class="pt-2">
+        <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3 mt-4" data-i18n="p12.h2">Parte 12. Clasificar los datos encontrados</h2>
+        <p class="mt-2" data-i18n="p12.p1">No todos los datos tienen la misma sensibilidad.</p>
+        <h3 class="text-base font-semibold text-gray-900 dark:text-white mt-6 mb-1" data-i18n="p12.tech.h3">Información técnica básica</h3>
+        <ul class="list-disc pl-5 mt-2 space-y-1">
+          <li data-i18n="p12.tech.list.1">versión de la aplicación;</li>
+          <li data-i18n="p12.tech.list.2">versión del sistema operativo;</li>
+          <li data-i18n="p12.tech.list.3">idioma;</li>
+          <li data-i18n="p12.tech.list.4">arquitectura;</li>
+          <li data-i18n="p12.tech.list.5">resolución;</li>
+          <li data-i18n="p12.tech.list.6">zona horaria.</li>
+        </ul>
+        <p class="mt-2" data-i18n="p12.tech.p">Puede utilizarse para compatibilidad o telemetría, pero debe comprobarse si está declarada.</p>
+        <h3 class="text-base font-semibold text-gray-900 dark:text-white mt-6 mb-1" data-i18n="p12.id.h3">Identificadores persistentes</h3>
+        <ul class="list-disc pl-5 mt-2 space-y-1">
+          <li data-i18n="p12.id.list.1">identificador de usuario;</li>
+          <li data-i18n="p12.id.list.2">identificador de instalación;</li>
+          <li data-i18n="p12.id.list.3">identificador del dispositivo;</li>
+          <li data-i18n="p12.id.list.4">identificador publicitario;</li>
+          <li data-i18n="p12.id.list.5">token persistente.</li>
+        </ul>
+        <p class="mt-2" data-i18n="p12.id.p">Permiten reconocer al mismo usuario o dispositivo en diferentes sesiones.</p>
+        <h3 class="text-base font-semibold text-gray-900 dark:text-white mt-6 mb-1" data-i18n="p12.use.h3">Datos de uso</h3>
+        <ul class="list-disc pl-5 mt-2 space-y-1">
+          <li data-i18n="p12.use.list.1">pantallas abiertas;</li>
+          <li data-i18n="p12.use.list.2">botones pulsados;</li>
+          <li data-i18n="p12.use.list.3">tiempo de uso;</li>
+          <li data-i18n="p12.use.list.4">búsquedas;</li>
+          <li data-i18n="p12.use.list.5">errores;</li>
+          <li data-i18n="p12.use.list.6">descargas iniciadas;</li>
+          <li data-i18n="p12.use.list.7">funciones utilizadas.</li>
+        </ul>
+        <h3 class="text-base font-semibold text-gray-900 dark:text-white mt-6 mb-1" data-i18n="p12.pers.h3">Datos personales</h3>
+        <ul class="list-disc pl-5 mt-2 space-y-1">
+          <li data-i18n="p12.pers.list.1">nombre;</li>
+          <li data-i18n="p12.pers.list.2">correo;</li>
+          <li data-i18n="p12.pers.list.3">teléfono;</li>
+          <li data-i18n="p12.pers.list.4">dirección;</li>
+          <li data-i18n="p12.pers.list.5">contactos;</li>
+          <li data-i18n="p12.pers.list.6">mensajes;</li>
+          <li data-i18n="p12.pers.list.7">ubicación;</li>
+          <li data-i18n="p12.pers.list.8">dirección IP asociada a una cuenta.</li>
+        </ul>
+        <h3 class="text-base font-semibold text-gray-900 dark:text-white mt-6 mb-1" data-i18n="p12.local.h3">Datos locales</h3>
+        <ul class="list-disc pl-5 mt-2 space-y-1">
+          <li data-i18n="p12.local.list.1">nombres de archivos;</li>
+          <li data-i18n="p12.local.list.2">rutas completas;</li>
+          <li data-i18n="p12.local.list.3">estructura de carpetas;</li>
+          <li data-i18n="p12.local.list.4">contenido del portapapeles;</li>
+          <li data-i18n="p12.local.list.5">programas instalados;</li>
+          <li data-i18n="p12.local.list.6">procesos en ejecución.</li>
+        </ul>
+        <h3 class="text-base font-semibold text-gray-900 dark:text-white mt-6 mb-1" data-i18n="p12.auth.h3">Datos de autenticación</h3>
+        <ul class="list-disc pl-5 mt-2 space-y-1">
+          <li data-i18n="p12.auth.list.1">contraseña;</li>
+          <li data-i18n="p12.auth.list.2">cookies;</li>
+          <li data-i18n="p12.auth.list.3">tokens;</li>
+          <li data-i18n="p12.auth.list.4">claves de API;</li>
+          <li data-i18n="p12.auth.list.5">claves privadas;</li>
+          <li data-i18n="p12.auth.list.6">códigos de recuperación.</li>
+        </ul>
+        <p class="mt-2" data-i18n="p12.auth.p">Estos datos requieren especial protección y nunca deben mostrarse sin censura en el informe.</p>
+        </section>
+        <section class="pt-2">
+        <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3 mt-4" data-i18n="p13.h2">Parte 13. Evaluar cada conexión</h2>
+        <p class="mt-2" data-i18n="p13.p1">Para cada dominio o dirección IP, responde:</p>
+        <ol class="list-decimal pl-5 mt-2 space-y-1">
+          <li data-i18n="p13.list.1">¿Qué empresa o servicio controla el destino?</li>
+          <li data-i18n="p13.list.2">¿La conexión es necesaria para una función utilizada?</li>
+          <li data-i18n="p13.list.3">¿Se produce únicamente cuando el usuario realiza esa acción?</li>
+          <li data-i18n="p13.list.4">¿Qué campos concretos se envían?</li>
+          <li data-i18n="p13.list.5">¿Contiene datos personales o identificadores?</li>
+          <li data-i18n="p13.list.6">¿La aplicación informa de esta comunicación?</li>
+          <li data-i18n="p13.list.7">¿Puede desactivarse?</li>
+          <li data-i18n="p13.list.8">¿Continúa produciéndose con la aplicación inactiva?</li>
+          <li data-i18n="p13.list.9">¿Se envían más datos de los necesarios?</li>
+          <li data-i18n="p13.list.10">¿El contenido ha podido inspeccionarse completamente?</li>
+        </ol>
+        <p class="mt-2" data-i18n="p13.p2">Una conexión no es sospechosa únicamente por dirigirse a un servicio externo. Debe analizarse qué información transmite y con qué finalidad. Del mismo modo, que una aplicación solo contacte con su propio dominio no demuestra que respete la privacidad. Un único servidor puede recibir cualquier cantidad de información.</p>
+        </section>
+        <section class="pt-2">
+        <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3 mt-4" data-i18n="p14.h2">Parte 14. Documentar los resultados</h2>
+        <p class="mt-2" data-i18n="p14.p1">Utiliza una tabla con estas columnas: acción, proceso, destino, datos enviados, finalidad aparente, resultado esperado e inspección (completa o pendiente). Conserva también:</p>
+        <ul class="list-disc pl-5 mt-2 space-y-1">
+          <li data-i18n="p14.list.1">versión de la aplicación;</li>
+          <li data-i18n="p14.list.2">sistema operativo;</li>
+          <li data-i18n="p14.list.3">versión de mitmproxy;</li>
+          <li data-i18n="p14.list.4">fecha y hora;</li>
+          <li data-i18n="p14.list.5">lista de acciones;</li>
+          <li data-i18n="p14.list.6">archivo de captura;</li>
+          <li data-i18n="p14.list.7">capturas de pantalla;</li>
+          <li data-i18n="p14.list.8">configuración utilizada;</li>
+          <li data-i18n="p14.list.9">limitaciones encontradas.</li>
+        </ul>
+        <p class="mt-2" data-i18n="p14.p2">Antes de compartir el informe, elimina o censura: contraseñas, tokens, cookies, claves, correos reales, rutas con nombres personales y contenido privado.</p>
+        <figure class="my-5">
+          <div class="rounded-xl border border-dashed border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 aspect-video flex items-center justify-center text-gray-400 dark:text-gray-600 text-xs">imagen</div>
+          <figcaption class="text-xs text-gray-400 dark:text-gray-500 mt-2 text-center" data-i18n="fig11">Ilustración: ejemplo de informe final. Tabla resumida con tres estados: verde (inspeccionada y esperada), amarillo (inspeccionada, pero no declarada) y rojo (detectada, pero no inspeccionada).</figcaption>
+        </figure>
+        <p class="mt-3 border-l-2 border-blue-500 pl-3 text-gray-700 dark:text-gray-300"><strong class="text-gray-800 dark:text-gray-200" data-i18n="fig11.note">El informe debe distinguir entre lo comprobado y lo que no ha podido verificarse.</strong></p>
+        </section>
+        <section class="pt-2">
+        <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3 mt-4" data-i18n="p15.h2">Parte 15. Cómo redactar la conclusión</h2>
+        <h3 class="text-base font-semibold text-gray-900 dark:text-white mt-6 mb-1" data-i18n="p15.a.h3">Auditoría completa sin hallazgos inesperados</h3>
+        <p class="mt-2" data-i18n="p15.a.p">Durante las pruebas realizadas, todas las conexiones generadas por la aplicación fueron identificadas y su contenido pudo inspeccionarse. No se observó el envío de datos personales, nombres de archivos, rutas locales, contenido de documentos ni telemetría no declarada. Las comunicaciones detectadas se correspondieron con las funciones ejecutadas durante la prueba.</p>
+        <p class="mt-2" data-i18n="p15.a.p2">Esta conclusión solo es válida si el monitor de red no mostró conexiones adicionales sin inspeccionar.</p>
+        <h3 class="text-base font-semibold text-gray-900 dark:text-white mt-6 mb-1" data-i18n="p15.b.h3">Auditoría con comunicaciones no declaradas</h3>
+        <p class="mt-2" data-i18n="p15.b.p">La aplicación realizó conexiones adicionales destinadas al envío de estadísticas de uso. Las solicitudes incluían determinados campos. Esta comunicación se produjo en un momento concreto y no se encontró una explicación clara dentro de la aplicación.</p>
+        <h3 class="text-base font-semibold text-gray-900 dark:text-white mt-6 mb-1" data-i18n="p15.c.h3">Auditoría incompleta</h3>
+        <p class="mt-2" data-i18n="p15.c.p">Se detectaron conexiones realizadas por la aplicación cuyo contenido no pudo inspeccionarse. Por tanto, no es posible determinar qué datos transmite ni afirmar que la aplicación no envía información adicional.</p>
+        <p class="mt-2" data-i18n="p15.c.p2">No utilices expresiones como "la aplicación no envía ningún dato", "la aplicación es completamente privada" o "la auditoría demuestra que es 100 % segura". Una auditoría de red demuestra lo observado bajo unas condiciones y una versión concretas. Una actualización posterior puede cambiar el comportamiento.</p>
+        </section>
+        <section class="pt-2">
+        <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3 mt-4" data-i18n="p16.h2">Parte 16. Limpiar el entorno</h2>
+        <p class="mt-2" data-i18n="p16.p1">Cuando termines:</p>
+        <ol class="list-decimal pl-5 mt-2 space-y-1">
+          <li data-i18n="p16.list.1">cierra mitmweb;</li>
+          <li data-i18n="p16.list.2">elimina la configuración de proxy;</li>
+          <li data-i18n="p16.list.3">desinstala el certificado de mitmproxy;</li>
+          <li data-i18n="p16.list.4">elimina la máquina virtual o restaura su instantánea;</li>
+          <li data-i18n="p16.list.5">borra las cuentas y archivos de prueba;</li>
+          <li data-i18n="p16.list.6">protege o elimina las capturas;</li>
+          <li data-i18n="p16.list.7">comprueba que la navegación HTTPS funciona normalmente.</li>
+        </ol>
+        <p class="mt-2" data-i18n="p16.p2">No conserves públicamente capturas que contengan tokens o credenciales.</p>
+        </section>
+        <section class="pt-2">
+        <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3 mt-4" data-i18n="check2.h2">Lista de comprobación final</h2>
+        <p class="mt-2" data-i18n="check2.p1">La auditoría solo puede considerarse completa si puedes responder afirmativamente a todas estas preguntas:</p>
+        <ul class="list-disc pl-5 mt-2 space-y-1">
+          <li data-i18n="check2.list.1">¿La prueba se realizó con una versión concreta de la aplicación?</li>
+          <li data-i18n="check2.list.2">¿Se utilizaron datos ficticios?</li>
+          <li data-i18n="check2.list.3">¿Se registró una línea base?</li>
+          <li data-i18n="check2.list.4">¿Se capturó el inicio, uso, inactividad y cierre?</li>
+          <li data-i18n="check2.list.5">¿Se incluyeron los procesos auxiliares?</li>
+          <li data-i18n="check2.list.6">¿Se inspeccionaron solicitudes y respuestas HTTPS?</li>
+          <li data-i18n="check2.list.7">¿Se buscaron nombres, rutas y contenidos de prueba?</li>
+          <li data-i18n="check2.list.8">¿Se utilizó un monitor independiente de conexiones?</li>
+          <li data-i18n="check2.list.9">¿Todas las conexiones del monitor aparecen también en la captura?</li>
+          <li data-i18n="check2.list.10">¿Se documentaron los destinos y los datos enviados?</li>
+          <li data-i18n="check2.list.11">¿Se indicaron claramente las limitaciones?</li>
+          <li data-i18n="check2.list.12">¿Se eliminaron certificados, proxy y datos sensibles al finalizar?</li>
+        </ul>
+        <p class="mt-2" data-i18n="check2.p2">Si alguna conexión no ha podido inspeccionarse, el resultado debe presentarse como auditoría parcial, no como una verificación completa.</p>
+        </section>
+        <section class="pt-2">
+        <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3 mt-4" data-i18n="result.h2">Resultado que ofrece este procedimiento</h2>
+        <p class="mt-2" data-i18n="result.p1">Esta metodología permite determinar, con un alto grado de confianza:</p>
+        <ul class="list-disc pl-5 mt-2 space-y-1">
+          <li data-i18n="result.list.1">con qué servidores se comunica una aplicación;</li>
+          <li data-i18n="result.list.2">cuándo se produce cada comunicación;</li>
+          <li data-i18n="result.list.3">qué acción la provoca;</li>
+          <li data-i18n="result.list.4">qué información contiene cada petición inspeccionable;</li>
+          <li data-i18n="result.list.5">si se transmiten datos locales o personales;</li>
+          <li data-i18n="result.list.6">si existe telemetría;</li>
+          <li data-i18n="result.list.7">y si queda tráfico sin analizar.</li>
+        </ul>
+        <p class="mt-2" data-i18n="result.p2">La clave no consiste únicamente en interceptar HTTPS. La auditoría se vuelve verificable al comparar el contenido mostrado por el proxy con la lista completa de conexiones observada por una segunda herramienta.</p>
+        <p class="mt-3 border-l-2 border-blue-500 pl-3 text-gray-700 dark:text-gray-300"><strong class="text-gray-800 dark:text-gray-200" data-i18n="result.note">Todo tráfico detectado debe quedar inspeccionado, explicado o marcado expresamente como no verificado.</strong></p>
+        </section>
+
+      <div class="mt-12">
+        <a href="/uk/" class="inline-flex items-center gap-2 text-sm text-blue-600 dark:text-blue-400 hover:underline">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          <span data-i18n="back">Volver al inicio</span>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="py-8 px-4 border-t border-gray-200 dark:border-gray-800">
+    <div class="max-w-2xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-gray-400 dark:text-gray-500">
+      <span>TDownloader</span>
+      <div class="flex gap-5">
+        <a href="/uk/privacy/" class="text-blue-600 dark:text-blue-400" data-i18n="footer.privacy">Privacidad</a>
+        <a href="/uk/terms/" class="hover:text-gray-700 dark:hover:text-gray-300 transition-colors" data-i18n="footer.terms">Términos</a>
+      </div>
+    </div>
+  </footer>
+
+  
+ <script>
+    // ── Tema ──
+    (function () {
+      var stored = localStorage.getItem('theme');
+      var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (stored === 'dark' || (!stored && prefersDark)) document.documentElement.classList.add('dark');
+    })();
+    var themeToggle = document.getElementById('theme-toggle');
+    var iconMoon = document.getElementById('icon-moon');
+    var iconSun = document.getElementById('icon-sun');
+    function applyTheme() {
+      var dark = document.documentElement.classList.contains('dark');
+      iconMoon.classList.toggle('hidden', dark);
+      iconSun.classList.toggle('hidden', !dark);
+    }
+    applyTheme();
+    themeToggle.addEventListener('click', function () {
+      var dark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', dark ? 'dark' : 'light');
+      applyTheme();
+    });
+
+    // ── Idioma (i18n) ──
+    var _i18n = {"h1":"Cómo auditar qué datos envía una aplicación por Internet","lead":"Cualquier aplicación que se comunique con Internet puede enviar información fuera de tu equipo. Algunas conexiones son necesarias para que el programa funcione; otras pueden utilizarse para comprobar actualizaciones, registrar errores, recopilar estadísticas o transmitir datos que no esperabas compartir.","lead2":"Esta guía te permitirá:","lead.list.1":"identificar todas las conexiones realizadas por una aplicación;","lead.list.2":"inspeccionar el contenido de las comunicaciones HTTP y HTTPS;","lead.list.3":"comprobar qué datos concretos salen del equipo;","lead.list.4":"relacionar cada envío con una acción realizada en la aplicación;","lead.list.5":"detectar conexiones que no hayan podido ser inspeccionadas;","lead.list.6":"elaborar un informe reproducible con los resultados.","lead.serve":"El procedimiento sirve para TDownloader y para cualquier otra aplicación de escritorio instalada en Windows, macOS o Linux.","lead.imp":"Importante: ninguna herramienta permite prometer una auditoría perfecta en todos los casos. Una aplicación puede utilizar certificate pinning, protocolos propietarios, cifrado adicional, procesos auxiliares o controladores del sistema. Esta guía no oculta esas limitaciones: una auditoría solo se considerará completa cuando todas las conexiones detectadas hayan podido inspeccionarse o justificarse.","check.h2":"Qué vamos a comprobar","check.p1":"Una auditoría de red tiene dos partes distintas.","check.d.h3":"1. Detectar las conexiones","check.d.p":"Primero hay que averiguar:","check.d.list.1":"qué servidores contacta la aplicación;","check.d.list.2":"qué dominios y direcciones IP utiliza;","check.d.list.3":"en qué momento se producen las conexiones;","check.d.list.4":"qué proceso las inicia;","check.d.list.5":"qué protocolo y puerto emplean;","check.d.list.6":"cuánto tráfico se envía y se recibe.","check.i.h3":"2. Inspeccionar el contenido","check.i.p":"Después hay que examinar cada petición para comprobar si contiene:","check.i.list.1":"direcciones de correo;","check.i.list.2":"nombres de usuario;","check.i.list.3":"identificadores del dispositivo;","check.i.list.4":"versión del sistema operativo;","check.i.list.5":"versión de la aplicación;","check.i.list.6":"estadísticas de uso;","check.i.list.7":"mensajes o búsquedas;","check.i.list.8":"nombres de archivos;","check.i.list.9":"rutas del disco;","check.i.list.10":"contenido de archivos;","check.i.list.11":"cookies;","check.i.list.12":"tokens de autenticación;","check.i.list.13":"contraseñas;","check.i.list.14":"claves privadas;","check.i.list.15":"cualquier otro dato personal o potencialmente sensible.","check.i.p2":"Un firewall permite realizar la primera parte. Para la segunda necesitaremos un proxy de interceptación HTTPS.","fig1":"Ilustración: qué muestra cada herramienta (firewall: proceso, dominio, IP, puerto y volumen; proxy HTTPS: URL, cabeceras, parámetros, cuerpo de la petición y respuesta).","fig1.note":"Ver el destino no significa conocer los datos enviados.","tools.h2":"Herramientas necesarias","tools.p1":"Usaremos dos tipos de herramientas.","tools.main.h3":"Herramienta principal: mitmproxy","tools.main.p1":"mitmproxy es un proxy de interceptación capaz de mostrar solicitudes y respuestas HTTP y HTTPS. Incluye tres interfaces:","tools.main.list.1":"mitmproxy: interfaz de terminal;","tools.main.list.2":"mitmweb: interfaz visual abierta en el navegador;","tools.main.list.3":"mitmdump: versión orientada a consola y automatización.","tools.main.p2":"En esta guía utilizaremos mitmweb, porque permite revisar las comunicaciones de forma visual.","tools.main.p3":"mitmproxy puede interceptar HTTP, HTTPS, HTTP/2 y WebSockets, guardar las comunicaciones y mostrar su contenido. Para descifrar HTTPS, el dispositivo debe confiar temporalmente en el certificado local generado por mitmproxy.","tools.sec.h3":"Herramienta secundaria: monitor de conexiones","tools.sec.p1":"También necesitaremos una herramienta que muestre todas las conexiones realizadas por el proceso, incluso aquellas que mitmproxy no consiga descifrar. Algunas opciones son:","tools.sec.list.1":"Windows: TCPView, Monitor de recursos o un firewall de aplicaciones.","tools.sec.list.2":"macOS: Monitor de Actividad, nettop o un firewall de aplicaciones.","tools.sec.list.3":"Linux: OpenSnitch, Portmaster, ss, lsof o Wireshark.","tools.sec.p2":"No es obligatorio utilizar una herramienta concreta. Lo importante es poder comparar la lista total de conexiones con las solicitudes que aparecen en mitmweb.","fig2":"Ilustración: esquema completo de la auditoría. Aplicación va a mitmproxy va a Internet, con un monitor de red observando en paralelo todas las conexiones.","p1.h2":"Parte 1. Preparar un entorno de prueba seguro","p1.1.h3":"1. Utiliza datos ficticios","p1.1.p1":"No realices la primera prueba con tu cuenta habitual ni con documentos personales. Crea, cuando sea posible:","p1.1.list.1":"una cuenta de prueba;","p1.1.list.2":"un perfil nuevo en la aplicación;","p1.1.list.3":"una carpeta temporal vacía;","p1.1.list.4":"archivos de prueba sin información real;","p1.1.list.5":"credenciales diferentes de las que utilizas habitualmente.","p1.1.p2":"Durante la auditoría podrás ver tokens, cookies y otros datos de autenticación. No publiques las capturas sin ocultarlos.","p1.2.h3":"2. Crea datos identificables","p1.2.p1":"Para descubrir fácilmente si la aplicación transmite información local, utiliza valores únicos que puedas buscar después en el tráfico capturado. Por ejemplo:","p1.2.p2":"Estas cadenas funcionan como marcadores. Si una de ellas aparece en una petición, sabrás exactamente qué información ha enviado la aplicación y qué acción provocó el envío.","p1.2.p3":"No utilices siempre los valores de este ejemplo. Añade una fecha o una secuencia aleatoria para que tus marcadores sean únicos.","fig3":"Ilustración: preparación de datos de prueba. Una carpeta AUDIT_CARPETA_PRIVADA con un archivo AUDIT_ARCHIVO_SECRETO cuyo contenido es AUDIT_CONTENIDO_NO_DEBE_ENVIARSE.","fig3.note":"Los marcadores únicos permiten descubrir si la app transmite nombres, rutas o contenidos.","p1.3.h3":"3. Aísla la aplicación","p1.3.p1":"La forma más fiable de evitar que el tráfico de otros programas se mezcle con el de la aplicación auditada es utilizar:","p1.3.list.1":"una máquina virtual;","p1.3.list.2":"un equipo secundario;","p1.3.list.3":"una cuenta nueva del sistema operativo;","p1.3.list.4":"o, como mínimo, cerrar navegadores, clientes de correo, sincronizadores y otras aplicaciones que utilicen Internet.","p1.3.p2":"Una máquina virtual limpia es la opción más rigurosa. También permite restaurar el sistema después de instalar el certificado de interceptación.","p1.3.p3":"Si no utilizas una máquina virtual, captura únicamente el proceso de la aplicación cuando la herramienta lo permita.","p1.4.h3":"4. Desactiva interferencias","p1.4.p1":"Antes de comenzar:","p1.4.list.1":"cierra la aplicación que vas a analizar;","p1.4.list.2":"cierra programas innecesarios;","p1.4.list.3":"pausa las sincronizaciones;","p1.4.list.4":"evita realizar otras actividades durante la captura;","p1.4.list.5":"anota la fecha, la hora y la versión exacta de la aplicación;","p1.4.list.6":"anota la versión del sistema operativo.","p2.h2":"Parte 2. Instalar mitmproxy","p2.p1":"Descarga mitmproxy únicamente desde su sitio oficial. Las instrucciones oficiales recomiendan:","p2.list.1":"Windows: utilizar el instalador oficial;","p2.list.2":"macOS: instalarlo mediante Homebrew o descargar los binarios;","p2.list.3":"Linux: descargar los binarios independientes oficiales.","p2.p2":"Los paquetes incluidos en algunas distribuciones Linux pueden ir por detrás de la versión publicada por el proyecto.","p2.p3":"Después de instalarlo, abre una terminal y ejecuta:","p2.p4":"Se iniciará el proxy y se abrirá su interfaz visual en el navegador. Por defecto, el proxy escucha en:","fig4":"Ilustración: inicio de mitmweb. Una terminal con el comando mitmweb y, al lado, la interfaz de mitmweb abierta en el navegador donde aparecerán las conexiones capturadas.","p3.h2":"Parte 3. Instalar temporalmente el certificado","p3.p1":"HTTPS cifra el contenido entre la aplicación y el servidor. Para mostrarlo, mitmproxy genera certificados locales y actúa como intermediario entre ambos extremos.","p3.p2":"El certificado debe instalarse exclusivamente en el entorno utilizado para la auditoría.","p3.proc.h3":"Procedimiento recomendado","p3.steps.a.1":"Inicia mitmweb.","p3.steps.a.2":"Configura temporalmente el proxy del sistema con estos valores:","p3.steps.b.1":"Abre un navegador.","p3.steps.b.2":"Visita:","p3.steps.c.1":"Selecciona tu sistema operativo.","p3.steps.c.2":"Descarga e instala el certificado.","p3.steps.c.3":"Cuando el sistema lo pregunte, autoriza su uso para identificar sitios web o conexiones TLS.","p3.p3":"mitmproxy genera una autoridad certificadora diferente en cada instalación. El certificado permite que mitmproxy descifre las conexiones mientras esté instalado y el tráfico pase por el proxy.","p3.prec.h3":"Precauciones","p3.prec.list.1":"No compartas la clave privada generada por mitmproxy.","p3.prec.list.2":"No instales certificados proporcionados por terceros.","p3.prec.list.3":"No dejes el certificado instalado permanentemente.","p3.prec.list.4":"Elimina el certificado cuando termines la auditoría.","p3.prec.list.5":"Realiza las pruebas con datos ficticios.","p3.prec.list.6":"No utilices este entorno para banca, correo personal ni servicios sensibles.","fig5":"Ilustración: instalación del certificado. Secuencia de tres pasos: proxy activo en 127.0.0.1:8080, navegador abriendo mitm.it, e instalación del certificado del sistema operativo.","fig5.note":"El certificado debe eliminarse al terminar.","p4.h2":"Parte 4. Comprobar que HTTPS puede inspeccionarse","p4.p1":"Antes de abrir la aplicación auditada, comprueba que la configuración funciona.","p4.steps.1":"Mantén mitmweb abierto.","p4.steps.2":"Abre una página HTTPS desde el navegador.","p4.steps.3":"Comprueba que aparece una nueva entrada en mitmweb.","p4.steps.4":"Selecciona la entrada.","p4.steps.5":"Revisa las pestañas de solicitud y respuesta.","p4.p2":"Deberías poder ver:","p4.list.1":"dominio;","p4.list.2":"URL completa;","p4.list.3":"método HTTP;","p4.list.4":"cabeceras;","p4.list.5":"parámetros;","p4.list.6":"cookies;","p4.list.7":"cuerpo de la solicitud;","p4.list.8":"cuerpo de la respuesta.","p4.p3":"Si únicamente aparece una conexión sin contenido, o se produce un error de certificado, la instalación todavía no es correcta.","p4.p4":"La propia documentación de mitmproxy recomienda comprobar la configuración abriendo una página HTTPS y verificando que el flujo puede inspeccionarse.","p5.h2":"Parte 5. Capturar solamente la aplicación","p5.a.h3":"Opción A. Captura local por proceso","p5.a.p1":"Las versiones actuales de mitmproxy disponen de un modo de captura local para Windows, macOS y Linux. Este modo puede interceptar todas las conexiones del equipo o limitarse a un proceso concreto.","p5.a.p2":"Cierra la ejecución anterior de mitmweb y utiliza:","p5.a.p3":"Esto intentará capturar las conexiones salientes de todas las aplicaciones del equipo. Para limitar la captura a un proceso:","p5.a.p4":"Ejemplo genérico:","p5.a.p5":"También puede utilizarse el identificador numérico del proceso:","p5.a.aux.h4":"Atención a los procesos auxiliares","p5.a.aux.p1":"Algunas aplicaciones crean procesos adicionales para:","p5.a.aux.list.1":"actualizarse;","p5.a.aux.list.2":"mostrar contenido web;","p5.a.aux.list.3":"descargar archivos;","p5.a.aux.list.4":"enviar informes de errores;","p5.a.aux.list.5":"ejecutar tareas en segundo plano.","p5.a.aux.p2":"Si capturas únicamente el proceso principal, podrías perder esas conexiones. Para una auditoría rigurosa, es preferible capturar todo el tráfico dentro de una máquina virtual limpia.","p5.a.aux.p3":"En Linux, el modo local puede solicitar permisos administrativos y depende de la compatibilidad del kernel.","p5.b.h3":"Opción B. Proxy configurado en el sistema","p5.b.p1":"Cuando el modo local no funcione, puedes mantener el proxy del sistema configurado en:","p5.b.p2":"Este método es más sencillo, pero algunas aplicaciones ignoran la configuración de proxy del sistema. Por eso debe complementarse siempre con un monitor de conexiones.","fig6":"Ilustración: selección de la aplicación. Dos comandos: mitmweb --mode local (captura todo el equipo) y mitmweb --mode local:miaplicacion (captura un proceso concreto).","fig6.note":"Los procesos auxiliares también deben quedar incluidos.","p6.h2":"Parte 6. Registrar una línea base","p6.p1":"Antes de abrir la aplicación, registra el tráfico que se produce sin ella.","p6.steps.a.1":"Limpia la lista de solicitudes de mitmweb.","p6.steps.a.2":"Inicia también el monitor de conexiones.","p6.steps.a.3":"Espera entre dos y cinco minutos.","p6.steps.a.4":"Anota los dominios que aparecen sin que la aplicación esté abierta.","p6.steps.a.5":"Guarda esta captura como línea base.","p6.p2":"La línea base sirve para separar el tráfico del sistema operativo, mitmproxy y otros servicios del tráfico generado por la aplicación.","p6.p3":"Después:","p6.steps.b.1":"vuelve a limpiar la captura;","p6.steps.b.2":"abre la aplicación;","p6.steps.b.3":"no realices ninguna acción durante unos minutos;","p6.steps.b.4":"observa qué conexiones aparecen únicamente al iniciar el programa.","p6.p4":"Esta segunda captura corresponde a la prueba de inicio e inactividad.","p7.h2":"Parte 7. Ejecutar las pruebas de forma controlada","p7.p1":"No hagas todas las acciones seguidas. Realiza una sola acción, observa el tráfico y anota el resultado antes de continuar.","p7.t1.h3":"Prueba 1. Inicio","p7.t1.steps.1":"Limpia la captura.","p7.t1.steps.2":"Abre la aplicación.","p7.t1.steps.3":"Espera dos minutos.","p7.t1.steps.4":"Anota todos los destinos y solicitudes.","p7.t1.p":"Esta prueba permite detectar:","p7.t1.list.1":"comprobaciones de actualización;","p7.t1.list.2":"carga de configuración;","p7.t1.list.3":"inicio automático de sesión;","p7.t1.list.4":"telemetría de arranque;","p7.t1.list.5":"identificadores enviados al ejecutar la aplicación.","p7.t2.h3":"Prueba 2. Aplicación inactiva","p7.t2.steps.1":"Deja la aplicación abierta sin utilizarla.","p7.t2.steps.2":"Espera entre cinco y diez minutos.","p7.t2.steps.3":"Comprueba si se producen conexiones periódicas.","p7.t2.p":"Esto puede revelar:","p7.t2.list.1":"estadísticas recurrentes;","p7.t2.list.2":"comprobaciones de estado;","p7.t2.list.3":"sincronización automática;","p7.t2.list.4":"conexiones permanentes;","p7.t2.list.5":"telemetría enviada en segundo plano.","p7.t3.h3":"Prueba 3. Inicio de sesión","p7.t3.p":"Utiliza una cuenta de prueba y comprueba:","p7.t3.list.1":"a qué servidor se envían las credenciales;","p7.t3.list.2":"si la contraseña viaja dentro de HTTPS;","p7.t3.list.3":"si aparecen tokens de autenticación;","p7.t3.list.4":"qué datos del usuario devuelve el servidor;","p7.t3.list.5":"si la app contacta con servicios distintos del proveedor esperado.","p7.t3.p2":"La contraseña no debería aparecer en una URL, en parámetros de consulta ni en registros públicos. Aunque aparezca dentro de una petición HTTPS descifrada, no debe publicarse en capturas.","p7.t4.h3":"Prueba 4. Introducción de datos","p7.t4.p":"Introduce un marcador único en cada campo disponible:","p7.t4.p2":"Realiza una acción cada vez y busca ese marcador en las solicitudes capturadas.","p7.t5.h3":"Prueba 5. Acceso a archivos","p7.t5.p":"Utiliza la carpeta y el archivo de prueba creados anteriormente. Comprueba por separado:","p7.t5.list.1":"seleccionar una carpeta;","p7.t5.list.2":"abrir un archivo;","p7.t5.list.3":"importar un archivo;","p7.t5.list.4":"iniciar una descarga;","p7.t5.list.5":"iniciar una subida;","p7.t5.list.6":"cancelar la operación;","p7.t5.list.7":"eliminar el elemento de la aplicación.","p7.t5.p2":"Busca en el tráfico:","p7.t5.list2.1":"nombre del archivo;","p7.t5.list2.2":"ruta completa;","p7.t5.list2.3":"tamaño;","p7.t5.list2.4":"extensión;","p7.t5.list2.5":"contenido;","p7.t5.list2.6":"hash o huella del archivo;","p7.t5.list2.7":"fecha de creación o modificación.","p7.t5.p3":"Que una aplicación envíe un archivo cuando el usuario ordena subirlo puede ser normal. Que envíe rutas, nombres o contenido al limitarse a visualizar una carpeta requiere una explicación.","p7.t6.h3":"Prueba 6. Cierre","p7.t6.steps.1":"Limpia la captura.","p7.t6.steps.2":"Cierra la aplicación.","p7.t6.steps.3":"Mantén las herramientas funcionando durante cinco minutos.","p7.t6.steps.4":"Comprueba si algún proceso continúa comunicándose.","p7.t6.p":"Esto permite detectar:","p7.t6.list.1":"servicios residentes;","p7.t6.list.2":"actualizadores;","p7.t6.list.3":"tareas en segundo plano;","p7.t6.list.4":"envío de estadísticas al cerrar;","p7.t6.list.5":"informes de sesión.","p7.t7.h3":"Prueba 7. Reinicio del equipo","p7.t7.p":"Para una auditoría completa:","p7.t7.steps.1":"reinicia el entorno de prueba;","p7.t7.steps.2":"no abras manualmente la aplicación;","p7.t7.steps.3":"comprueba si se inicia algún componente relacionado;","p7.t7.steps.4":"revisa si existe tráfico antes de abrir la interfaz.","fig7":"Ilustración: matriz de pruebas. Tabla con filas (inicio, inactividad, login, introducción de datos, selección de carpeta, apertura de archivo, descarga, subida, cierre, reinicio) y columnas (acción, hora, dominio contactado, datos enviados, resultado esperado, resultado observado).","p8.h2":"Parte 8. Inspeccionar una solicitud","p8.p1":"Selecciona una conexión en mitmweb y revisa cuidadosamente los siguientes elementos.","p8.host.h3":"Host y URL","p8.host.p":"Comprueba:","p8.host.list.1":"el dominio;","p8.host.list.2":"los subdominios;","p8.host.list.3":"la ruta;","p8.host.list.4":"los parámetros incluidos después de ?;","p8.host.list.5":"si la conexión utiliza HTTP o HTTPS.","p8.host.p2":"Ejemplo:","p8.host.p3":"En este caso, incluso antes de revisar el cuerpo, ya sabemos que se están enviando un identificador de usuario y una versión.","p8.method.h3":"Método","p8.method.p":"Los métodos más habituales son:","p8.method.list.1":"GET: solicita información;","p8.method.list.2":"POST: suele enviar información;","p8.method.list.3":"PUT o PATCH: suele modificar o actualizar información;","p8.method.list.4":"DELETE: solicita eliminar un recurso.","p8.method.p2":"Un GET también puede enviar datos mediante la URL, las cookies o las cabeceras.","p8.head.h3":"Cabeceras","p8.head.p":"Revisa especialmente:","p8.head.p2":"Los nombres exactos pueden variar. Las cabeceras pueden contener:","p8.head.list.1":"tokens;","p8.head.list.2":"identificadores persistentes;","p8.head.list.3":"información del sistema;","p8.head.list.4":"versión de la app;","p8.head.list.5":"idioma;","p8.head.list.6":"arquitectura del procesador;","p8.head.list.7":"datos de sesión.","p8.body.h3":"Cuerpo de la petición","p8.body.p":"El cuerpo puede presentarse como:","p8.body.list.1":"JSON;","p8.body.list.2":"formulario;","p8.body.list.3":"XML;","p8.body.list.4":"texto;","p8.body.list.5":"archivo binario;","p8.body.list.6":"datos comprimidos;","p8.body.list.7":"Protobuf u otro formato binario.","p8.body.p2":"Ejemplo JSON:","p8.body.p3":"En este caso, la aplicación estaría enviando un evento de inicio, un identificador, el sistema operativo y su versión.","p8.resp.h3":"Respuesta del servidor","p8.resp.p":"La respuesta no representa información enviada por tu equipo, pero ayuda a interpretar la finalidad de la petición. Puede mostrar:","p8.resp.list.1":"confirmación de recepción;","p8.resp.list.2":"configuración remota;","p8.resp.list.3":"perfil del usuario;","p8.resp.list.4":"instrucciones para la aplicación;","p8.resp.list.5":"identificadores asignados por el servidor.","fig8":"Ilustración: anatomía de una petición. Interfaz de mitmweb con llamadas numeradas sobre dominio, URL, método, cabeceras, cookies y autorización, cuerpo JSON y respuesta.","fig8.note":"No utilizar datos reales ni tokens válidos.","p9.h2":"Parte 9. Buscar los marcadores","p9.p1":"Busca en las solicitudes las cadenas que preparaste al principio:","p9.p2":"Revisa: URL, parámetros, cabeceras, cookies, cuerpo de la petición, cuerpos codificados, respuestas y mensajes WebSocket.","p9.p3":"Si aparece AUDIT_ARCHIVO_SECRETO_20260712.txt, la aplicación ha transmitido el nombre del archivo. Si aparece AUDIT_CONTENIDO_NO_DEBE_ENVIARSE_20260712, la aplicación ha transmitido el contenido.","p9.p4":"Si no aparece directamente, no significa necesariamente que no se haya enviado. Puede haberse transmitido codificado en Base64, comprimido, fragmentado, convertido a un formato binario, cifrado de nuevo dentro de HTTPS o sustituido por un hash.","p9.p5":"Cuando sospeches que un contenido ha sido codificado, calcula o busca también su representación Base64, su hash, una parte corta y distintiva del texto, el nombre sin extensión y el tamaño exacto del archivo.","fig9":"Ilustración: detección de un marcador. Búsqueda de AUDIT_CONTENIDO_NO_DEBE_ENVIARSE dentro del cuerpo de una petición.","fig9.note":"El marcador demuestra qué acción provocó el envío de ese dato.","p10.h2":"Parte 10. Comprobar que no queda tráfico fuera del proxy","p10.p1":"Esta es la parte que convierte una simple captura en una auditoría seria. Mantén abierto el monitor de conexiones mientras realizas todas las pruebas. Para cada conexión iniciada por la aplicación, anota:","p10.list.1":"proceso;","p10.list.2":"dominio o IP;","p10.list.3":"puerto;","p10.list.4":"protocolo;","p10.list.5":"hora;","p10.list.6":"volumen enviado;","p10.list.7":"si aparece también en mitmweb;","p10.list.8":"si su contenido ha podido inspeccionarse.","p10.p2":"Después compara ambas listas.","p10.a.h3":"Resultado A. La conexión aparece en ambas herramientas","p10.a.p":"La conexión está detectada y su contenido puede analizarse.","p10.b.h3":"Resultado B. Aparece en el monitor, pero no en mitmweb","p10.b.p":"Existe tráfico no inspeccionado. Las causas pueden ser:","p10.b.list.1":"la aplicación ignora el proxy;","p10.b.list.2":"utiliza un proceso auxiliar;","p10.b.list.3":"emplea UDP o QUIC;","p10.b.list.4":"utiliza un protocolo no compatible;","p10.b.list.5":"establece una conexión TLS que mitmproxy no ha podido interceptar;","p10.b.list.6":"utiliza certificate pinning;","p10.b.list.7":"se comunica mediante un servicio del sistema.","p10.b.p2":"No declares que la aplicación ha superado la auditoría hasta resolver o documentar esa conexión.","p10.c.h3":"Resultado C. Aparece en mitmweb, pero parece pertenecer a otro programa","p10.c.p":"Comprueba la línea base y el proceso responsable. Puede tratarse de tráfico ajeno a la aplicación. Wireshark permite seguir flujos TCP, UDP, TLS, HTTP, HTTP/2, QUIC y WebSocket, aunque el contenido TLS solo puede descifrarse cuando se dispone de las claves necesarias.","fig10":"Ilustración: comparación de resultados. Dos listas paralelas (monitor de red y mitmweb); una conexión presente solo en el monitor se resalta en rojo como pendiente de inspeccionar.","fig10.note":"Una conexión no explicada impide considerar completa la auditoría.","p11.h2":"Parte 11. Problemas que pueden impedir la inspección","p11.pin.h3":"Certificate pinning","p11.pin.p1":"Algunas aplicaciones no confían en los certificados instalados en el sistema. En lugar de eso, esperan un certificado o una clave concreta. Cuando detectan el certificado de mitmproxy: rechazan la conexión, muestran un error, dejan de funcionar o conectan mediante otro mecanismo.","p11.pin.p2":"En ese caso, debes indicar que la conexión ha sido detectada, pero su contenido no ha podido inspeccionarse debido a la validación interna del certificado. No debe concluirse que la conexión es segura ni que no contiene datos sensibles.","p11.pin.p3":"Si eres el desarrollador de la aplicación, puedes utilizar una versión de depuración que permita instalar el certificado o registrar los datos antes del cifrado. No modifiques aplicaciones de terceros ni eludas sus protecciones sin autorización.","p11.enc.h3":"Cifrado dentro de HTTPS","p11.enc.p1":"Una aplicación puede cifrar el cuerpo del mensaje antes de enviarlo por HTTPS. mitmproxy descifrará HTTPS, pero mostrará un bloque de datos todavía ilegible.","p11.enc.p2":"En una aplicación propia, la solución es revisar el código que prepara la petición, registrar el contenido antes del cifrado, utilizar una compilación de depuración y documentar el algoritmo y los campos enviados. En una aplicación de terceros, esa comunicación debe marcarse como no verificada.","p11.bin.h3":"Protocolos binarios","p11.bin.p1":"Algunos programas utilizan Protobuf, MessagePack u otros formatos binarios. Aunque el cuerpo no aparezca como texto, todavía puedes revisar: tamaño, destino, frecuencia, cabeceras, fragmentos legibles, cambios producidos por cada acción y documentación del protocolo, cuando exista.","p11.quic.h3":"QUIC y HTTP/3","p11.quic.p1":"QUIC utiliza normalmente UDP. Dependiendo de la aplicación y la configuración, el contenido puede no aparecer como una petición HTTP convencional. Si se detecta tráfico UDP no inspeccionado, identifícalo en el monitor, comprueba el destino, intenta determinar si la aplicación puede utilizar HTTP/2 sobre TCP, utiliza Wireshark si dispones de las claves de sesión, y marca la conexión como pendiente si no puedes leerla.","p11.aux.h3":"Procesos auxiliares","p11.aux.p1":"Una aplicación puede delegar una comunicación en un actualizador, un servicio del sistema, un WebView, un navegador integrado o un proceso de informes de errores. Por eso la prueba más sólida consiste en capturar todo el tráfico dentro de un entorno aislado.","p12.h2":"Parte 12. Clasificar los datos encontrados","p12.p1":"No todos los datos tienen la misma sensibilidad.","p12.tech.h3":"Información técnica básica","p12.tech.list.1":"versión de la aplicación;","p12.tech.list.2":"versión del sistema operativo;","p12.tech.list.3":"idioma;","p12.tech.list.4":"arquitectura;","p12.tech.list.5":"resolución;","p12.tech.list.6":"zona horaria.","p12.tech.p":"Puede utilizarse para compatibilidad o telemetría, pero debe comprobarse si está declarada.","p12.id.h3":"Identificadores persistentes","p12.id.list.1":"identificador de usuario;","p12.id.list.2":"identificador de instalación;","p12.id.list.3":"identificador del dispositivo;","p12.id.list.4":"identificador publicitario;","p12.id.list.5":"token persistente.","p12.id.p":"Permiten reconocer al mismo usuario o dispositivo en diferentes sesiones.","p12.use.h3":"Datos de uso","p12.use.list.1":"pantallas abiertas;","p12.use.list.2":"botones pulsados;","p12.use.list.3":"tiempo de uso;","p12.use.list.4":"búsquedas;","p12.use.list.5":"errores;","p12.use.list.6":"descargas iniciadas;","p12.use.list.7":"funciones utilizadas.","p12.pers.h3":"Datos personales","p12.pers.list.1":"nombre;","p12.pers.list.2":"correo;","p12.pers.list.3":"teléfono;","p12.pers.list.4":"dirección;","p12.pers.list.5":"contactos;","p12.pers.list.6":"mensajes;","p12.pers.list.7":"ubicación;","p12.pers.list.8":"dirección IP asociada a una cuenta.","p12.local.h3":"Datos locales","p12.local.list.1":"nombres de archivos;","p12.local.list.2":"rutas completas;","p12.local.list.3":"estructura de carpetas;","p12.local.list.4":"contenido del portapapeles;","p12.local.list.5":"programas instalados;","p12.local.list.6":"procesos en ejecución.","p12.auth.h3":"Datos de autenticación","p12.auth.list.1":"contraseña;","p12.auth.list.2":"cookies;","p12.auth.list.3":"tokens;","p12.auth.list.4":"claves de API;","p12.auth.list.5":"claves privadas;","p12.auth.list.6":"códigos de recuperación.","p12.auth.p":"Estos datos requieren especial protección y nunca deben mostrarse sin censura en el informe.","p13.h2":"Parte 13. Evaluar cada conexión","p13.p1":"Para cada dominio o dirección IP, responde:","p13.list.1":"¿Qué empresa o servicio controla el destino?","p13.list.2":"¿La conexión es necesaria para una función utilizada?","p13.list.3":"¿Se produce únicamente cuando el usuario realiza esa acción?","p13.list.4":"¿Qué campos concretos se envían?","p13.list.5":"¿Contiene datos personales o identificadores?","p13.list.6":"¿La aplicación informa de esta comunicación?","p13.list.7":"¿Puede desactivarse?","p13.list.8":"¿Continúa produciéndose con la aplicación inactiva?","p13.list.9":"¿Se envían más datos de los necesarios?","p13.list.10":"¿El contenido ha podido inspeccionarse completamente?","p13.p2":"Una conexión no es sospechosa únicamente por dirigirse a un servicio externo. Debe analizarse qué información transmite y con qué finalidad. Del mismo modo, que una aplicación solo contacte con su propio dominio no demuestra que respete la privacidad. Un único servidor puede recibir cualquier cantidad de información.","p14.h2":"Parte 14. Documentar los resultados","p14.p1":"Utiliza una tabla con estas columnas: acción, proceso, destino, datos enviados, finalidad aparente, resultado esperado e inspección (completa o pendiente). Conserva también:","p14.list.1":"versión de la aplicación;","p14.list.2":"sistema operativo;","p14.list.3":"versión de mitmproxy;","p14.list.4":"fecha y hora;","p14.list.5":"lista de acciones;","p14.list.6":"archivo de captura;","p14.list.7":"capturas de pantalla;","p14.list.8":"configuración utilizada;","p14.list.9":"limitaciones encontradas.","p14.p2":"Antes de compartir el informe, elimina o censura: contraseñas, tokens, cookies, claves, correos reales, rutas con nombres personales y contenido privado.","fig11":"Ilustración: ejemplo de informe final. Tabla resumida con tres estados: verde (inspeccionada y esperada), amarillo (inspeccionada, pero no declarada) y rojo (detectada, pero no inspeccionada).","fig11.note":"El informe debe distinguir entre lo comprobado y lo que no ha podido verificarse.","p15.h2":"Parte 15. Cómo redactar la conclusión","p15.a.h3":"Auditoría completa sin hallazgos inesperados","p15.a.p":"Durante las pruebas realizadas, todas las conexiones generadas por la aplicación fueron identificadas y su contenido pudo inspeccionarse. No se observó el envío de datos personales, nombres de archivos, rutas locales, contenido de documentos ni telemetría no declarada. Las comunicaciones detectadas se correspondieron con las funciones ejecutadas durante la prueba.","p15.a.p2":"Esta conclusión solo es válida si el monitor de red no mostró conexiones adicionales sin inspeccionar.","p15.b.h3":"Auditoría con comunicaciones no declaradas","p15.b.p":"La aplicación realizó conexiones adicionales destinadas al envío de estadísticas de uso. Las solicitudes incluían determinados campos. Esta comunicación se produjo en un momento concreto y no se encontró una explicación clara dentro de la aplicación.","p15.c.h3":"Auditoría incompleta","p15.c.p":"Se detectaron conexiones realizadas por la aplicación cuyo contenido no pudo inspeccionarse. Por tanto, no es posible determinar qué datos transmite ni afirmar que la aplicación no envía información adicional.","p15.c.p2":"No utilices expresiones como \"la aplicación no envía ningún dato\", \"la aplicación es completamente privada\" o \"la auditoría demuestra que es 100 % segura\". Una auditoría de red demuestra lo observado bajo unas condiciones y una versión concretas. Una actualización posterior puede cambiar el comportamiento.","p16.h2":"Parte 16. Limpiar el entorno","p16.p1":"Cuando termines:","p16.list.1":"cierra mitmweb;","p16.list.2":"elimina la configuración de proxy;","p16.list.3":"desinstala el certificado de mitmproxy;","p16.list.4":"elimina la máquina virtual o restaura su instantánea;","p16.list.5":"borra las cuentas y archivos de prueba;","p16.list.6":"protege o elimina las capturas;","p16.list.7":"comprueba que la navegación HTTPS funciona normalmente.","p16.p2":"No conserves públicamente capturas que contengan tokens o credenciales.","check2.h2":"Lista de comprobación final","check2.p1":"La auditoría solo puede considerarse completa si puedes responder afirmativamente a todas estas preguntas:","check2.list.1":"¿La prueba se realizó con una versión concreta de la aplicación?","check2.list.2":"¿Se utilizaron datos ficticios?","check2.list.3":"¿Se registró una línea base?","check2.list.4":"¿Se capturó el inicio, uso, inactividad y cierre?","check2.list.5":"¿Se incluyeron los procesos auxiliares?","check2.list.6":"¿Se inspeccionaron solicitudes y respuestas HTTPS?","check2.list.7":"¿Se buscaron nombres, rutas y contenidos de prueba?","check2.list.8":"¿Se utilizó un monitor independiente de conexiones?","check2.list.9":"¿Todas las conexiones del monitor aparecen también en la captura?","check2.list.10":"¿Se documentaron los destinos y los datos enviados?","check2.list.11":"¿Se indicaron claramente las limitaciones?","check2.list.12":"¿Se eliminaron certificados, proxy y datos sensibles al finalizar?","check2.p2":"Si alguna conexión no ha podido inspeccionarse, el resultado debe presentarse como auditoría parcial, no como una verificación completa.","result.h2":"Resultado que ofrece este procedimiento","result.p1":"Esta metodología permite determinar, con un alto grado de confianza:","result.list.1":"con qué servidores se comunica una aplicación;","result.list.2":"cuándo se produce cada comunicación;","result.list.3":"qué acción la provoca;","result.list.4":"qué información contiene cada petición inspeccionable;","result.list.5":"si se transmiten datos locales o personales;","result.list.6":"si existe telemetría;","result.list.7":"y si queda tráfico sin analizar.","result.p2":"La clave no consiste únicamente en interceptar HTTPS. La auditoría se vuelve verificable al comparar el contenido mostrado por el proxy con la lista completa de conexiones observada por una segunda herramienta.","result.note":"Todo tráfico detectado debe quedar inspeccionado, explicado o marcado expresamente como no verificado.","back":"Volver al inicio","nav.home":"Inicio","footer.privacy":"Privacidad","footer.terms":"Términos","meta.title":"Cómo auditar qué datos envía una app - TDownloader"};
+    var _SUPPORTED  = ['es','en','fr','de','pt'];
+    var _LANG_NAMES = { es:'ES', en:'EN', fr:'FR', de:'DE', pt:'PT' };
+    function detectLang() {
+      var s = localStorage.getItem('lang');
+      if (s && _SUPPORTED.indexOf(s) !== -1) return s;
+      var n = ((navigator.language || navigator.userLanguage || 'es') + '').split('-')[0].toLowerCase();
+      return _SUPPORTED.indexOf(n) !== -1 ? n : 'en';
+    }
+    function applyI18n() {
+      document.querySelectorAll('[data-i18n]').forEach(function (el) {
+        var k = el.getAttribute('data-i18n'); if (_i18n[k] !== undefined) el.textContent = _i18n[k];
+      });
+      document.querySelectorAll('[data-i18n-html]').forEach(function (el) {
+        var k = el.getAttribute('data-i18n-html'); if (_i18n[k] !== undefined) el.innerHTML = _i18n[k];
+      });
+      if (_i18n['meta.title']) document.title = _i18n['meta.title'];
+    }
+    function loadLang(lang) {
+      fetch('locales/audit-' + lang + '.json')
+        .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
+        .then(function (data) {
+          _i18n = data;
+          localStorage.setItem('lang', lang);
+          document.documentElement.lang = lang;
+          applyI18n();
+          var cur = document.getElementById('lang-current');
+          if (cur) cur.textContent = _LANG_NAMES[lang] || lang.toUpperCase();
+          document.querySelectorAll('.lang-opt').forEach(function (b) {
+            b.classList.toggle('font-semibold', b.dataset.lang === lang);
+            b.classList.toggle('text-blue-600', b.dataset.lang === lang);
+          });
+        })
+        .catch(function () { if (lang !== 'es') loadLang('es'); });
+    }
+    function setLang(l) { closeLangMenu(); loadLang(l); }
+    function toggleLangMenu() { document.getElementById('lang-menu').classList.toggle('hidden'); }
+    function closeLangMenu() { var m = document.getElementById('lang-menu'); if (m) m.classList.add('hidden'); }
+    document.addEventListener('click', function (e) {
+      var sel = document.getElementById('lang-selector');
+      if (sel && !sel.contains(e.target)) closeLangMenu();
+    });
+
+    </script> </body></html>
